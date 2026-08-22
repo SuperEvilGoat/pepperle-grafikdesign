@@ -3,9 +3,9 @@
 (function () {
   "use strict";
 
-  // Kontaktformular-Endpunkt: leer = noch nicht angebunden (zeigt nur Bestätigung).
-  // Wird vor dem DNS-Umzug auf Formspree oder den eigenen Worker gesetzt.
-  var FORM_ENDPOINT = "";
+  // Kontaktformular-Endpunkt: eigener Cloudflare Worker — Anfragen landen im
+  // Dashboard (keine E-Mail). Nach dem DNS-Umzug auf api.pepperle.de umstellen.
+  var FORM_ENDPOINT = "https://pepperle-analytics.a347157.workers.dev/contact";
 
   var CATS = [
     { id: "all", de: "Alle", en: "All" },
