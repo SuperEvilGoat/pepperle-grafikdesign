@@ -291,6 +291,8 @@
     el.drift.classList.add("faded", "paused");
   }
 
+  // Betrachtungsdauer nur zählen, solange der Tab wirklich sichtbar ist —
+  // sonst verfälschen im Hintergrund offen gelassene Bilder den Durchschnitt
   function trackLightboxView() {
     if (state.lightbox && state.lightboxSince && window.pptrack) {
       window.pptrack({ type: "img_view", img: state.lightbox, cat: state.cat, dur_ms: Date.now() - state.lightboxSince });
@@ -437,6 +439,15 @@
 
   // Offene Bildbetrachtung beim Verlassen der Seite noch erfassen
   window.addEventListener("pagehide", trackLightboxView);
+
+  // Tab-Wechsel: laufende Messung abschließen, bei Rückkehr neu starten
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      trackLightboxView();
+    } else if (state.lightbox && !state.lightboxSince) {
+      state.lightboxSince = Date.now();
+    }
+  });
 
   // Frischer Seitenaufbau: alle Kacheln kommen von unten ins Bild
   var initial = buildTiles("all", 0.25, 1.3);
