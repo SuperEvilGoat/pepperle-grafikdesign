@@ -31,7 +31,7 @@
       tagline: "Illustration und Packungsdesign",
       name: "Name", mail: "E-Mail", msg: "Nachricht", send: "Senden",
       thanks: "Danke — die Nachricht ist unterwegs.",
-      hint: "Bild anklicken zum Vergrößern",
+      hint: "Bild antippen zum Vergrößern",
       legal: "Impressum & Datenschutz",
       more: "Weitere Kategorien",
       langSwitch: "English",

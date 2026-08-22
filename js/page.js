@@ -17,7 +17,7 @@
       lang: "English",
       contact: "Kontakt",
       home: "Start",
-      hint: "Bild anklicken zum Vergrößern",
+      hint: "Bild antippen zum Vergrößern",
       works: function (n) { return n + " Arbeiten in dieser Kategorie"; },
       role: "Illustration & Graphic Design, Frankfurt am Main"
     },
