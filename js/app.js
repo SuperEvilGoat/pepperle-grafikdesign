@@ -7,17 +7,20 @@
   // Dashboard (keine E-Mail). Nach dem DNS-Umzug auf api.pepperle.de umstellen.
   var FORM_ENDPOINT = "https://pepperle-analytics.a347157.workers.dev/contact";
 
+  // slug = Adresse der zugehoerigen statischen Kategorieseite. Die Pfade sind
+  // die der alten Contao-Seite und duerfen nicht geaendert werden, sonst gehen
+  // die vorhandenen Suchmaschinen-Platzierungen verloren.
   var CATS = [
-    { id: "all", de: "Alle", en: "All" },
-    { id: "food", de: "Food & Drinks", en: "Food & Drinks" },
-    { id: "transport", de: "Verkehr & Technik", en: "Transportation & Technology" },
-    { id: "landscape", de: "Landschaft", en: "Landscape & Scenery" },
-    { id: "people", de: "Menschen & Tiere", en: "People & Animals" },
-    { id: "items", de: "Objekte", en: "Realistic Items" },
-    { id: "poster", de: "Poster & Anzeigen", en: "Poster & Ads" },
-    { id: "pharma", de: "Pharma & Medizin", en: "Pharma & Medical" },
-    { id: "logos", de: "Logos & Icons", en: "Logos & Icons" },
-    { id: "packaging", de: "Verpackung & Display", en: "Packaging & Display" }
+    { id: "all", de: "Alle", en: "All", slug: null },
+    { id: "food", de: "Food & Drinks", en: "Food & Drinks", slug: "food-drinks" },
+    { id: "transport", de: "Verkehr & Technik", en: "Transportation & Technology", slug: "transportation-technology" },
+    { id: "landscape", de: "Landschaft", en: "Landscape & Scenery", slug: "landscape-scenery" },
+    { id: "people", de: "Menschen & Tiere", en: "People & Animals", slug: "people-animals" },
+    { id: "items", de: "Objekte", en: "Realistic Items", slug: "realistic-items" },
+    { id: "poster", de: "Poster & Anzeigen", en: "Poster & Ads", slug: "poster-ads" },
+    { id: "pharma", de: "Pharma & Medizin", en: "Pharma & Medical", slug: "pharma-medical" },
+    { id: "logos", de: "Logos & Icons", en: "Logos & Icons", slug: "logos-icons" },
+    { id: "packaging", de: "Verpackung & Display", en: "Packaging & Display", slug: "packaging-display" }
   ];
 
   var COPY = {
@@ -30,7 +33,9 @@
       thanks: "Danke — die Nachricht ist unterwegs.",
       hint: "Bild anklicken zum Vergrößern",
       legal: "Impressum & Datenschutz",
-      more: "Weitere Kategorien"
+      more: "Weitere Kategorien",
+      langSwitch: "English",
+      seeAll: function (n) { return "Alle " + n + " Arbeiten ansehen \u2192"; }
     },
     en: {
       empty: "Images coming — folder not uploaded yet",
@@ -41,7 +46,9 @@
       thanks: "Thank you — your message is on its way.",
       hint: "Click an image to view it",
       legal: "Imprint & Privacy",
-      more: "More categories"
+      more: "More categories",
+      langSwitch: "Deutsch",
+      seeAll: function (n) { return "View all " + n + " works \u2192"; }
     }
   };
 
@@ -67,7 +74,15 @@
   var PER_LANE = 3;
   var MOBILE_PER_LANE = 4;
 
-  var lang = /^de\b|-de\b/i.test(navigator.language || "") ? "de" : "en";
+  // Ausgeliefert wird immer Deutsch: der Googlebot ruft die Seite mit
+  // Accept-Language en-US ab und hat bisher die englische Fassung indexiert,
+  // obwohl im HTML lang="de" steht. Englisch gibt es weiterhin, aber nur auf
+  // ausdruecklichen Klick — die Wahl merkt sich localStorage und gilt auch auf
+  // den Kategorieseiten (gleicher Schluessel wie in js/page.js).
+  var LANG_KEY = "pp_lang";
+  var lang = (function () {
+    try { return localStorage.getItem(LANG_KEY) === "en" ? "en" : "de"; } catch (e) { return "de"; }
+  })();
   var C = COPY[lang];
   var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -93,8 +108,8 @@
     lightbox: document.getElementById("lightbox"),
     lbImg: document.getElementById("lbImg"),
     lbTitle: document.getElementById("lbTitle"),
-    legalModal: document.getElementById("legalModal"),
-    legalBlocks: document.getElementById("legalBlocks"),
+    langBtn: document.getElementById("langBtn"),
+    catLink: document.getElementById("catLink"),
     sheetModal: document.getElementById("sheetModal"),
     sheetInner: document.getElementById("sheetInner")
   };
@@ -200,7 +215,10 @@
       img.src = t.src;
       img.alt = titleFromSrc(t.src);
       img.style.boxShadow = t.shadow;
-      img.loading = "lazy";
+      // Bewusst nicht "lazy": die Kacheln sind der Hauptinhalt und sollen sofort
+      // da sein. Bei "lazy" verzögerte der Browser sie so weit, dass Logo und
+      // Navigation vor den Bildern erschienen — genau die falsche Reihenfolge.
+      img.loading = "eager";
       img.draggable = false;
       d.appendChild(img);
       d.addEventListener("click", function () { openLightbox(t.src); });
@@ -252,25 +270,37 @@
     btn.style.color = active ? "#ffffff" : has ? "rgba(238,243,248,0.78)" : "rgba(238,243,248,0.38)";
   }
 
+  // Kategorien sind echte Links auf ihre Seite. Ein normaler Klick filtert die
+  // Collage wie bisher an Ort und Stelle; Cmd/Strg-, Mittel- und Rechtsklick
+  // oeffnen die Kategorieseite. So bleibt die Bedienung wie gewohnt, und
+  // Suchmaschinen finden trotzdem einen verfolgbaren Verweis.
   function makePill(cc, mobile) {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "cat-pill" + (mobile ? " mobile" : "");
-    btn.textContent = lang === "de" ? cc.de : cc.en;
-    pillStyle(btn, cc, cc.id === state.cat);
-    btn.addEventListener("click", function () { select(cc.id); });
-    return btn;
+    var pill = document.createElement(cc.slug ? "a" : "button");
+    if (cc.slug) {
+      pill.href = cc.slug + ".html";
+    } else {
+      pill.type = "button";
+    }
+    pill.className = "cat-pill" + (mobile ? " mobile" : "");
+    pill.setAttribute("data-cat", cc.id);
+    pill.textContent = lang === "de" ? cc.de : cc.en;
+    pillStyle(pill, cc, cc.id === state.cat);
+    pill.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      select(cc.id);
+    });
+    return pill;
   }
 
   function renderNavs() {
     // Desktop
     el.catsNav.textContent = "";
     CATS.forEach(function (cc) { el.catsNav.appendChild(makePill(cc, false)); });
-    var legalBtn = document.createElement("button");
-    legalBtn.type = "button";
+    var legalBtn = document.createElement("a");
     legalBtn.className = "legal-link";
+    legalBtn.href = "impressum.html";
     legalBtn.textContent = C.legal;
-    legalBtn.addEventListener("click", openLegal);
     el.catsNav.appendChild(legalBtn);
 
     // Mobil: [Alle] (+ aktive Kategorie) + "Weitere Kategorien" + Rechtliches
@@ -292,16 +322,32 @@
     more.addEventListener("click", openSheet);
     nav.appendChild(more);
     el.mobileNav.appendChild(nav);
-    var legalM = document.createElement("button");
-    legalM.type = "button";
+    var legalM = document.createElement("a");
     legalM.className = "legal-link mobile";
+    legalM.href = "impressum.html";
     legalM.textContent = C.legal;
-    legalM.addEventListener("click", openLegal);
     el.mobileNav.appendChild(legalM);
 
     var mob = isMobileView();
     el.catsNav.hidden = mob;
     el.mobileNav.hidden = !mob;
+
+    renderCatLink();
+  }
+
+  // Macht die Kategorieseiten auch fuer Besucher erreichbar: sobald eine
+  // Kategorie gewaehlt ist, fuehrt ein sichtbarer Verweis auf die vollstaendige
+  // Uebersicht mit allen Arbeiten dieser Kategorie.
+  function renderCatLink() {
+    if (!el.catLink) return;
+    var cc = CATS.filter(function (x) { return x.id === state.cat; })[0];
+    if (!cc || !cc.slug) {
+      el.catLink.hidden = true;
+      return;
+    }
+    el.catLink.href = cc.slug + ".html";
+    el.catLink.textContent = C.seeAll(pool(cc.id).length);
+    el.catLink.hidden = false;
   }
 
   /* ---------- Lightbox ---------- */
@@ -365,45 +411,11 @@
     }).then(done, done);
   }
 
-  /* ---------- Rechtliches ---------- */
-
-  var legalBuilt = false;
-  function buildLegal() {
-    if (legalBuilt) return;
-    legalBuilt = true;
-    var mono = "'IBM Plex Mono', monospace";
-    var sans = "Archivo, Helvetica, Arial, sans-serif";
-    var src = LEGAL_TEXT.impressum + "\n# Datenschutzerklärung\n" + LEGAL_TEXT.datenschutz;
-    src.split("\n").filter(function (l) { return l.trim(); }).forEach(function (line) {
-      var p = document.createElement("p");
-      var st = p.style;
-      if (line.indexOf("# ") === 0 && line.indexOf("## ") !== 0) {
-        p.textContent = line.slice(2);
-        st.fontFamily = sans; st.fontSize = "28px"; st.fontWeight = "500"; st.lineHeight = "1.2";
-        st.letterSpacing = "-0.01em"; st.color = "#ffffff"; st.margin = "54px 0 22px";
-      } else if (line.indexOf("### ") === 0) {
-        p.textContent = line.slice(4);
-        st.fontFamily = sans; st.fontSize = "15px"; st.fontWeight = "600"; st.lineHeight = "1.4";
-        st.letterSpacing = "0.01em"; st.color = "#ffffff"; st.margin = "26px 0 8px";
-      } else if (line.indexOf("## ") === 0) {
-        p.textContent = line.slice(3);
-        st.fontFamily = mono; st.fontSize = "11px"; st.fontWeight = "400"; st.lineHeight = "1.5";
-        st.letterSpacing = "0.22em"; st.textTransform = "uppercase"; st.color = "#ea4f43"; st.margin = "34px 0 12px";
-      } else {
-        p.textContent = line;
-        st.fontFamily = sans; st.fontSize = "14.5px"; st.fontWeight = "400"; st.lineHeight = "1.72";
-        st.color = "rgba(238,243,248,0.78)"; st.margin = "0 0 11px";
-      }
-      el.legalBlocks.appendChild(p);
-    });
-  }
-
-  function openLegal() {
-    buildLegal();
-    el.legalModal.hidden = false;
-    el.legalModal.querySelector(".legal-card").scrollTop = 0;
-  }
-  function closeLegal() { el.legalModal.hidden = true; }
+  /* ---------- Rechtliches ----------
+     Impressum und Datenschutzerklaerung stehen seit dem SEO-Umbau unter
+     impressum.html und datenschutz.html — eigene, verlinkbare Adressen statt
+     eines Overlays. Der Text wird aus js/legal.js erzeugt (Quellen/build-seiten.mjs);
+     hier im Skript ist dafuer nichts mehr noetig. */
 
   /* ---------- Kategorien-Sheet (mobil) ---------- */
 
@@ -427,28 +439,41 @@
 
   /* ---------- Init ---------- */
 
-  document.documentElement.lang = lang;
-  el.tagline.textContent = C.tagline;
-  el.hint.textContent = C.hint;
-  el.contactBtn.textContent = C.contact;
-  el.contactTitle.textContent = C.formTitle;
-  el.contactNote.textContent = C.formNote;
-  el.fName.placeholder = C.name;
-  el.fMail.placeholder = C.mail;
-  el.fMsg.placeholder = C.msg;
-  el.fSend.textContent = C.send;
-  el.thanks.textContent = C.thanks;
+  function applyTexts() {
+    document.documentElement.lang = lang;
+    el.tagline.textContent = C.tagline;
+    el.hint.textContent = C.hint;
+    el.contactBtn.textContent = C.contact;
+    el.contactTitle.textContent = C.formTitle;
+    el.contactNote.textContent = C.formNote;
+    el.fName.placeholder = C.name;
+    el.fMail.placeholder = C.mail;
+    el.fMsg.placeholder = C.msg;
+    el.fSend.textContent = C.send;
+    el.thanks.textContent = C.thanks;
+    if (el.langBtn) el.langBtn.textContent = C.langSwitch;
+  }
+  applyTexts();
+
+  if (el.langBtn) {
+    el.langBtn.addEventListener("click", function () {
+      lang = lang === "de" ? "en" : "de";
+      C = COPY[lang];
+      try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* Privatmodus */ }
+      applyTexts();
+      renderNavs();
+      if (window.pptrack) window.pptrack({ type: "cat_select", cat: "lang:" + lang });
+    });
+  }
 
   el.contactBtn.addEventListener("click", openContact);
   document.getElementById("contactClose").addEventListener("click", closeContact);
   el.contactForm.addEventListener("submit", submitForm);
   el.lightbox.addEventListener("click", closeLightbox);
-  document.getElementById("legalClose").addEventListener("click", closeLegal);
   el.sheetModal.addEventListener("click", closeSheet);
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     if (!el.sheetModal.hidden) closeSheet();
-    else if (!el.legalModal.hidden) closeLegal();
     else if (!el.contactModal.hidden) closeContact();
     else if (!el.lightbox.hidden) closeLightbox();
   });
@@ -463,6 +488,13 @@
   };
   mq.addEventListener ? mq.addEventListener("change", onMq) : mq.addListener(onMq);
 
+  // Der Kontaktknopf auf den Kategorieseiten verweist auf index.html#kontakt —
+  // dort soll sich das Formular dann von selbst oeffnen.
+  if (location.hash === "#kontakt") openContact();
+  window.addEventListener("hashchange", function () {
+    if (location.hash === "#kontakt") openContact();
+  });
+
   // Offene Bildbetrachtung beim Verlassen der Seite noch erfassen
   window.addEventListener("pagehide", trackLightboxView);
 
@@ -475,23 +507,70 @@
     }
   });
 
-  // Frischer Seitenaufbau: Kacheln stehen sofort da (bis zu 75 % ihrer Strecke
-  // schon zurückgelegt, siehe preAdvance) und blenden als Ganzes ein, statt dass
-  // man erst mehrere Sekunden auf das erste sichtbare Bild warten müsste.
+  /* ---------- Auftritt der Startseite ----------
+     Reihenfolge: zuerst die bereits fahrenden Bilder einblenden, eine Sekunde
+     später Logo, Tagline, Kontakt und die Navigation unten (Klasse
+     .intro-ready, die Feinabstufung steckt im CSS).
+
+     Der zweite Schritt hängt bewusst am tatsächlichen Laden der Bilder und
+     nicht an festen CSS-Verzögerungen: Letztere liefen ab Seitenaufbau und
+     waren durch, bevor die Bilddateien überhaupt da waren — dann erschien das
+     Logo vor den Bildern, also genau verkehrt herum. */
+  var stage = document.getElementById("stage");
+  var INTRO_GAP_MS = 1000;      // Abstand zwischen Bildern und dem Rest
+  var INTRO_MAX_WAIT_MS = 2000; // Notbremse: nie länger auf Bilder warten
+  var INTRO_WAIT_TILES = 6;     // nur auf die vordersten Kacheln warten
+
+  function startIntro() {
+    if (!reducedMotion) {
+      // Reflow erzwingen, damit der Browser den unsichtbaren Ausgangszustand
+      // registriert, bevor die Klasse fällt — sonst greift der CSS-Übergang
+      // nicht zuverlässig (unabhängig von requestAnimationFrame/Tab-Sichtbarkeit).
+      void el.drift.offsetHeight;
+      el.drift.classList.remove("faded");
+    }
+    setTimeout(function () { stage.classList.add("intro-ready"); }, INTRO_GAP_MS);
+  }
+
+  // Auf die vordersten Kacheln warten — das sind die, die beim Aufbau schon
+  // weit oben stehen und damit als Erstes ins Auge fallen. Bewusst nicht auf
+  // alle: die hinteren fahren ohnehin erst später ins Bild, und beim ersten
+  // Besuch (rund 2,7 MB) hieße Warten auf alle einen sekundenlang leeren
+  // Bildschirm. INTRO_MAX_WAIT_MS begrenzt das Warten zusätzlich nach oben.
+  function whenTilesVisible(done) {
+    var imgs = [].slice.call(el.drift.querySelectorAll("img")).slice(0, INTRO_WAIT_TILES);
+    var pending = imgs.filter(function (im) { return !im.complete; });
+    if (!pending.length) return done();
+    var fired = false;
+    function finish() {
+      if (fired) return;
+      fired = true;
+      clearTimeout(timer);
+      done();
+    }
+    var left = pending.length;
+    pending.forEach(function (im) {
+      function tick() {
+        im.removeEventListener("load", tick);
+        im.removeEventListener("error", tick);
+        if (--left <= 0) finish();
+      }
+      im.addEventListener("load", tick);
+      im.addEventListener("error", tick);
+    });
+    var timer = setTimeout(finish, INTRO_MAX_WAIT_MS);
+  }
+
   var initial = buildTiles("all", 0.25, 1.3);
   if (reducedMotion) {
     initial = staticLayout(initial);
   } else {
+    // Kacheln stehen sofort da (bis zu 75 % ihrer Strecke schon zurückgelegt,
+    // siehe preAdvance), statt erst von unten hereinfahren zu müssen.
     initial = preAdvance(initial);
     el.drift.classList.add("faded");
   }
   renderTiles(initial);
   renderNavs();
-  if (!reducedMotion) {
-    // Reflow erzwingen, damit der Browser den unsichtbaren Ausgangszustand
-    // registriert, bevor die Klasse fällt — sonst greift der CSS-Übergang
-    // nicht zuverlässig (unabhängig von requestAnimationFrame/Tab-Sichtbarkeit).
-    void el.drift.offsetHeight;
-    el.drift.classList.remove("faded");
-  }
+  whenTilesVisible(startIntro);
 })();

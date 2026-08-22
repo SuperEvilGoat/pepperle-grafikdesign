@@ -92,8 +92,17 @@ button { -webkit-appearance: none; appearance: none; }
   transform: translateX(-45.26%) scale(0.28);
 }
 .om-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
-.om-logo polygon { opacity: 0; animation: sigFade 0.7s ease 0.05s forwards; }
-.om-logo image { opacity: 0; animation: sigFade 0.8s ease 0.3s forwards; }
+
+/* Auftritt in zwei Stufen. Stufe eins: die bereits fahrenden Bilder blenden ein,
+   sobald sie geladen sind (Opacity-Übergang von #drift, gesteuert in app.js).
+   Stufe zwei: eine Sekunde später folgen Logo, Tagline, Kontakt und die
+   Navigation unten — ausgelöst durch die Klasse .intro-ready auf #stage.
+   Bewusst nicht über feste CSS-Verzögerungen: die laufen ab Seitenaufbau los
+   und waren regelmäßig durch, bevor die Bilder überhaupt geladen waren. */
+.om-logo polygon,
+.om-logo image { opacity: 0; }
+.intro-ready .om-logo polygon { animation: sigFade 0.7s ease 0s forwards; }
+.intro-ready .om-logo image { animation: sigFade 0.8s ease 0.15s forwards; }
 
 .om-tag {
   position: absolute;
@@ -109,9 +118,9 @@ button { -webkit-appearance: none; appearance: none; }
   text-transform: uppercase;
   color: #ffffff;
   opacity: 0;
-  animation: sigFade 0.8s ease 0.25s forwards;
   transform: none;
 }
+.intro-ready .om-tag { animation: sigFade 0.8s ease 0.3s forwards; }
 
 /* Mobil: Logo fix vom oberen Rand positionieren (nicht via -50vh — iOS-Toolbar
    verschiebt sonst das Logo aus dem Bild) und unter dem Kontakt-Button halten */
@@ -196,8 +205,8 @@ button { -webkit-appearance: none; appearance: none; }
   align-items: center;
   gap: 14px;
   opacity: 0;
-  animation: fadeUp 0.7s ease 1.2s forwards;
 }
+.intro-ready .topbar { animation: fadeUp 0.7s ease 0.3s forwards; }
 .contact-btn {
   cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;
@@ -405,8 +414,8 @@ button { -webkit-appearance: none; appearance: none; }
   align-items: center;
   gap: 12px;
   opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.7s forwards;
 }
+.intro-ready .bottom { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards; }
 .hint-wrap {
   display: flex;
   justify-content: center;
@@ -473,7 +482,6 @@ button { -webkit-appearance: none; appearance: none; }
   padding: 9px 4px 9px 12px;
   cursor: pointer;
   opacity: 0;
-  animation: sigFade 0.7s ease 2.2s both;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.18em;
@@ -481,6 +489,7 @@ button { -webkit-appearance: none; appearance: none; }
   color: rgba(238,243,248,0.45);
   transition: color 0.3s ease;
 }
+.intro-ready .legal-link { animation: sigFade 0.7s ease 0.9s both; }
 .legal-link:hover { color: #ffffff; }
 .legal-link.mobile { padding: 4px 2px; animation: none; opacity: 1; }
 
@@ -489,4 +498,99 @@ button { -webkit-appearance: none; appearance: none; }
    falls die Einstellung erst nach dem Aufbau der Seite aktiviert wird. */
 @media (prefers-reduced-motion: reduce) {
   .tile { animation-play-state: paused !important; }
+  /* Kein gestaffelter Auftritt: Logo, Tagline, Kontakt und Navigation sind
+     sofort da, statt herein zu faden oder zu wandern. */
+  .om-logo polygon,
+  .om-logo image,
+  .om-tag,
+  .topbar,
+  .bottom,
+  .legal-link {
+    opacity: 1;
+    animation: none !important;
+  }
+}
+
+/* ---------- Ergänzungen für die Unterseiten-Anbindung ---------- */
+
+/* Nur für Vorleseprogramme und Suchmaschinen sichtbar. Wird für den Namen in
+   der Überschrift gebraucht, weil der Schriftzug im Logo eine Grafik ist. */
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.om-tag { text-wrap: balance; }
+
+/* Grundzustand der Kategorie-Pillen. Bisher setzte ausschließlich pillStyle()
+   in app.js Rahmen und Farbe — seit die Pillen als echte Links schon im HTML
+   stehen, brauchen sie ein Aussehen, bevor das Skript gelaufen ist. */
+.cat-pill {
+  text-decoration: none;
+  border: 1px solid rgba(238,243,248,0.28);
+  background: rgba(238,243,248,0.04);
+  color: rgba(238,243,248,0.78);
+}
+a.cat-pill { display: inline-block; line-height: normal; }
+
+.legal-link { text-decoration: none; }
+a.legal-link { display: inline-block; }
+
+.lang-btn {
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(238,243,248,0.28);
+  background: rgba(238,243,248,0.04);
+  color: rgba(238,243,248,0.78);
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+.lang-btn:hover { border-color: rgba(234,79,67,0.85); color: #ffffff; }
+
+/* „Alle 25 Arbeiten ansehen“ — führt von der Collage auf die Kategorieseite */
+.cat-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.cat-link:hover { color: #ea4f43; }
+.cat-link[hidden] { display: none; }
+
+/* Ohne JavaScript: statt der Collage eine schlichte, benutzbare Seite */
+.noscript-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  overflow: auto;
+  background: #05325c;
+  color: #eef3f8;
+  font-family: Archivo, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  padding: 40px 24px;
+  text-align: center;
+}
+.noscript-fallback h2 { font-weight: 500; font-size: clamp(22px, 4vw, 32px); margin: 0 0 18px; }
+.noscript-fallback p { max-width: 60ch; margin: 0 auto 22px; }
+.noscript-fallback nav {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 760px; margin: 0 auto 26px;
+}
+.noscript-fallback nav a {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 9px 15px; border-radius: 999px; border: 1px solid rgba(238,243,248,0.28); color: rgba(238,243,248,0.85);
 }

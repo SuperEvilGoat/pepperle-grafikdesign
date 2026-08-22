@@ -1,0 +1,14 @@
+# https://www.pepperle.de
+User-agent: *
+Allow: /
+# Entwicklungs- und Testdateien gehören nicht in den Index
+Disallow: /test-ohne-statistik.html
+
+# Bilder ausdrücklich freigeben — die Bildersuche ist für ein Portfolio
+# der wichtigste Kanal
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /test-ohne-statistik.html
+
+Sitemap: https://www.pepperle.de/sitemap.xml
+Sitemap: https://www.pepperle.de/sitemap-images.xml

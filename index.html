@@ -3,21 +3,99 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Walter Pepperle — Illustration &amp; Packungsdesign</title>
-  <meta name="description" content="Walter Pepperle, Frankfurt am Main — Illustration, Grafik-Design und Packungsdesign. Portfolio mit Arbeiten aus Food, Werbung, Pharma, Verpackung und mehr.">
-  <meta property="og:title" content="Walter Pepperle — Illustration &amp; Packungsdesign">
-  <meta property="og:description" content="Illustration, Grafik-Design und Packungsdesign aus Frankfurt am Main.">
+  <title>Walter Pepperle — Illustration &amp; Packungsdesign, Frankfurt</title>
+  <meta name="description" content="Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main — Walter Pepperle. Portfolio: Food, Verpackung, Pharma, Technik, Poster und Logos.">
+  <link rel="canonical" href="https://www.pepperle.de/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
   <meta property="og:type" content="website">
-  <!-- Nach dem DNS-Umzug auf https://www.pepperle.de/assets/og-image.png umstellen -->
-  <meta property="og:image" content="https://superevilgoat.github.io/pepperle-grafikdesign/assets/og-image.png">
+  <meta property="og:site_name" content="Walter Pepperle — Illustration &amp; Graphic Design">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://www.pepperle.de/">
+  <meta property="og:title" content="Walter Pepperle — Illustration &amp; Packungsdesign">
+  <meta property="og:description" content="Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.">
+  <meta property="og:image" content="https://www.pepperle.de/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="Walter Pepperle — Logo">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Walter Pepperle — Illustration &amp; Packungsdesign">
+  <meta name="twitter:description" content="Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.">
+  <meta name="twitter:image" content="https://www.pepperle.de/assets/og-image.png">
+
   <meta name="theme-color" content="#05325c">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.pepperle.de/#website",
+        "url": "https://www.pepperle.de/",
+        "name": "Walter Pepperle — Illustration & Graphic Design",
+        "inLanguage": "de-DE",
+        "publisher": { "@id": "https://www.pepperle.de/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.pepperle.de/#person",
+        "name": "Walter Pepperle",
+        "jobTitle": "Illustrator und Grafik-Designer",
+        "url": "https://www.pepperle.de/",
+        "email": "mailto:info@pepperle.de",
+        "telephone": "+49-171-1963147",
+        "image": "https://www.pepperle.de/assets/og-image.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Untermainkai 1",
+          "postalCode": "60311",
+          "addressLocality": "Frankfurt am Main",
+          "addressCountry": "DE"
+        },
+        "knowsAbout": [
+          "Fotorealistische Illustration",
+          "Packungsdesign",
+          "Verpackungsgestaltung",
+          "Airbrush",
+          "Handlettering",
+          "Logoentwicklung",
+          "Technische Illustration",
+          "Medizinische Illustration"
+        ]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://www.pepperle.de/#business",
+        "name": "Walter Pepperle — Illustration & Graphic Design",
+        "url": "https://www.pepperle.de/",
+        "image": "https://www.pepperle.de/assets/og-image.png",
+        "founder": { "@id": "https://www.pepperle.de/#person" },
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Untermainkai 1",
+          "postalCode": "60311",
+          "addressLocality": "Frankfurt am Main",
+          "addressCountry": "DE"
+        },
+        "areaServed": { "@type": "Country", "name": "Deutschland" },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Leistungen",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Illustration" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Packungsdesign" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Logo- und Schriftzugentwicklung" } }
+          ]
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div id="stage">
@@ -34,7 +112,9 @@
       </svg>
     </div>
 
-    <p class="om-tag" id="tagline"></p>
+    <!-- Der Schriftzug im Logo ist der Name; für Vorleseprogramme und
+         Suchmaschinen steht er hier zusätzlich als Text in der Überschrift. -->
+    <h1 class="om-tag"><span class="vh">Walter Pepperle — </span><span id="tagline">Illustration und Packungsdesign</span></h1>
 
     <div id="lightbox" hidden>
       <div class="lb-inner">
@@ -45,32 +125,25 @@
     </div>
 
     <div class="topbar">
-      <button type="button" class="contact-btn" id="contactBtn"></button>
+      <button type="button" class="lang-btn" id="langBtn">English</button>
+      <button type="button" class="contact-btn" id="contactBtn">Kontakt</button>
     </div>
 
     <div id="sheetModal" hidden>
       <div class="sheet-inner" id="sheetInner"></div>
     </div>
 
-    <div id="legalModal" hidden>
-      <div class="legal-card">
-        <button type="button" class="legal-close" id="legalClose" aria-label="Schließen">×</button>
-        <h2>Impressum</h2>
-        <div id="legalBlocks"></div>
-      </div>
-    </div>
-
     <div id="contactModal" hidden>
       <div class="contact-card">
         <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
-        <h2 id="contactTitle"></h2>
-        <p class="form-note" id="contactNote"></p>
+        <h2 id="contactTitle">Kontakt aufnehmen</h2>
+        <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
         <p class="thanks" id="thanks" hidden></p>
         <form id="contactForm">
           <input type="text" id="fName" name="name" required>
           <input type="email" id="fMail" name="email" required>
           <textarea id="fMsg" name="message" rows="4" required></textarea>
-          <button type="submit" id="fSend"></button>
+          <button type="submit" id="fSend">Senden</button>
         </form>
       </div>
     </div>
@@ -78,22 +151,53 @@
     <div class="bottom">
       <div class="hint-wrap"><span id="hint"></span></div>
       <p class="note" id="note"></p>
-      <nav class="cats-nav" id="catsNav"></nav>
+
+      <!-- Führt von der gefilterten Collage auf die vollständige Kategorieseite -->
+      <a class="cat-link" id="catLink" hidden></a>
+
+      <!-- Die Links stehen bewusst schon im ausgelieferten HTML und werden vom
+           Skript nur nachgezeichnet: so findet jeder Suchmaschinen-Crawler die
+           neun Kategorieseiten, auch ohne JavaScript auszuführen. -->
+      <nav class="cats-nav" id="catsNav" aria-label="Kategorien">
+        <button type="button" class="cat-pill" data-cat="all">Alle</button>
+        <a class="cat-pill" href="food-drinks.html" data-cat="food">Food &amp; Drinks</a>
+        <a class="cat-pill" href="transportation-technology.html" data-cat="transport">Verkehr &amp; Technik</a>
+        <a class="cat-pill" href="landscape-scenery.html" data-cat="landscape">Landschaft</a>
+        <a class="cat-pill" href="people-animals.html" data-cat="people">Menschen &amp; Tiere</a>
+        <a class="cat-pill" href="realistic-items.html" data-cat="items">Objekte</a>
+        <a class="cat-pill" href="poster-ads.html" data-cat="poster">Poster &amp; Anzeigen</a>
+        <a class="cat-pill" href="pharma-medical.html" data-cat="pharma">Pharma &amp; Medizin</a>
+        <a class="cat-pill" href="logos-icons.html" data-cat="logos">Logos &amp; Icons</a>
+        <a class="cat-pill" href="packaging-display.html" data-cat="packaging">Verpackung &amp; Display</a>
+        <a class="legal-link" href="impressum.html">Impressum &amp; Datenschutz</a>
+      </nav>
+
       <div id="mobileNav" hidden></div>
     </div>
   </div>
 
   <noscript>
-    <div style="position:fixed;inset:0;background:#05325c;color:#eef3f8;font-family:Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;">
-      <p>Walter Pepperle — Illustration &amp; Packungsdesign, Frankfurt am Main.<br>
-      Diese Seite benötigt JavaScript.<br>
-      Kontakt: <a href="mailto:info@pepperle.de" style="color:#ea4f43;">info@pepperle.de</a></p>
+    <div class="noscript-fallback">
+      <h2>Walter Pepperle — Illustration &amp; Packungsdesign, Frankfurt am Main</h2>
+      <p>Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript.
+         Das vollständige Portfolio erreichen Sie auch ohne:</p>
+      <nav>
+        <a href="food-drinks.html">Food &amp; Drinks</a>
+        <a href="transportation-technology.html">Verkehr &amp; Technik</a>
+        <a href="landscape-scenery.html">Landschaft</a>
+        <a href="people-animals.html">Menschen &amp; Tiere</a>
+        <a href="realistic-items.html">Objekte</a>
+        <a href="poster-ads.html">Poster &amp; Anzeigen</a>
+        <a href="pharma-medical.html">Pharma &amp; Medizin</a>
+        <a href="logos-icons.html">Logos &amp; Icons</a>
+        <a href="packaging-display.html">Verpackung &amp; Display</a>
+      </nav>
+      <p>Kontakt: <a href="mailto:info@pepperle.de">info@pepperle.de</a> · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
     </div>
   </noscript>
 
   <script src="js/track.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/legal.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

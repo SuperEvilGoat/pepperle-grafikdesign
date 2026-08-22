@@ -30,8 +30,43 @@
 
   window.pptrack = send;
 
+  /* ---------- Herkunft des Aufrufs ---------- */
+
+  // Verweisende Website (nur der Hostname, nie die vollständige Adresse)
   var ref = "";
   try { ref = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
   if (ref === location.hostname) ref = "";
-  send({ type: "pageview", ref: ref });
+
+  // Welche Seite wurde aufgerufen? Seit dem Umbau auf eigene Kategorieseiten
+  // ist das nicht mehr immer die Startseite.
+  var path = "/";
+  try {
+    path = location.pathname.replace(/\/index\.html$/, "/");
+    // Auf der Testadresse liegt die Seite in einem Unterordner — der gehört
+    // nicht zum Seitenpfad und würde die Auswertung nur verrauschen.
+    path = path.replace(/^\/pepperle-grafikdesign/, "") || "/";
+    if (path.length > 120) path = path.slice(0, 120);
+  } catch (e) {}
+
+  // Kampagnen-Kennzeichnung aus der Adresse (utm_source usw.) — nur relevant,
+  // wenn ein Link sie ausdrücklich mitbringt, etwa ein QR-Code auf einer
+  // Visitenkarte oder ein Eintrag in einem Branchenverzeichnis. Es werden
+  // ausschließlich diese drei Werte gelesen, keine sonstigen Parameter.
+  var utm = {};
+  try {
+    var q = new URLSearchParams(location.search);
+    ["source", "medium", "campaign"].forEach(function (k) {
+      var v = q.get("utm_" + k);
+      if (v) utm[k] = String(v).slice(0, 60);
+    });
+  } catch (e) {}
+
+  send({
+    type: "pageview",
+    ref: ref,
+    path: path,
+    utm_source: utm.source || null,
+    utm_medium: utm.medium || null,
+    utm_campaign: utm.campaign || null
+  });
 })();
