@@ -79,15 +79,17 @@ button { -webkit-appearance: none; appearance: none; }
   height: auto;
 }
 
-/* ---------- Logo & Tagline ---------- */
+/* ---------- Logo & Tagline ----------
+   Abstand fest vom oberen Rand statt über -50vh: iOS rechnet vh ohne die
+   Safari-Leiste, wodurch das Logo auf iPad und iPhone oben abgeschnitten wurde. */
 .om-logo {
   position: absolute;
   z-index: 4;
-  top: 50%;
+  top: calc(42px + env(safe-area-inset-top, 0px));
   left: 50%;
   width: min(86vw, 1120px);
   transform-origin: 45.26% 0;
-  transform: translate(-45.26%, calc(-50vh + 26px)) scale(0.28);
+  transform: translateX(-45.26%) scale(0.28);
 }
 .om-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
 .om-logo polygon { opacity: 0; animation: sigFade 0.7s ease 0.05s forwards; }
@@ -96,7 +98,7 @@ button { -webkit-appearance: none; appearance: none; }
 .om-tag {
   position: absolute;
   z-index: 4;
-  top: 50%;
+  top: calc(42px + env(safe-area-inset-top, 0px) + min(86vw, 1120px) * 0.0574 + 70px);
   left: 0;
   right: 0;
   margin: 0;
@@ -108,7 +110,7 @@ button { -webkit-appearance: none; appearance: none; }
   color: #ffffff;
   opacity: 0;
   animation: sigFade 0.8s ease 0.25s forwards;
-  transform: translateY(calc(-50vh + min(86vw, 1120px) * 0.0574 + 96px));
+  transform: none;
 }
 
 /* Mobil: Logo fix vom oberen Rand positionieren (nicht via -50vh — iOS-Toolbar
