@@ -15,11 +15,13 @@
     try {
       ev.lang = (navigator.language || "").slice(0, 12);
       ev.mobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches ? 1 : 0;
+      // Als einfacher text/plain-Request gesendet — vermeidet CORS-Preflight,
+      // der Worker parst den Body unabhängig vom Content-Type als JSON
       var body = JSON.stringify(ev);
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(ENDPOINT, new Blob([body], { type: "application/json" }));
+        navigator.sendBeacon(ENDPOINT, body);
       } else {
-        fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true });
+        fetch(ENDPOINT, { method: "POST", body: body, keepalive: true, credentials: "omit" });
       }
     } catch (e) { /* Statistik darf die Seite nie stören */ }
   }
