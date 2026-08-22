@@ -152,6 +152,21 @@
     return tiles;
   }
 
+  // Nur für den allerersten Seitenaufbau: Kacheln nicht erst von ganz unten
+  // starten lassen (das hieße mehrere Sekunden leerer Bildschirm), sondern
+  // schon vorab so weit oben positionieren, wie sie zu diesem Zeitpunkt normal
+  // stünden — die vorderste Kachel bis zu MAX_INITIAL_PROGRESS ihrer Strecke.
+  // Reihenfolge/Rhythmus bleiben erhalten, nur zeitlich zusammengestaucht.
+  var MAX_INITIAL_PROGRESS = 0.75;
+  function preAdvance(tiles) {
+    var maxDelay = tiles.reduce(function (m, t) { return Math.max(m, t.delay); }, 0) || 1;
+    tiles.forEach(function (t) {
+      var progress = MAX_INITIAL_PROGRESS * (1 - t.delay / maxDelay);
+      t.delay = -Math.round(progress * t.dur * 10) / 10;
+    });
+    return tiles;
+  }
+
   // Bei reduzierter Bewegung: ruhende Collage statt Animation. Die Kacheln
   // mitten im Flug anzuhalten würde einen Teil von ihnen außerhalb des
   // Sichtfelds stehen lassen — hier werden sie stattdessen fest im Bild verteilt.
@@ -460,9 +475,23 @@
     }
   });
 
-  // Frischer Seitenaufbau: alle Kacheln kommen von unten ins Bild
+  // Frischer Seitenaufbau: Kacheln stehen sofort da (bis zu 75 % ihrer Strecke
+  // schon zurückgelegt, siehe preAdvance) und blenden als Ganzes ein, statt dass
+  // man erst mehrere Sekunden auf das erste sichtbare Bild warten müsste.
   var initial = buildTiles("all", 0.25, 1.3);
-  if (reducedMotion) initial = staticLayout(initial);
+  if (reducedMotion) {
+    initial = staticLayout(initial);
+  } else {
+    initial = preAdvance(initial);
+    el.drift.classList.add("faded");
+  }
   renderTiles(initial);
   renderNavs();
+  if (!reducedMotion) {
+    // Reflow erzwingen, damit der Browser den unsichtbaren Ausgangszustand
+    // registriert, bevor die Klasse fällt — sonst greift der CSS-Übergang
+    // nicht zuverlässig (unabhängig von requestAnimationFrame/Tab-Sichtbarkeit).
+    void el.drift.offsetHeight;
+    el.drift.classList.remove("faded");
+  }
 })();
