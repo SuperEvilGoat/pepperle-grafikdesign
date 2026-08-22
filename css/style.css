@@ -1,0 +1,477 @@
+/* pepperle.de — portiert aus dem Claude-Design-Entwurf (Quellen/Claude Design) */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #05325c;
+}
+
+a { color: #ea4f43; text-decoration: none; }
+a:hover { color: #f5837a; }
+
+button { -webkit-appearance: none; appearance: none; }
+
+/* ---------- Keyframes ---------- */
+@keyframes sigFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hintCycle { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hintPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+@keyframes drift {
+  0%   { transform: translateY(116vh) scale(0.97); opacity: 0; }
+  9%   { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { transform: translateY(-132vh) scale(1.05); opacity: 0; }
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lbZoom { from { opacity: 0; transform: scale(0.62); } to { opacity: 1; transform: scale(1); } }
+
+/* ---------- Bühne ---------- */
+#stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(125% 105% at 50% 38%, #0c4d84 0%, #05365f 46%, #021f3b 100%);
+  color: #eef3f8;
+  font-family: Archivo, Helvetica, Arial, sans-serif;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(80% 60% at 50% 46%, rgba(11,77,132,0.35) 0%, rgba(2,31,59,0) 70%);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(2,26,50,0.88) 0%, rgba(2,26,50,0.25) 17%, rgba(2,26,50,0) 34%, rgba(2,26,50,0) 62%, rgba(2,26,50,0.55) 84%, rgba(2,26,50,0.92) 100%);
+}
+
+/* ---------- Drift-Ebene ---------- */
+#drift {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+#drift.faded { opacity: 0; }
+
+.tile {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  will-change: transform;
+  animation: drift linear infinite;
+}
+#drift.paused .tile { animation-play-state: paused; }
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Logo & Tagline ---------- */
+.om-logo {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: min(86vw, 1120px);
+  transform-origin: 45.26% 0;
+  transform: translate(-45.26%, calc(-50vh + 26px)) scale(0.28);
+}
+.om-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.om-logo polygon { opacity: 0; animation: sigFade 0.7s ease 0.05s forwards; }
+.om-logo image { opacity: 0; animation: sigFade 0.8s ease 0.3s forwards; }
+
+.om-tag {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.62);
+  opacity: 0;
+  animation: sigFade 0.8s ease 0.25s forwards;
+  transform: translateY(calc(-50vh + min(86vw, 1120px) * 0.0574 + 96px));
+}
+
+@media (max-width: 760px) {
+  .om-logo { transform: translate(-45.26%, calc(-50vh + 26px)) scale(0.63); }
+  .om-tag { transform: translateY(calc(-50vh + min(86vw, 1120px) * 0.129 + 94px)); }
+}
+
+/* ---------- Lightbox ---------- */
+#lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1,17,33,0.74);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  animation: lbFade 0.5s ease both;
+}
+#lightbox[hidden] { display: none; }
+.lb-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 80vw;
+  animation: lbZoom 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.lb-inner img {
+  display: block;
+  max-width: 80vw;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  box-shadow: 0 90px 180px rgba(0,7,16,0.85), 0 30px 60px rgba(0,7,16,0.6);
+}
+.lb-title {
+  margin: 0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.82);
+}
+.lb-close {
+  position: absolute;
+  top: 88px;
+  right: 28px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(238,243,248,0.28);
+  background: rgba(1,17,33,0.55);
+  color: #eef3f8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  line-height: 1;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.lb-close:hover { background: #ea4f43; border-color: #ea4f43; }
+
+/* ---------- Kontakt-Button oben rechts ---------- */
+.topbar {
+  position: absolute;
+  z-index: 10;
+  top: 24px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 1.2s forwards;
+}
+.contact-btn {
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 10px 19px;
+  border-radius: 999px;
+  border: 1px solid #ea4f43;
+  background: #ea4f43;
+  color: #ffffff;
+  transition: background 0.3s ease;
+}
+.contact-btn:hover { background: #f5645a; }
+
+/* ---------- Modale (Kontakt / Rechtliches / Kategorien-Sheet) ---------- */
+#contactModal {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(1,17,33,0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: fadeUp 0.35s ease both;
+}
+#contactModal[hidden] { display: none; }
+.contact-card {
+  position: relative;
+  width: min(92vw, 520px);
+  box-sizing: border-box;
+  background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
+  border: 1px solid rgba(238,243,248,0.14);
+  box-shadow: 0 60px 140px rgba(0,8,18,0.7);
+  padding: 34px 34px 30px;
+}
+.contact-card h2 { margin: 0 0 6px; font-size: 26px; font-weight: 500; letter-spacing: -0.01em; }
+.form-note {
+  margin: 0 0 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.5);
+}
+.contact-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: rgba(238,243,248,0.55);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  line-height: 1;
+  padding: 8px;
+}
+.contact-close:hover { color: #ffffff; }
+#contactForm { display: flex; flex-direction: column; gap: 14px; }
+#contactForm input,
+#contactForm textarea {
+  background: rgba(1,17,33,0.45);
+  border: 1px solid rgba(238,243,248,0.18);
+  color: #eef3f8;
+  padding: 13px 14px;
+  font-family: Archivo, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  outline: none;
+  border-radius: 0;
+}
+#contactForm textarea { resize: none; }
+#contactForm input:focus,
+#contactForm textarea:focus { border-color: rgba(234,79,67,0.8); }
+#contactForm button {
+  margin-top: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 13px 24px;
+  border: 1px solid rgba(234,79,67,0.85);
+  border-radius: 999px;
+  background: rgba(234,79,67,0.9);
+  color: #ffffff;
+  transition: background 0.3s ease;
+}
+#contactForm button:hover { background: #ea4f43; }
+.thanks {
+  margin: 0;
+  padding: 26px 0 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #ea4f43;
+}
+.thanks[hidden] { display: none; }
+#contactForm[hidden] { display: none; }
+
+#legalModal {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10vh 10vw;
+  background: rgba(1,17,33,0.78);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  animation: lbFade 0.35s ease both;
+}
+#legalModal[hidden] { display: none; }
+.legal-card {
+  position: relative;
+  width: min(80vw, 760px);
+  max-height: 80vh;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
+  border: 1px solid rgba(238,243,248,0.14);
+  box-shadow: 0 60px 140px rgba(0,8,18,0.7);
+  padding: 40px clamp(22px, 4vw, 52px) 46px;
+  animation: lbZoom 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.legal-card > h2 {
+  margin: 0 0 26px;
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding-right: 54px;
+}
+.legal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(238,243,248,0.28);
+  background: rgba(1,17,33,0.6);
+  color: #eef3f8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 19px;
+  line-height: 1;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.legal-close:hover { background: #ea4f43; border-color: #ea4f43; }
+.legal-card p { white-space: pre-line; text-wrap: pretty; }
+
+#sheetModal {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8vh 22px;
+  background: rgba(1,17,33,0.8);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  animation: lbFade 0.3s ease both;
+}
+#sheetModal[hidden] { display: none; }
+.sheet-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 84vh;
+  overflow-y: auto;
+}
+.sheet-inner button {
+  cursor: pointer;
+  width: 100%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 16px 18px;
+  border-radius: 999px;
+}
+
+/* ---------- Unterer Bereich ---------- */
+.bottom {
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 24px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.7s forwards;
+}
+.hint-wrap {
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  animation: hintCycle 1.2s ease 10s both;
+}
+.hint-wrap span {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.72);
+  animation: hintPulse 2.8s ease-in-out 10s infinite both;
+}
+.note {
+  margin: 0;
+  min-height: 15px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0);
+}
+.note.warn { color: rgba(234,79,67,0.9); }
+
+.cats-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.cats-nav[hidden] { display: none; }
+
+#mobileNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+#mobileNav[hidden] { display: none; }
+.cat-pill {
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 9px 15px;
+  border-radius: 999px;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+.cat-pill:hover { border-color: rgba(234,79,67,0.85) !important; color: #ffffff !important; }
+.cat-pill.mobile { padding: 11px 16px; }
+
+.legal-link {
+  align-self: center;
+  background: none;
+  border: 0;
+  padding: 9px 4px 9px 12px;
+  cursor: pointer;
+  opacity: 0;
+  animation: sigFade 0.7s ease 2.2s both;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.45);
+  transition: color 0.3s ease;
+}
+.legal-link:hover { color: #ffffff; }
+.legal-link.mobile { padding: 4px 2px; animation: none; opacity: 1; }
+
+/* Bewegung reduzieren, wenn vom System gewünscht — app.js verteilt die Kacheln
+   dann statisch über den Bildschirm (negative Delays + Pause) */
+@media (prefers-reduced-motion: reduce) {
+  .tile { animation-play-state: paused !important; }
+}
