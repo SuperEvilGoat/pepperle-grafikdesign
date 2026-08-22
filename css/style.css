@@ -111,9 +111,17 @@ button { -webkit-appearance: none; appearance: none; }
   transform: translateY(calc(-50vh + min(86vw, 1120px) * 0.0574 + 96px));
 }
 
+/* Mobil: Logo fix vom oberen Rand positionieren (nicht via -50vh — iOS-Toolbar
+   verschiebt sonst das Logo aus dem Bild) und unter dem Kontakt-Button halten */
 @media (max-width: 760px) {
-  .om-logo { transform: translate(-45.26%, calc(-50vh + 26px)) scale(0.63); }
-  .om-tag { transform: translateY(calc(-50vh + min(86vw, 1120px) * 0.129 + 94px)); }
+  .om-logo {
+    top: 78px;
+    transform: translateX(-45.26%) scale(0.63);
+  }
+  .om-tag {
+    top: calc(78px + min(86vw, 1120px) * 0.252 + 18px);
+    transform: none;
+  }
 }
 
 /* ---------- Lightbox ---------- */
@@ -439,6 +447,10 @@ button { -webkit-appearance: none; appearance: none; }
   gap: 12px;
 }
 #mobileNav[hidden] { display: none; }
+
+/* Weicher Übergang beim Kategorienwechsel */
+.cats-nav, #mobileNav { transition: opacity 0.3s ease; }
+.nav-swap { opacity: 0 !important; }
 .cat-pill {
   cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;

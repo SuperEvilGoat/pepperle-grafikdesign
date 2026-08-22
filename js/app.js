@@ -152,21 +152,6 @@
     return tiles;
   }
 
-  // Einige Kacheln starten mitten im Flug, damit direkt beim Laden Bilder zu sehen sind
-  function seedVisible(tiles) {
-    var seen = {};
-    var picks = [];
-    tiles.forEach(function (t, i) {
-      var laneKey = t.left + "-" + t.dur;
-      if (!seen[laneKey] && picks.length < 3) { seen[laneKey] = 1; picks.push(i); }
-    });
-    var at = [0.42, 0.55, 0.68];
-    picks.forEach(function (idx, j) {
-      tiles[idx].delay = -Math.round(tiles[idx].dur * at[j] * 10) / 10;
-    });
-    return tiles;
-  }
-
   // Bei reduzierter Bewegung: alle Kacheln eingefroren über den Bildschirm verteilt
   function freezeTiles(tiles) {
     tiles.forEach(function (t, i) {
@@ -211,8 +196,11 @@
 
   function select(cat) {
     if (cat === state.cat || state.swapping) return;
+    if (window.pptrack) window.pptrack({ type: "cat_select", cat: cat });
     state.swapping = true;
     el.drift.classList.add("faded");
+    el.catsNav.classList.add("nav-swap");
+    el.mobileNav.classList.add("nav-swap");
     var next = buildTiles(cat, 0.1, 1.9);
     if (reducedMotion) freezeTiles(next);
     var faded = new Promise(function (res) { setTimeout(res, 520); });
@@ -223,6 +211,8 @@
       setTimeout(function () {
         state.swapping = false;
         el.drift.classList.remove("faded");
+        el.catsNav.classList.remove("nav-swap");
+        el.mobileNav.classList.remove("nav-swap");
       }, 80);
     });
   }
@@ -292,6 +282,8 @@
 
   function openLightbox(tileSrc) {
     state.lightbox = tileSrc;
+    state.lightboxSince = Date.now();
+    if (window.pptrack) window.pptrack({ type: "img_click", img: tileSrc, cat: state.cat });
     el.lbImg.src = fullSrc(tileSrc);
     el.lbImg.alt = titleFromSrc(tileSrc);
     el.lbTitle.textContent = titleFromSrc(tileSrc);
@@ -299,7 +291,15 @@
     el.drift.classList.add("faded", "paused");
   }
 
+  function trackLightboxView() {
+    if (state.lightbox && state.lightboxSince && window.pptrack) {
+      window.pptrack({ type: "img_view", img: state.lightbox, cat: state.cat, dur_ms: Date.now() - state.lightboxSince });
+    }
+    state.lightboxSince = null;
+  }
+
   function closeLightbox() {
+    trackLightboxView();
     state.lightbox = null;
     el.lightbox.hidden = true;
     el.lbImg.src = "";
@@ -310,6 +310,7 @@
   /* ---------- Kontakt ---------- */
 
   function openContact() {
+    if (window.pptrack) window.pptrack({ type: "contact_open" });
     el.thanks.hidden = true;
     el.contactForm.hidden = false;
     el.contactModal.hidden = false;
@@ -318,6 +319,7 @@
 
   function submitForm(e) {
     e.preventDefault();
+    if (window.pptrack) window.pptrack({ type: "contact_submit" });
     var done = function () {
       el.contactForm.hidden = true;
       el.thanks.hidden = false;
@@ -433,7 +435,11 @@
   };
   mq.addEventListener ? mq.addEventListener("change", onMq) : mq.addListener(onMq);
 
-  var initial = seedVisible(buildTiles("all", 0.25, 1.3));
+  // Offene Bildbetrachtung beim Verlassen der Seite noch erfassen
+  window.addEventListener("pagehide", trackLightboxView);
+
+  // Frischer Seitenaufbau: alle Kacheln kommen von unten ins Bild
+  var initial = buildTiles("all", 0.25, 1.3);
   if (reducedMotion) freezeTiles(initial);
   renderTiles(initial);
   renderNavs();
