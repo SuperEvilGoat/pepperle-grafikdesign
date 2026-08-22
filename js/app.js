@@ -152,12 +152,18 @@
     return tiles;
   }
 
-  // Bei reduzierter Bewegung: alle Kacheln eingefroren über den Bildschirm verteilt
-  function freezeTiles(tiles) {
-    tiles.forEach(function (t, i) {
-      t.delay = -Math.round(t.dur * (0.18 + (i % 7) * 0.1) * 10) / 10;
+  // Bei reduzierter Bewegung: ruhende Collage statt Animation. Die Kacheln
+  // mitten im Flug anzuhalten würde einen Teil von ihnen außerhalb des
+  // Sichtfelds stehen lassen — hier werden sie stattdessen fest im Bild verteilt.
+  function staticLayout(tiles) {
+    var perLane = {};
+    return tiles.filter(function (t) {
+      perLane[t.left] = (perLane[t.left] || 0) + 1;
+      return perLane[t.left] <= 2;
+    }).map(function (t, i) {
+      t.top = (i % 2 ? 54 : 6) + (i * 5) % 11;
+      return t;
     });
-    return tiles;
   }
 
   function renderTiles(tiles) {
@@ -167,8 +173,14 @@
       d.className = "tile";
       d.style.left = t.left + "%";
       d.style.width = "min(" + t.w + "vw, 460px)";
-      d.style.animationDuration = t.dur + "s";
-      d.style.animationDelay = t.delay + "s";
+      if (reducedMotion) {
+        d.style.animation = "none";
+        d.style.top = t.top + "%";
+        d.style.opacity = "1";
+      } else {
+        d.style.animationDuration = t.dur + "s";
+        d.style.animationDelay = t.delay + "s";
+      }
       var img = document.createElement("img");
       img.src = t.src;
       img.alt = titleFromSrc(t.src);
@@ -179,7 +191,6 @@
       d.addEventListener("click", function () { openLightbox(t.src); });
       el.drift.appendChild(d);
     });
-    if (reducedMotion) el.drift.classList.add("paused");
     el.note.textContent = tiles.length === 0 ? C.empty : "";
     el.note.classList.toggle("warn", tiles.length === 0);
   }
@@ -202,7 +213,7 @@
     el.catsNav.classList.add("nav-swap");
     el.mobileNav.classList.add("nav-swap");
     var next = buildTiles(cat, 0.1, 1.9);
-    if (reducedMotion) freezeTiles(next);
+    if (reducedMotion) next = staticLayout(next);
     var faded = new Promise(function (res) { setTimeout(res, 520); });
     Promise.all([preload(next), faded]).then(function () {
       state.cat = cat;
@@ -431,7 +442,7 @@
   var onMq = function () {
     closeSheet();
     var tiles = buildTiles(state.cat, 0.1, 1.9);
-    if (reducedMotion) freezeTiles(tiles);
+    if (reducedMotion) tiles = staticLayout(tiles);
     renderTiles(tiles);
     renderNavs();
   };
@@ -451,7 +462,7 @@
 
   // Frischer Seitenaufbau: alle Kacheln kommen von unten ins Bild
   var initial = buildTiles("all", 0.25, 1.3);
-  if (reducedMotion) freezeTiles(initial);
+  if (reducedMotion) initial = staticLayout(initial);
   renderTiles(initial);
   renderNavs();
 })();

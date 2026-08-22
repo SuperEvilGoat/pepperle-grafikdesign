@@ -482,8 +482,9 @@ button { -webkit-appearance: none; appearance: none; }
 .legal-link:hover { color: #ffffff; }
 .legal-link.mobile { padding: 4px 2px; animation: none; opacity: 1; }
 
-/* Bewegung reduzieren, wenn vom System gewünscht — app.js verteilt die Kacheln
-   dann statisch über den Bildschirm (negative Delays + Pause) */
+/* Bewegung reduzieren, wenn vom System gewünscht: app.js baut dann eine ruhende
+   Collage (feste top-Werte statt Drift-Animation). Diese Regel greift zusätzlich,
+   falls die Einstellung erst nach dem Aufbau der Seite aktiviert wird. */
 @media (prefers-reduced-motion: reduce) {
   .tile { animation-play-state: paused !important; }
 }
