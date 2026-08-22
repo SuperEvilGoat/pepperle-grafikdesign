@@ -13,10 +13,12 @@
 
   function send(ev) {
     try {
-      ev.lang = (navigator.language || "").slice(0, 12);
-      ev.mobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches ? 1 : 0;
-      // Als einfacher text/plain-Request gesendet — vermeidet CORS-Preflight,
-      // der Worker parst den Body unabhängig vom Content-Type als JSON
+      // Bewusst werden hier KEINE Geräteeigenschaften ausgelesen (weder
+      // navigator.language noch die Bildschirmbreite). Sprache und Geräteklasse
+      // leitet der Server aus den Kopfzeilen ab, die der Browser bei jeder
+      // Anfrage ohnehin mitschickt. So findet kein Zugriff auf Informationen
+      // im Endgerät statt und die Messung bleibt nach § 25 TDDDG
+      // einwilligungsfrei (kein Cookie-Banner nötig).
       var body = JSON.stringify(ev);
       if (navigator.sendBeacon) {
         navigator.sendBeacon(ENDPOINT, body);
