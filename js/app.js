@@ -444,9 +444,20 @@
      (Animation.currentTime) verschoben. */
   var touchAnims = null;
   var touchLastY = 0;
+  var touchLastT = 0;
+  var touchVelocity = 0; // px pro ms, aus dem letzten touchmove-Schritt
+  var settleRAF = null;
   // Strecke einer Kachel laut @keyframes drift: von translateY(116vh) bis
   // translateY(-132vh), also 248vh insgesamt.
   var DRIFT_TRAVEL_VH = 2.48;
+  // Nach dem Loslassen läuft die Animation zunächst mit dem Schwung der
+  // letzten Wischbewegung weiter (wie beim Schieben einer echten Seite) und
+  // bremst darüber innerhalb von SETTLE_MS sanft auf ihre normale
+  // Geschwindigkeit ab. MAX_FLING_RATE deckelt sehr schnelle/kurze Wischer,
+  // damit daraus kein absurd schnelles Durchrasen wird.
+  var SETTLE_MS = 1000;
+  var MAX_FLING_RATE = 16;
+  var FLING_MIN_VELOCITY = 0.02;
 
   function driftAnimations() {
     try {
@@ -459,22 +470,33 @@
     } catch (e) { return []; }
   }
 
+  function cancelSettle() {
+    if (settleRAF) { cancelAnimationFrame(settleRAF); settleRAF = null; }
+  }
+
   el.drift.addEventListener("touchstart", function (e) {
     if (reducedMotion || !isMobileView() || !e.touches.length) return;
+    cancelSettle();
     touchAnims = driftAnimations();
-    touchAnims.forEach(function (a) { a.pause(); });
+    touchAnims.forEach(function (a) { a.playbackRate = 1; a.pause(); });
     touchLastY = e.touches[0].clientY;
+    touchLastT = e.timeStamp;
+    touchVelocity = 0;
   }, { passive: true });
 
   el.drift.addEventListener("touchmove", function (e) {
     if (!touchAnims || !touchAnims.length || !e.touches.length) return;
     var y = e.touches[0].clientY;
+    var t = e.timeStamp;
     var dy = y - touchLastY;
+    var dt = t - touchLastT;
     touchLastY = y;
+    touchLastT = t;
     if (!dy) return;
     // Verhindert, dass der Browser daraus eine (ohnehin blockierte, siehe
     // overscroll-behavior) Seiten-Wischgeste macht, während gescrubbt wird.
     e.preventDefault();
+    if (dt > 0) touchVelocity = dy / dt;
     var travelPx = DRIFT_TRAVEL_VH * window.innerHeight;
     touchAnims.forEach(function (a) {
       var timing = a.effect && a.effect.getTiming && a.effect.getTiming();
@@ -486,9 +508,46 @@
   }, { passive: false });
 
   function releaseTouchDrift() {
-    if (!touchAnims) return;
-    touchAnims.forEach(function (a) { a.play(); });
+    if (!touchAnims || !touchAnims.length) { touchAnims = null; return; }
+    var anims = touchAnims;
     touchAnims = null;
+    var travelPx = DRIFT_TRAVEL_VH * window.innerHeight;
+
+    // Pro Kachel dieselbe Umrechnung wie beim Scrubben, nur als Rate statt als
+    // einmaliger Zeitsprung — dieselbe Wischgeschwindigkeit ergibt so pro Bahn
+    // (unterschiedliche dur) automatisch genau den Schwung, den die Kachel
+    // gerade schon hatte, statt beim Loslassen zu springen.
+    var flings = anims.map(function (a) {
+      var timing = a.effect && a.effect.getTiming && a.effect.getTiming();
+      var dur = timing && Number(timing.duration);
+      var rate = dur ? (-touchVelocity / travelPx) * dur : 1;
+      rate = Math.max(-MAX_FLING_RATE, Math.min(MAX_FLING_RATE, rate));
+      return { anim: a, from: rate };
+    });
+
+    if (Math.abs(touchVelocity) < FLING_MIN_VELOCITY) {
+      // Kaum Schwung beim Loslassen (oder einfaches Antippen): direkt normal
+      // weiterlaufen, kein Nachschwingen nötig.
+      flings.forEach(function (f) { f.anim.playbackRate = 1; f.anim.play(); });
+      return;
+    }
+
+    flings.forEach(function (f) { f.anim.playbackRate = f.from; f.anim.play(); });
+
+    var start = performance.now();
+    function step(now) {
+      var p = Math.min(1, (now - start) / SETTLE_MS);
+      var eased = 1 - Math.pow(1 - p, 3); // ease-out
+      flings.forEach(function (f) {
+        f.anim.playbackRate = f.from + (1 - f.from) * eased;
+        // Randfall: currentTime lag durch das Clamping in touchmove schon bei
+        // 0 und die Kachel läuft rückwärts los — dann gilt der Nullpunkt als
+        // "finished" statt "running" und bliebe sonst einfach stehen.
+        if (f.anim.playState === "finished") { f.anim.playbackRate = 1; f.anim.play(); }
+      });
+      settleRAF = p < 1 ? requestAnimationFrame(step) : null;
+    }
+    settleRAF = requestAnimationFrame(step);
   }
   el.drift.addEventListener("touchend", releaseTouchDrift, { passive: true });
   el.drift.addEventListener("touchcancel", releaseTouchDrift, { passive: true });
