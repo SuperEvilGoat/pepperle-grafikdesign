@@ -338,11 +338,17 @@
   function openSheet() {
     if (!sheetModal || !sheetInner) return;
     sheetInner.textContent = "";
-    document.querySelectorAll(".cats-nav a.cat-pill").forEach(function (a) {
+    // Ohne die Klasse "cat-pill" fehlte den Klonen jede Pillen-Optik (Rahmen,
+    // Hintergrund) — übrig blieb nur die globale rote Link-Farbe. Das ließ
+    // dieses Blatt anders aussehen als das Pendant auf der Startseite
+    // (js/app.js), das seinen Einträgen dieselbe Optik per pillStyle() gibt.
+    // ".home" (Startseite-Button) wird nicht mitgeklont — der steht in der
+    // Leiste ohnehin schon direkt daneben.
+    document.querySelectorAll(".cats-nav a.cat-pill:not(.home)").forEach(function (a) {
       var clone = document.createElement("a");
       clone.href = a.getAttribute("href");
       clone.textContent = a.textContent;
-      if (a.classList.contains("current")) clone.className = "current";
+      clone.className = "cat-pill" + (a.classList.contains("current") ? " current" : "");
       sheetInner.appendChild(clone);
     });
     sheetModal.hidden = false;
