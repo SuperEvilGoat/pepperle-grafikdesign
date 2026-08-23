@@ -5,6 +5,7 @@ html, body {
   padding: 0;
   height: 100%;
   overflow: hidden;
+  overscroll-behavior: none;
   background: #05325c;
 }
 
@@ -151,6 +152,7 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
 }
 #lightbox[hidden] { display: none; }
 .lb-inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -175,10 +177,14 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
   text-transform: uppercase;
   color: rgba(238,243,248,0.82);
 }
+/* Am Bildrand fixiert statt frei im Overlay zu schweben: .lb-close sitzt jetzt
+   in .lb-inner und positioniert sich relativ zum Bild (dessen Breite/Höhe die
+   Größe von .lb-inner bestimmt), nicht mehr relativ zum ganzen Viewport. */
 .lb-close {
   position: absolute;
-  top: 88px;
-  right: 28px;
+  top: -16px;
+  right: -16px;
+  z-index: 1;
   width: 46px;
   height: 46px;
   display: flex;
@@ -195,6 +201,9 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 .lb-close:hover { background: #ea4f43; border-color: #ea4f43; }
+@media (max-width: 760px) {
+  .lb-close { top: -14px; right: -14px; width: 40px; height: 40px; font-size: 18px; }
+}
 
 /* ---------- Kontakt-Button oben rechts ---------- */
 .topbar {
@@ -599,6 +608,7 @@ a.legal-link { display: inline-block; }
   z-index: 2;
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: contain;
 }
 .om-scroll::-webkit-scrollbar { width: 8px; }
 .om-scroll::-webkit-scrollbar-thumb { background: rgba(238,243,248,0.16); }
@@ -609,7 +619,7 @@ a.legal-link { display: inline-block; }
   padding: clamp(190px, 30vh, 300px) clamp(20px, 4vw, 56px) calc(var(--navh, 150px) + 90px);
 }
 .om-pad h1 {
-  margin: 0;
+  margin: 0 0 34px;
   text-align: center;
   font-size: clamp(34px, 5vw, 64px);
   font-weight: 500;
@@ -712,7 +722,6 @@ a.legal-link { display: inline-block; }
   text-align: left;
   scroll-margin-top: 220px;
 }
-.om-legal h2:first-child { margin-top: 0; }
 .om-legal h3 {
   margin: 34px 0 12px;
   font-family: 'IBM Plex Mono', monospace;

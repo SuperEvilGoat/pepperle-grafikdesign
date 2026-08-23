@@ -35,7 +35,7 @@
       thanks: "Danke — die Nachricht ist unterwegs.",
       hint: "Bild antippen zum Vergrößern",
       legal: "Impressum & Datenschutz",
-      more: "Weitere Kategorien",
+      allCats: "Alle Kategorien",
       langSwitch: "English"
     },
     en: {
@@ -47,7 +47,7 @@
       thanks: "Thank you — your message is on its way.",
       hint: "Click an image to view it",
       legal: "Imprint & Privacy",
-      more: "More categories",
+      allCats: "All categories",
       langSwitch: "Deutsch"
     }
   };
@@ -177,9 +177,12 @@
           dur: dur,
           z: tier.z,
           shadow: tier.shadow,
-          // Kleiner Versatz nach (li+k)%3, damit die Bahnen nicht im starren
-          // Gleichtakt loslaufen
-          delay: Math.round((base + li * gap + k * spacing + ((li + k) % 3) * 0.7) * 10) / 10
+          // Gleichmäßiger Abstand innerhalb einer Bahn (kein Zusatz-Jitter pro
+          // Kachel): der sorgte gelegentlich für ungleiche Lücken zwischen den
+          // Kacheln einer Bahn, bis hin zu einer spürbar leeren Zeitspanne ohne
+          // Bild. Die einzelnen Bahnen laufen über li*gap ohnehin schon
+          // versetzt zueinander.
+          delay: Math.round((base + li * gap + k * spacing) * 10) / 10
         });
       }
     });
@@ -189,14 +192,28 @@
   // Nur für den allerersten Seitenaufbau: Kacheln nicht erst von ganz unten
   // starten lassen (das hieße mehrere Sekunden leerer Bildschirm), sondern
   // schon vorab so weit oben positionieren, wie sie zu diesem Zeitpunkt normal
-  // stünden — die vorderste Kachel bis zu MAX_INITIAL_PROGRESS ihrer Strecke.
-  // Reihenfolge/Rhythmus bleiben erhalten, nur zeitlich zusammengestaucht.
+  // stünden — die vorderste Kachel jeder Bahn bis zu MAX_INITIAL_PROGRESS ihrer
+  // Strecke.
+  //
+  // Wichtig: animation-delay wird einmalig gesetzt und danach nie wieder
+  // angefasst — der CSS-Loop läuft mit genau diesem Wert bis in alle
+  // Ewigkeit weiter. Der Vorlauf muss also pro Bahn ein gemeinsamer,
+  // gleicher Versatz für alle ihre Kacheln sein (verschiebt nur den
+  // Startzeitpunkt der ganzen Bahn), statt jede Kachel einzeln relativ zu
+  // einem bahnübergreifenden maxDelay zu stauchen — sonst rutschen die
+  // eigentlich gleichmäßig verteilten Kacheln einer Bahn dauerhaft zu einem
+  // Klumpen zusammen und lassen einen Teil des Zyklus bei jedem Umlauf ohne
+  // Bild (genau das war die "manchmal lange kein Bild"-Lücke).
   var MAX_INITIAL_PROGRESS = 0.75;
   function preAdvance(tiles) {
-    var maxDelay = tiles.reduce(function (m, t) { return Math.max(m, t.delay); }, 0) || 1;
-    tiles.forEach(function (t) {
-      var progress = MAX_INITIAL_PROGRESS * (1 - t.delay / maxDelay);
-      t.delay = -Math.round(progress * t.dur * 10) / 10;
+    var byLane = {};
+    tiles.forEach(function (t) { (byLane[t.left] = byLane[t.left] || []).push(t); });
+    Object.keys(byLane).forEach(function (key) {
+      var laneTiles = byLane[key];
+      var dur = laneTiles[0].dur;
+      var minDelay = laneTiles.reduce(function (m, t) { return Math.min(m, t.delay); }, Infinity);
+      var shift = MAX_INITIAL_PROGRESS * dur + minDelay;
+      laneTiles.forEach(function (t) { t.delay = Math.round((t.delay - shift) * 10) / 10; });
     });
     return tiles;
   }
@@ -303,7 +320,7 @@
     legalBtn.textContent = C.legal;
     el.catsNav.appendChild(legalBtn);
 
-    // Mobil: nur "Weitere Kategorien" (öffnet alle Kategorien als Liste) + Rechtliches —
+    // Mobil: nur "Alle Kategorien" (öffnet alle Kategorien als Liste) + Rechtliches —
     // die Startseite selbst ist keine Kategorie mehr, es gibt also keine erste
     // Kachel, die sich als feste Pille anböte.
     el.mobileNav.textContent = "";
@@ -311,8 +328,12 @@
     nav.className = "cats-nav";
     var more = document.createElement("button");
     more.type = "button";
-    more.className = "cat-pill mobile";
-    more.textContent = C.more;
+    // "more" ist hier zwingend nötig, nicht nur kosmetisch: die Media-Query in
+    // css/style.css blendet auf schmalen Displays jede .cat-pill ohne .current
+    // oder .more aus (siehe dort) — ohne diese Klasse verschwand der Button
+    // also selbst auf Mobile wieder mit den übrigen Pillen.
+    more.className = "cat-pill mobile more";
+    more.textContent = C.allCats;
     more.style.border = "1px solid rgba(238,243,248,0.28)";
     more.style.background = "rgba(238,243,248,0.04)";
     more.style.color = "rgba(238,243,248,0.78)";
