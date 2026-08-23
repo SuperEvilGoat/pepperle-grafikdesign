@@ -12,13 +12,17 @@
 
   /* ---------- Sprache ---------- */
 
+  var isAllePage = window.PAGE_CAT === "alle";
+
   var UI = {
     de: {
       lang: "English",
       contact: "Kontakt",
       home: "Start",
       hint: "Bild antippen zum Vergrößern",
-      works: function (n) { return n + " Arbeiten in dieser Kategorie"; },
+      works: function (n) {
+        return isAllePage ? n + " Arbeiten — sortiert nach Beliebtheit" : n + " Arbeiten in dieser Kategorie";
+      },
       role: "Illustration & Graphic Design, Frankfurt am Main"
     },
     en: {
@@ -26,7 +30,9 @@
       contact: "Contact",
       home: "Home",
       hint: "Click an image to view it",
-      works: function (n) { return n + " works in this category"; },
+      works: function (n) {
+        return isAllePage ? n + " works — sorted by popularity" : n + " works in this category";
+      },
       role: "Illustration & Graphic Design, Frankfurt am Main"
     }
   };
@@ -136,6 +142,22 @@
       openLb(btn.getAttribute("data-full"), btn.getAttribute("data-title") || "");
     });
   });
+
+  /* ---------- Sanftes Einblenden der Kacheln beim Scrollen ins Bild ---------- */
+
+  var works = document.querySelectorAll(".grid .work");
+  if (works.length && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("work-in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    works.forEach(function (el) { io.observe(el); });
+  } else {
+    works.forEach(function (el) { el.classList.add("work-in"); });
+  }
 
   if (lb) {
     lb.addEventListener("click", closeLb);

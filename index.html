@@ -152,14 +152,11 @@
       <div class="hint-wrap"><span id="hint"></span></div>
       <p class="note" id="note"></p>
 
-      <!-- Führt von der gefilterten Collage auf die vollständige Kategorieseite -->
-      <a class="cat-link" id="catLink" hidden></a>
-
-      <!-- Die Links stehen bewusst schon im ausgelieferten HTML und werden vom
-           Skript nur nachgezeichnet: so findet jeder Suchmaschinen-Crawler die
-           neun Kategorieseiten, auch ohne JavaScript auszuführen. -->
+      <!-- Die Startseite zeigt ausschließlich die animierte Featured-Auswahl.
+           Jede Kategorie — auch "Alle" — führt auf die eigene, statische
+           Rasteransicht; hier wird nichts mehr per JavaScript umgefiltert. -->
       <nav class="cats-nav" id="catsNav" aria-label="Kategorien">
-        <button type="button" class="cat-pill" data-cat="all">Alle</button>
+        <a class="cat-pill" href="alle.html" data-cat="all">Alle</a>
         <a class="cat-pill" href="food-drinks.html" data-cat="food">Food &amp; Drinks</a>
         <a class="cat-pill" href="transportation-technology.html" data-cat="transport">Verkehr &amp; Technik</a>
         <a class="cat-pill" href="landscape-scenery.html" data-cat="landscape">Landschaft</a>

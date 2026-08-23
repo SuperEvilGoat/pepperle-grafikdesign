@@ -1,5 +1,7 @@
-/* pepperle.de — Logik, portiert aus dem Claude-Design-Entwurf.
-   Kategorie "Alle" zeigt die kuratierte Featured-Auswahl (FEATURED in data.js). */
+/* pepperle.de — Startseite: nur die animierte Featured-Auswahl (FEATURED in
+   data.js). Kategorien werden hier nicht mehr gefiltert — jede Kachel im
+   unteren Menü, auch "Alle", ist ein echter Link auf die jeweilige statische
+   Rasteransicht (siehe js/page.js bzw. js/alle.js). */
 (function () {
   "use strict";
 
@@ -11,7 +13,7 @@
   // die der alten Contao-Seite und duerfen nicht geaendert werden, sonst gehen
   // die vorhandenen Suchmaschinen-Platzierungen verloren.
   var CATS = [
-    { id: "all", de: "Alle", en: "All", slug: null },
+    { id: "all", de: "Alle", en: "All", slug: "alle" },
     { id: "food", de: "Food & Drinks", en: "Food & Drinks", slug: "food-drinks" },
     { id: "transport", de: "Verkehr & Technik", en: "Transportation & Technology", slug: "transportation-technology" },
     { id: "landscape", de: "Landschaft", en: "Landscape & Scenery", slug: "landscape-scenery" },
@@ -34,8 +36,7 @@
       hint: "Bild antippen zum Vergrößern",
       legal: "Impressum & Datenschutz",
       more: "Weitere Kategorien",
-      langSwitch: "English",
-      seeAll: function (n) { return "Alle " + n + " Arbeiten ansehen \u2192"; }
+      langSwitch: "English"
     },
     en: {
       empty: "Images coming — folder not uploaded yet",
@@ -47,32 +48,32 @@
       hint: "Click an image to view it",
       legal: "Imprint & Privacy",
       more: "More categories",
-      langSwitch: "Deutsch",
-      seeAll: function (n) { return "View all " + n + " works \u2192"; }
+      langSwitch: "Deutsch"
     }
   };
 
   var TIERS = {
-    large: { dur: 21, shadow: "0 90px 160px rgba(0,9,20,0.85), 0 34px 66px rgba(0,9,20,0.6)" },
-    medium: { dur: 30, shadow: "0 46px 92px rgba(0,9,20,0.68), 0 16px 32px rgba(0,9,20,0.48)" },
-    small: { dur: 41, shadow: "0 20px 42px rgba(0,9,20,0.5), 0 6px 14px rgba(0,9,20,0.38)" }
+    large: { dur: 21, z: 3, shadow: "0 90px 160px rgba(0,9,20,0.85), 0 34px 66px rgba(0,9,20,0.6)" },
+    medium: { dur: 30, z: 2, shadow: "0 46px 92px rgba(0,9,20,0.68), 0 16px 32px rgba(0,9,20,0.48)" },
+    small: { dur: 41, z: 1, shadow: "0 20px 42px rgba(0,9,20,0.5), 0 6px 14px rgba(0,9,20,0.38)" }
   };
 
-  // Eine Geschwindigkeitsstufe pro Bahn, damit Kacheln gleichmäßig verteilt bleiben
+  // Eine Geschwindigkeitsstufe pro Bahn, damit Kacheln gleichmäßig verteilt bleiben;
+  // "speed" variiert das Lauftempo leicht pro Bahn für einen organischeren Rhythmus,
+  // "z" (aus TIERS) staffelt große vor kleine Kacheln, wo sie sich überlappen.
   var LANES = [
-    { left: 1, w: 22, tier: "large" },
-    { left: 20, w: 16, tier: "medium" },
-    { left: 34, w: 22, tier: "large" },
-    { left: 53, w: 16, tier: "medium" },
-    { left: 66, w: 22, tier: "large" },
-    { left: 84, w: 15, tier: "medium" }
+    { left: 1, w: 20, tier: "large", speed: 1 },
+    { left: 23.5, w: 14, tier: "medium", speed: 1.09 },
+    { left: 40, w: 20, tier: "large", speed: 0.93 },
+    { left: 62.5, w: 14, tier: "medium", speed: 1 },
+    { left: 79, w: 20, tier: "large", speed: 1.07 }
   ];
   var MOBILE_LANES = [
-    { left: 6, w: 55, tier: "large" },
-    { left: 45, w: 49, tier: "medium" }
+    { left: 3, w: 46, tier: "large", speed: 1 },
+    { left: 52, w: 45, tier: "medium", speed: 1.08 }
   ];
-  var PER_LANE = 3;
-  var MOBILE_PER_LANE = 4;
+  var PER_LANE = 4;
+  var MOBILE_PER_LANE = 5;
 
   // Ausgeliefert wird immer Deutsch: der Googlebot ruft die Seite mit
   // Accept-Language en-US ab und hat bisher die englische Fassung indexiert,
@@ -86,7 +87,7 @@
   var C = COPY[lang];
   var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var state = { cat: "all", swapping: false, lightbox: null, mobile: false };
+  var state = { lightbox: null, mobile: false };
 
   var el = {
     drift: document.getElementById("drift"),
@@ -109,7 +110,6 @@
     lbImg: document.getElementById("lbImg"),
     lbTitle: document.getElementById("lbTitle"),
     langBtn: document.getElementById("langBtn"),
-    catLink: document.getElementById("catLink"),
     sheetModal: document.getElementById("sheetModal"),
     sheetInner: document.getElementById("sheetInner")
   };
@@ -151,15 +151,19 @@
     var perLane = mob ? MOBILE_PER_LANE : PER_LANE;
     lanes.forEach(function (lane, li) {
       var tier = TIERS[lane.tier];
-      var spacing = tier.dur / perLane;
+      var dur = Math.round(tier.dur * (lane.speed || 1) * 10) / 10;
+      var spacing = dur / perLane;
       for (var k = 0; k < perLane; k++) {
         tiles.push({
           src: shuffled[n % shuffled.length],
           left: lane.left,
           w: lane.w,
-          dur: tier.dur,
+          dur: dur,
+          z: tier.z,
           shadow: tier.shadow,
-          delay: Math.round((base + li * gap + k * spacing) * 10) / 10
+          // Kleiner Versatz nach (li+k)%3, damit die Bahnen nicht im starren
+          // Gleichtakt loslaufen
+          delay: Math.round((base + li * gap + k * spacing + ((li + k) % 3) * 0.7) * 10) / 10
         });
         n++;
       }
@@ -203,6 +207,7 @@
       d.className = "tile";
       d.style.left = t.left + "%";
       d.style.width = "min(" + t.w + "vw, 460px)";
+      if (t.z) d.style.zIndex = t.z;
       if (reducedMotion) {
         d.style.animation = "none";
         d.style.top = t.top + "%";
@@ -228,68 +233,26 @@
     el.note.classList.toggle("warn", tiles.length === 0);
   }
 
-  function preload(tiles) {
-    return Promise.all(tiles.map(function (t) {
-      return new Promise(function (res) {
-        var im = new Image();
-        im.onload = im.onerror = res;
-        im.src = t.src;
-      });
-    }));
+  /* ---------- Navigation ----------
+     Die Startseite zeigt ausschliesslich die animierte Featured-Auswahl; sie
+     ist selbst keine "Kategorie" und filtert auch keine mehr um. Jede Kachel
+     im unteren Menue — inklusive "Alle" — ist ein ganz normaler Link auf die
+     jeweilige statische Rasteransicht. Hier wird nur noch die Beschriftung
+     (Sprache) und die Desktop/Mobil-Variante gepflegt. */
+
+  function pillStyle(btn) {
+    btn.style.border = "1px solid rgba(238,243,248,0.28)";
+    btn.style.background = "rgba(238,243,248,0.04)";
+    btn.style.color = "rgba(238,243,248,0.78)";
   }
 
-  function select(cat) {
-    if (cat === state.cat || state.swapping) return;
-    if (window.pptrack) window.pptrack({ type: "cat_select", cat: cat });
-    state.swapping = true;
-    el.drift.classList.add("faded");
-    el.catsNav.classList.add("nav-swap");
-    el.mobileNav.classList.add("nav-swap");
-    var next = buildTiles(cat, 0.1, 1.9);
-    if (reducedMotion) next = staticLayout(next);
-    var faded = new Promise(function (res) { setTimeout(res, 520); });
-    Promise.all([preload(next), faded]).then(function () {
-      state.cat = cat;
-      renderTiles(next);
-      renderNavs();
-      setTimeout(function () {
-        state.swapping = false;
-        el.drift.classList.remove("faded");
-        el.catsNav.classList.remove("nav-swap");
-        el.mobileNav.classList.remove("nav-swap");
-      }, 80);
-    });
-  }
-
-  /* ---------- Navigation ---------- */
-
-  function pillStyle(btn, cc, active) {
-    var has = cc.id === "all" || pool(cc.id).length > 0;
-    btn.style.border = "1px solid " + (active ? "rgba(234,79,67,0.9)" : has ? "rgba(238,243,248,0.28)" : "rgba(238,243,248,0.13)");
-    btn.style.background = active ? "rgba(234,79,67,0.16)" : "rgba(238,243,248,0.04)";
-    btn.style.color = active ? "#ffffff" : has ? "rgba(238,243,248,0.78)" : "rgba(238,243,248,0.38)";
-  }
-
-  // Kategorien sind echte Links auf ihre Seite. Ein normaler Klick filtert die
-  // Collage wie bisher an Ort und Stelle; Cmd/Strg-, Mittel- und Rechtsklick
-  // oeffnen die Kategorieseite. So bleibt die Bedienung wie gewohnt, und
-  // Suchmaschinen finden trotzdem einen verfolgbaren Verweis.
   function makePill(cc, mobile) {
-    var pill = document.createElement(cc.slug ? "a" : "button");
-    if (cc.slug) {
-      pill.href = cc.slug + ".html";
-    } else {
-      pill.type = "button";
-    }
+    var pill = document.createElement("a");
+    pill.href = cc.slug + ".html";
     pill.className = "cat-pill" + (mobile ? " mobile" : "");
     pill.setAttribute("data-cat", cc.id);
     pill.textContent = lang === "de" ? cc.de : cc.en;
-    pillStyle(pill, cc, cc.id === state.cat);
-    pill.addEventListener("click", function (e) {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-      e.preventDefault();
-      select(cc.id);
-    });
+    pillStyle(pill);
     return pill;
   }
 
@@ -303,15 +266,11 @@
     legalBtn.textContent = C.legal;
     el.catsNav.appendChild(legalBtn);
 
-    // Mobil: [Alle] (+ aktive Kategorie) + "Weitere Kategorien" + Rechtliches
+    // Mobil: "Alle" + "Weitere Kategorien" (öffnet die restlichen als Liste) + Rechtliches
     el.mobileNav.textContent = "";
     var nav = document.createElement("nav");
     nav.className = "cats-nav";
     nav.appendChild(makePill(CATS[0], true));
-    if (state.cat !== "all") {
-      var current = CATS.filter(function (x) { return x.id === state.cat; })[0];
-      if (current) nav.appendChild(makePill(current, true));
-    }
     var more = document.createElement("button");
     more.type = "button";
     more.className = "cat-pill mobile";
@@ -331,23 +290,6 @@
     var mob = isMobileView();
     el.catsNav.hidden = mob;
     el.mobileNav.hidden = !mob;
-
-    renderCatLink();
-  }
-
-  // Macht die Kategorieseiten auch fuer Besucher erreichbar: sobald eine
-  // Kategorie gewaehlt ist, fuehrt ein sichtbarer Verweis auf die vollstaendige
-  // Uebersicht mit allen Arbeiten dieser Kategorie.
-  function renderCatLink() {
-    if (!el.catLink) return;
-    var cc = CATS.filter(function (x) { return x.id === state.cat; })[0];
-    if (!cc || !cc.slug) {
-      el.catLink.hidden = true;
-      return;
-    }
-    el.catLink.href = cc.slug + ".html";
-    el.catLink.textContent = C.seeAll(pool(cc.id).length);
-    el.catLink.hidden = false;
   }
 
   /* ---------- Lightbox ---------- */
@@ -355,7 +297,7 @@
   function openLightbox(tileSrc) {
     state.lightbox = tileSrc;
     state.lightboxSince = Date.now();
-    if (window.pptrack) window.pptrack({ type: "img_click", img: tileSrc, cat: state.cat });
+    if (window.pptrack) window.pptrack({ type: "img_click", img: tileSrc, cat: "all" });
     el.lbImg.src = fullSrc(tileSrc);
     el.lbImg.alt = titleFromSrc(tileSrc);
     el.lbTitle.textContent = titleFromSrc(tileSrc);
@@ -367,7 +309,7 @@
   // sonst verfälschen im Hintergrund offen gelassene Bilder den Durchschnitt
   function trackLightboxView() {
     if (state.lightbox && state.lightboxSince && window.pptrack) {
-      window.pptrack({ type: "img_view", img: state.lightbox, cat: state.cat, dur_ms: Date.now() - state.lightboxSince });
+      window.pptrack({ type: "img_view", img: state.lightbox, cat: "all", dur_ms: Date.now() - state.lightboxSince });
     }
     state.lightboxSince = null;
   }
@@ -421,17 +363,13 @@
 
   function openSheet() {
     el.sheetInner.textContent = "";
-    CATS.forEach(function (cc) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = lang === "de" ? cc.de : cc.en;
-      pillStyle(btn, cc, cc.id === state.cat);
-      btn.addEventListener("click", function (e) {
-        e.stopPropagation();
-        closeSheet();
-        select(cc.id);
-      });
-      el.sheetInner.appendChild(btn);
+    // Die erste Kachel ("Alle") steht schon in der Mobil-Leiste, hier nur der Rest
+    CATS.slice(1).forEach(function (cc) {
+      var a = document.createElement("a");
+      a.href = cc.slug + ".html";
+      a.textContent = lang === "de" ? cc.de : cc.en;
+      pillStyle(a);
+      el.sheetInner.appendChild(a);
     });
     el.sheetModal.hidden = false;
   }
@@ -481,7 +419,7 @@
   var mq = window.matchMedia("(max-width: 760px)");
   var onMq = function () {
     closeSheet();
-    var tiles = buildTiles(state.cat, 0.1, 1.9);
+    var tiles = buildTiles("all", 0.1, 1.9);
     if (reducedMotion) tiles = staticLayout(tiles);
     renderTiles(tiles);
     renderNavs();
