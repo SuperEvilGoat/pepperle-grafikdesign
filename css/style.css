@@ -194,6 +194,8 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
   cursor: pointer;
   border: 1px solid rgba(238,243,248,0.28);
   background: rgba(1,17,33,0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   color: #eef3f8;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 20px;
@@ -573,9 +575,14 @@ a.cat-pill { display: inline-block; line-height: normal; }
 /* "Weitere Kategorien" — nur auf schmalen Displays sichtbar, siehe
    Media-Query weiter unten. */
 .cat-pill.more { display: none; }
+/* "Startseite" — auf den Kategorieseiten ebenfalls nur auf schmalen Displays:
+   dort ersetzt sie den unteren Kategorien-Streifen weitgehend durch .current +
+   .more, das Logo oben bleibt zwar klickbar, ist als "zurück"-Weg auf Mobile
+   aber leicht zu übersehen. */
+.cat-pill.home { display: none; }
 @media (max-width: 760px) {
-  .cats-nav .cat-pill:not(.current):not(.more) { display: none; }
-  .cat-pill.more { display: inline-block; }
+  .cats-nav .cat-pill:not(.current):not(.more):not(.home) { display: none; }
+  .cat-pill.more, .cat-pill.home { display: inline-block; }
 }
 
 .legal-link { text-decoration: none; }

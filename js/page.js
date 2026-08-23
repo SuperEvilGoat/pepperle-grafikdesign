@@ -90,6 +90,7 @@
       hint: "Bild anklicken zum Vergrößern",
       works: function (n) { return n + " Arbeiten in dieser Kategorie"; },
       more: "Weitere Kategorien",
+      home: "Startseite",
       formTitle: "Kontakt aufnehmen",
       formNote: "Anfrage für Illustration oder Verpackungsgrafik",
       name: "Name", mail: "E-Mail", msg: "Nachricht", send: "Senden",
@@ -102,6 +103,7 @@
       hint: "Click an image to view it",
       works: function (n) { return n + " works in this category"; },
       more: "More categories",
+      home: "Home",
       formTitle: "Get in touch",
       formNote: "Enquiry for illustration or packaging graphics",
       name: "Name", mail: "Email", msg: "Message", send: "Send",
@@ -150,6 +152,9 @@
 
     var more = document.getElementById("moreCatsBtn");
     if (more) more.textContent = t.more;
+
+    var home = document.getElementById("homeBtn");
+    if (home) home.textContent = t.home;
 
     var cTitle = document.getElementById("contactTitle");
     if (cTitle) cTitle.textContent = t.formTitle;
