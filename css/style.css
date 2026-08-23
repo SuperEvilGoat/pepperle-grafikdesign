@@ -84,7 +84,7 @@ button { -webkit-appearance: none; appearance: none; }
    Safari-Leiste, wodurch das Logo auf iPad und iPhone oben abgeschnitten wurde. */
 .om-logo {
   position: absolute;
-  z-index: 4;
+  z-index: 7;
   top: calc(42px + env(safe-area-inset-top, 0px));
   left: 50%;
   width: min(86vw, 1120px);
@@ -92,6 +92,7 @@ button { -webkit-appearance: none; appearance: none; }
   transform: translateX(-45.26%) scale(0.28);
 }
 .om-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+a.om-logo { display: block; text-decoration: none; cursor: pointer; }
 
 /* Auftritt in zwei Stufen. Stufe eins: die bereits fahrenden Bilder blenden ein,
    sobald sie geladen sind (Opacity-Übergang von #drift, gesteuert in app.js).
@@ -106,7 +107,7 @@ button { -webkit-appearance: none; appearance: none; }
 
 .om-tag {
   position: absolute;
-  z-index: 4;
+  z-index: 7;
   top: calc(42px + env(safe-area-inset-top, 0px) + min(86vw, 1120px) * 0.0574 + 70px);
   left: 0;
   right: 0;
@@ -541,6 +542,23 @@ button { -webkit-appearance: none; appearance: none; }
 }
 a.cat-pill { display: inline-block; line-height: normal; }
 
+/* Aktive Kachel auf den Kategorieseiten (die Startseite selbst ist ja keine
+   Kategorie und kennt diesen Zustand nicht). */
+.cat-pill.current {
+  border-color: rgba(234,79,67,0.9);
+  background: rgba(234,79,67,0.16);
+  color: #ffffff;
+}
+.cat-pill.current:hover { border-color: rgba(234,79,67,0.9); }
+
+/* "Weitere Kategorien" — nur auf schmalen Displays sichtbar, siehe
+   Media-Query weiter unten. */
+.cat-pill.more { display: none; }
+@media (max-width: 760px) {
+  .cats-nav .cat-pill:not(.current):not(.more):not([href="alle.html"]) { display: none; }
+  .cat-pill.more { display: inline-block; }
+}
+
 .legal-link { text-decoration: none; }
 a.legal-link { display: inline-block; }
 
@@ -558,6 +576,171 @@ a.legal-link { display: inline-block; }
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 .lang-btn:hover { border-color: rgba(234,79,67,0.85); color: #ffffff; }
+
+/* ---------- Kategorie- und Sammelseiten ----------
+   Dieselbe feststehende Bühne wie die Startseite (Logo, Tagline, Kontakt,
+   Kategorien-Leiste, Blur-Fades) — nur läuft in der Mitte statt der Drift-
+   Collage ein scrollbares Werk-Raster. Genutzt von den 9 Kategorieseiten
+   und alle.html (siehe Quellen/build-seiten.mjs, js/page.js, js/alle.js). */
+
+.om-scroll {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.om-scroll::-webkit-scrollbar { width: 8px; }
+.om-scroll::-webkit-scrollbar-thumb { background: rgba(238,243,248,0.16); }
+
+.om-pad {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: clamp(190px, 30vh, 300px) clamp(20px, 4vw, 56px) calc(var(--navh, 150px) + 90px);
+}
+.om-pad h1 {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+.om-intro {
+  margin: 22px auto 0;
+  max-width: 62ch;
+  text-align: center;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.66;
+  color: rgba(238,243,248,0.62);
+  text-wrap: pretty;
+}
+.om-intro p { margin: 0 0 14px; }
+.om-intro p:last-child { margin-bottom: 0; }
+.om-count {
+  margin: 30px 0 34px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.42);
+}
+
+.om-grid { column-count: 4; column-gap: 30px; }
+.om-grid > figure {
+  position: relative;
+  margin: 0 0 30px;
+  break-inside: avoid;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
+  box-shadow: 0 46px 92px rgba(0,9,20,0.68), 0 16px 32px rgba(0,9,20,0.48);
+  opacity: 0;
+  animation: tileIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.om-grid > figure.om-feat {
+  box-shadow: 0 90px 160px rgba(0,9,20,0.85), 0 34px 66px rgba(0,9,20,0.6);
+}
+.om-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.om-grid figure:hover img { transform: scale(1.055); }
+
+.om-grid .work-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 11px;
+  background: rgba(1,17,33,0.66);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(238,243,248,0.14);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.82);
+}
+.om-grid .work-badge b { color: #ea4f43; font-weight: 400; }
+
+@keyframes tileIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1180px) { .om-grid { column-count: 3; } }
+@media (max-width: 760px) {
+  .om-pad { padding: clamp(170px, 26vh, 220px) 16px calc(var(--navh, 150px) + 70px); }
+  .om-grid { column-count: 2; column-gap: 16px; }
+  .om-grid > figure { margin: 0 0 16px; }
+}
+
+/* Progressive Blur-Fades oben/unten: der Inhalt hinter der Leiste wird zum
+   Rand hin zunehmend unscharf statt nur abgedunkelt (ersetzt/ergänzt die
+   reine Verlaufs-Vignette der Startseite). */
+.om-fade-top {
+  position: absolute;
+  z-index: 5;
+  left: 0; right: 0; top: 0;
+  height: clamp(140px, 22vh, 260px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(2,26,50,0.96) 0%, rgba(2,26,50,0.88) 18%, rgba(2,26,50,0.66) 38%, rgba(2,26,50,0.38) 58%, rgba(2,26,50,0.14) 78%, rgba(2,26,50,0) 100%);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 26%, rgba(0,0,0,0.7) 48%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.07) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 26%, rgba(0,0,0,0.7) 48%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.07) 88%, transparent 100%);
+}
+.om-fade {
+  position: absolute;
+  z-index: 5;
+  left: 0; right: 0; bottom: 0;
+  height: clamp(150px, 24vh, 280px);
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(2,26,50,0.96) 0%, rgba(2,26,50,0.9) 16%, rgba(2,26,50,0.72) 34%, rgba(2,26,50,0.42) 56%, rgba(2,26,50,0.16) 76%, rgba(2,26,50,0) 100%);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 24%, rgba(0,0,0,0.72) 46%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0.08) 86%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, #000 24%, rgba(0,0,0,0.72) 46%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0.08) 86%, transparent 100%);
+}
+
+/* Rechtstext (Impressum & Datenschutz auf einer Seite) innerhalb der Bühne */
+.om-legal { max-width: 68ch; margin: 0 auto; }
+.om-legal h2 {
+  margin: 54px 0 22px;
+  font-size: clamp(24px, 3.4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-align: left;
+  scroll-margin-top: 220px;
+}
+.om-legal h2:first-child { margin-top: 0; }
+.om-legal h3 {
+  margin: 34px 0 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ea4f43;
+  font-weight: 400;
+}
+.om-legal h4 {
+  margin: 22px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.om-legal p {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.72;
+  color: rgba(238,243,248,0.78);
+  text-wrap: pretty;
+}
 
 /* Ohne JavaScript: statt der Collage eine schlichte, benutzbare Seite */
 .noscript-fallback {

@@ -1,9 +1,11 @@
-/* pepperle.de — Logik der statischen Unterseiten:
-   Lightbox, Sprachumschalter und dieselbe Reichweitenmessung wie auf der Startseite.
+/* pepperle.de — Logik der Kategorie- und Rechtsseiten: dieselbe feststehende
+   Bühne wie die Startseite (Logo, Tagline, Kontakt, Kategorien-Leiste,
+   Blur-Fades), nur mit einem scrollbaren Werk-Raster statt der Drift-Collage.
 
    Ausgeliefert wird immer Deutsch, damit Suchmaschinen die deutschen Texte
    indexieren. Englisch wird erst auf Klick eingesetzt (window.PAGE_EN) und in
-   localStorage gemerkt, damit die Wahl beim Seitenwechsel erhalten bleibt. */
+   localStorage gemerkt (gleicher Schlüssel wie js/app.js), damit die Wahl
+   beim Seitenwechsel erhalten bleibt. */
 (function () {
   "use strict";
 
@@ -14,6 +16,32 @@
   // Worker, Anfragen landen im Dashboard statt per E-Mail.
   var FORM_ENDPOINT = "https://pepperle-analytics.a347157.workers.dev/contact";
 
+  var stage = document.getElementById("stage");
+  var scrollPanel = document.querySelector(".om-scroll");
+
+  /* ---------- Auftritt ----------
+     Logo, Tagline, Kontakt/Sprache und die Kategorien-Leiste starten mit
+     opacity:0 (siehe css/style.css) und blenden erst über die Klasse
+     .intro-ready am #stage ein — hier ohne Wartezeit auf Bilder wie auf der
+     Startseite, das Raster hat seine eigene, kachelweise Animation. */
+  if (stage) {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { stage.classList.add("intro-ready"); });
+    });
+  }
+
+  /* --navh-- misst die tatsächliche Höhe der unteren Leiste, damit das Raster
+     nicht darunter verschwindet (Fallback im CSS: 150px). Läuft auch bei
+     Sprachwechsel/Zeilenumbruch neu, wie schon auf der Startseite. */
+  function measureNav() {
+    var nav = document.querySelector(".bottom");
+    if (!nav) return;
+    document.documentElement.style.setProperty("--navh", Math.round(nav.getBoundingClientRect().height) + "px");
+  }
+  measureNav();
+  window.addEventListener("resize", measureNav);
+  setInterval(measureNav, 800);
+
   /* ---------- Sprache ---------- */
 
   var isAllePage = window.PAGE_CAT === "alle";
@@ -22,12 +50,11 @@
     de: {
       lang: "English",
       contact: "Kontakt",
-      home: "Start",
-      hint: "Bild antippen zum Vergrößern",
+      tagline: "Illustration und Packungsdesign",
+      hint: "Bild anklicken zum Vergrößern",
       works: function (n) {
         return isAllePage ? n + " Arbeiten — sortiert nach Beliebtheit" : n + " Arbeiten in dieser Kategorie";
       },
-      role: "Illustration & Graphic Design, Frankfurt am Main",
       more: "Weitere Kategorien",
       formTitle: "Kontakt aufnehmen",
       formNote: "Anfrage für Illustration oder Verpackungsgrafik",
@@ -37,12 +64,11 @@
     en: {
       lang: "Deutsch",
       contact: "Contact",
-      home: "Home",
+      tagline: "Illustration and Packaging Design",
       hint: "Click an image to view it",
       works: function (n) {
         return isAllePage ? n + " works — sorted by popularity" : n + " works in this category";
       },
-      role: "Illustration & Graphic Design, Frankfurt am Main",
       more: "More categories",
       formTitle: "Get in touch",
       formNote: "Enquiry for illustration or packaging graphics",
@@ -60,9 +86,10 @@
 
   var lang = stored() === "en" ? "en" : "de";
   var EN = window.PAGE_EN || null;
-  var workCount = document.querySelectorAll(".grid .work").length;
 
-  // Deutsche Fassung sichern, bevor sie ersetzt wird
+  // Deutsche Fassung sichern, bevor sie ersetzt wird (nur Kategorieseiten
+  // haben pgH1/pgIntro — auf der Rechtsseite bleiben diese null, applyLang()
+  // überspringt den Textwechsel dann einfach).
   var h1El = document.getElementById("pgH1");
   var introEl = document.getElementById("pgIntro");
   var DE = h1El && introEl
@@ -80,14 +107,14 @@
     var contact = document.getElementById("contactBtn");
     if (contact) contact.textContent = t.contact;
 
-    var crumbHome = document.querySelector(".pg-crumb a");
-    if (crumbHome) crumbHome.textContent = t.home;
-
-    var role = document.getElementById("footRole");
-    if (role) role.textContent = t.role;
+    var tagline = document.getElementById("tagline");
+    if (tagline) tagline.textContent = t.tagline;
 
     var count = document.getElementById("pgCount");
-    if (count) count.textContent = t.works(workCount) + " — " + t.hint;
+    if (count) {
+      var workCount = document.querySelectorAll(".om-grid figure").length;
+      count.textContent = t.works(workCount) + " — " + t.hint;
+    }
 
     var more = document.getElementById("moreCatsBtn");
     if (more) more.textContent = t.more;
@@ -111,8 +138,6 @@
     var src = next === "en" ? EN : DE;
     if (src && h1El && introEl) {
       h1El.textContent = src.h1;
-      var crumbCur = document.getElementById("crumbCur");
-      if (crumbCur) crumbCur.textContent = src.h1;
       introEl.textContent = "";
       src.intro.forEach(function (text) {
         var p = document.createElement("p");
@@ -132,7 +157,20 @@
     });
   }
   // Beim Laden anwenden, falls die Wahl schon getroffen wurde
-  if (lang === "en" && EN) applyLang("en");
+  if (lang === "en") applyLang("en");
+
+  /* ---------- Scroll sperren, solange ein Overlay offen ist ----------
+     Betrifft das innere Raster-Panel (.om-scroll), nicht den body — die
+     Bühne selbst ist feststehend (position: fixed), wie auf der Startseite. */
+  var lockCount = 0;
+  function lockScroll() {
+    lockCount++;
+    if (scrollPanel) scrollPanel.style.overflowY = "hidden";
+  }
+  function unlockScroll() {
+    lockCount = Math.max(0, lockCount - 1);
+    if (!lockCount && scrollPanel) scrollPanel.style.overflowY = "auto";
+  }
 
   /* ---------- Lightbox ---------- */
 
@@ -154,7 +192,7 @@
     lbImg.alt = title;
     lbTitle.textContent = title;
     lb.hidden = false;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     openSrc = full;
     openedAt = Date.now();
     track({ type: "img_click", img: full, cat: window.PAGE_CAT || null });
@@ -166,36 +204,20 @@
     lb.hidden = true;
     lbImg.src = "";
     openSrc = null;
-    document.body.style.overflow = "";
+    unlockScroll();
   }
 
-  document.querySelectorAll(".work-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      openLb(btn.getAttribute("data-full"), btn.getAttribute("data-title") || "");
-    });
+  document.addEventListener("click", function (e) {
+    var fig = e.target.closest && e.target.closest(".om-grid figure[data-full]");
+    if (!fig) return;
+    openLb(fig.getAttribute("data-full"), fig.getAttribute("data-title") || "");
   });
-
-  /* ---------- Sanftes Einblenden der Kacheln beim Scrollen ins Bild ---------- */
-
-  var works = document.querySelectorAll(".grid .work");
-  if (works.length && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("work-in");
-        io.unobserve(entry.target);
-      });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
-    works.forEach(function (el) { io.observe(el); });
-  } else {
-    works.forEach(function (el) { el.classList.add("work-in"); });
-  }
 
   if (lb) lb.addEventListener("click", closeLb);
 
   /* ---------- Kontakt ----------
      Eingebettetes Formular statt Sprung auf index.html#kontakt — so bleibt man
-     auf der Kategorieseite, genau wie im neuen Design vorgesehen. */
+     auf der Seite, genau wie im Design vorgesehen. */
 
   var contactBtn = document.getElementById("contactBtn");
   var contactModal = document.getElementById("contactModal");
@@ -211,9 +233,12 @@
     if (contactThanks) contactThanks.hidden = true;
     if (contactForm) contactForm.hidden = false;
     contactModal.hidden = false;
+    lockScroll();
   }
   function closeContact() {
-    if (contactModal) contactModal.hidden = true;
+    if (!contactModal || contactModal.hidden) return;
+    contactModal.hidden = true;
+    unlockScroll();
   }
   function submitContact(e) {
     e.preventDefault();
@@ -243,8 +268,8 @@
 
   /* ---------- Kategorien-Blatt (mobil) ----------
      Ab 760px zeigt die Navigation nur noch "Alle" + aktuelle Kategorie (siehe
-     page.css); der Rest zieht in dieses Blatt, aufgeklappt über "Weitere
-     Kategorien" — Pendant zur Startseite (js/app.js). */
+     css/style.css); der Rest zieht in dieses Blatt, aufgeklappt über
+     "Weitere Kategorien" — Pendant zur Startseite (js/app.js). */
 
   var moreCatsBtn = document.getElementById("moreCatsBtn");
   var sheetModal = document.getElementById("sheetModal");
@@ -253,7 +278,7 @@
   function openSheet() {
     if (!sheetModal || !sheetInner) return;
     sheetInner.textContent = "";
-    document.querySelectorAll(".pg-cats a").forEach(function (a) {
+    document.querySelectorAll(".cats-nav a.cat-pill").forEach(function (a) {
       var clone = document.createElement("a");
       clone.href = a.getAttribute("href");
       clone.textContent = a.textContent;
@@ -261,9 +286,12 @@
       sheetInner.appendChild(clone);
     });
     sheetModal.hidden = false;
+    lockScroll();
   }
   function closeSheet() {
-    if (sheetModal) sheetModal.hidden = true;
+    if (!sheetModal || sheetModal.hidden) return;
+    sheetModal.hidden = true;
+    unlockScroll();
   }
 
   if (moreCatsBtn) moreCatsBtn.addEventListener("click", openSheet);

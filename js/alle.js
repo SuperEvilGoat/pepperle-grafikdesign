@@ -75,13 +75,10 @@
     ranked.forEach(function (r, idx) {
       var top = idx < 3 && r.n > 0;
       var title = titleFromSrc(r.it.tile);
-      var li = document.createElement("li");
-      li.className = "work" + (top ? " work-feat" : "");
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "work-btn";
-      btn.setAttribute("data-full", r.it.full);
-      btn.setAttribute("data-title", title);
+      var fig = document.createElement("figure");
+      fig.setAttribute("data-full", r.it.full);
+      fig.setAttribute("data-title", title);
+      fig.style.animationDelay = Math.min(0.9, 0.1 + idx * 0.035).toFixed(3) + "s";
       var picture = document.createElement("picture");
       var source = document.createElement("source");
       source.srcset = r.it.tile.replace(/\.jpg$/, ".webp");
@@ -93,9 +90,9 @@
       img.decoding = "async";
       picture.appendChild(source);
       picture.appendChild(img);
-      btn.appendChild(picture);
+      fig.appendChild(picture);
       if (top) {
-        var badge = document.createElement("span");
+        var badge = document.createElement("figcaption");
         badge.className = "work-badge";
         var rankNum = document.createElement("b");
         rankNum.textContent = "0" + (idx + 1);
@@ -103,14 +100,9 @@
         rankLabel.textContent = isEn ? "Most viewed" : "Meistgesehen";
         badge.appendChild(rankNum);
         badge.appendChild(rankLabel);
-        btn.appendChild(badge);
+        fig.appendChild(badge);
       }
-      var cap = document.createElement("span");
-      cap.className = "work-cap";
-      cap.textContent = title;
-      btn.appendChild(cap);
-      li.appendChild(btn);
-      frag.appendChild(li);
+      frag.appendChild(fig);
     });
     grid.textContent = "";
     grid.appendChild(frag);
