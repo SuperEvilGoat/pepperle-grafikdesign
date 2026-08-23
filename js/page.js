@@ -270,7 +270,10 @@
   document.addEventListener("click", function (e) {
     var fig = e.target.closest && e.target.closest(".om-grid figure[data-full]");
     if (!fig) return;
-    openLb(fig.getAttribute("data-full"), fig.getAttribute("data-title") || "");
+    var title = lang === "en"
+      ? (fig.getAttribute("data-title-en") || fig.getAttribute("data-title") || "")
+      : (fig.getAttribute("data-title") || "");
+    openLb(fig.getAttribute("data-full"), title);
   });
 
   if (lb) lb.addEventListener("click", closeLb);
