@@ -499,17 +499,27 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
    falls die Einstellung erst nach dem Aufbau der Seite aktiviert wird. */
 @media (prefers-reduced-motion: reduce) {
   .tile { animation-play-state: paused !important; }
-  /* Kein gestaffelter Auftritt: Logo, Tagline, Kontakt und Navigation sind
-     sofort da, statt herein zu faden oder zu wandern. */
-  .om-logo polygon,
-  .om-logo image,
-  .om-tag,
-  .topbar,
-  .bottom,
-  .legal-link {
+}
+
+/* Kein gestaffelter Auftritt: Logo, Tagline, Kontakt und Navigation sind
+   sofort da, statt herein zu faden oder zu wandern. Gilt bei reduzierter
+   Bewegung UND wenn app.js/page.js erkennen, dass innerhalb der Seite
+   navigiert wurde (Klick auf Logo/Kategorie) statt eines echten Neuladens —
+   die Bühne soll dann nicht bei jedem Seitenwechsel neu "einblenden". */
+@media (prefers-reduced-motion: reduce) {
+  .om-logo polygon, .om-logo image, .om-tag, .topbar, .bottom, .legal-link {
     opacity: 1;
     animation: none !important;
   }
+}
+.stage-instant .om-logo polygon,
+.stage-instant .om-logo image,
+.stage-instant .om-tag,
+.stage-instant .topbar,
+.stage-instant .bottom,
+.stage-instant .legal-link {
+  opacity: 1;
+  animation: none !important;
 }
 
 /* ---------- Ergänzungen für die Unterseiten-Anbindung ---------- */
@@ -555,7 +565,7 @@ a.cat-pill { display: inline-block; line-height: normal; }
    Media-Query weiter unten. */
 .cat-pill.more { display: none; }
 @media (max-width: 760px) {
-  .cats-nav .cat-pill:not(.current):not(.more):not([href="alle.html"]) { display: none; }
+  .cats-nav .cat-pill:not(.current):not(.more) { display: none; }
   .cat-pill.more { display: inline-block; }
 }
 
@@ -577,11 +587,11 @@ a.legal-link { display: inline-block; }
 }
 .lang-btn:hover { border-color: rgba(234,79,67,0.85); color: #ffffff; }
 
-/* ---------- Kategorie- und Sammelseiten ----------
+/* ---------- Kategorieseiten ----------
    Dieselbe feststehende Bühne wie die Startseite (Logo, Tagline, Kontakt,
    Kategorien-Leiste, Blur-Fades) — nur läuft in der Mitte statt der Drift-
-   Collage ein scrollbares Werk-Raster. Genutzt von den 9 Kategorieseiten
-   und alle.html (siehe Quellen/build-seiten.mjs, js/page.js, js/alle.js). */
+   Collage ein scrollbares Werk-Raster. Genutzt von den 9 Kategorieseiten und
+   der Rechtsseite (siehe Quellen/build-seiten.mjs, js/page.js). */
 
 .om-scroll {
   position: absolute;
@@ -635,13 +645,17 @@ a.legal-link { display: inline-block; }
   overflow: hidden;
   cursor: zoom-in;
   background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
-  box-shadow: 0 46px 92px rgba(0,9,20,0.68), 0 16px 32px rgba(0,9,20,0.48);
+  box-shadow: 0 18px 34px rgba(0,9,20,0.55), 0 5px 12px rgba(0,9,20,0.4);
   opacity: 0;
-  animation: tileIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.om-grid > figure.om-feat {
-  box-shadow: 0 90px 160px rgba(0,9,20,0.85), 0 34px 66px rgba(0,9,20,0.6);
+/* Der Einblend-Zeitpunkt wird von js/page.js gesetzt, nachdem die tatsächliche
+   Position im Masonry-Raster gemessen wurde — nur so blenden die oberen
+   Bilder wirklich vor den unteren ein (CSS-Spaltenlayout füllt Spalte für
+   Spalte, nicht Zeile für Zeile). Ohne JavaScript bleiben sie einfach sichtbar. */
+.om-grid > figure.om-figure-in {
+  animation: tileIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
 .om-grid img {
   display: block;
   width: 100%;
@@ -650,27 +664,7 @@ a.legal-link { display: inline-block; }
 }
 .om-grid figure:hover img { transform: scale(1.055); }
 
-.om-grid .work-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 11px;
-  background: rgba(1,17,33,0.66);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(238,243,248,0.14);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(238,243,248,0.82);
-}
-.om-grid .work-badge b { color: #ea4f43; font-weight: 400; }
-
-@keyframes tileIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tileIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 1180px) { .om-grid { column-count: 3; } }
 @media (max-width: 760px) {

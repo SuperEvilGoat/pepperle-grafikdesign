@@ -21,14 +21,52 @@
 
   /* ---------- Auftritt ----------
      Logo, Tagline, Kontakt/Sprache und die Kategorien-Leiste starten mit
-     opacity:0 (siehe css/style.css) und blenden erst über die Klasse
-     .intro-ready am #stage ein — hier ohne Wartezeit auf Bilder wie auf der
-     Startseite, das Raster hat seine eigene, kachelweise Animation. */
-  if (stage) {
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { stage.classList.add("intro-ready"); });
-    });
+     opacity:0 (siehe css/style.css) und blenden über die Klasse .intro-ready
+     am #stage ein — aber nur bei einem echten Seitenaufruf (erster Besuch
+     oder Neuladen). Kommt man dagegen per Klick von einer anderen Seite
+     dieser Website hierher (z. B. Logo → Startseite, Kategorie → Kategorie),
+     soll die Bühne einfach sofort da sein, statt bei jedem Wechsel erneut
+     aus- und wieder einzublenden. */
+  function cameFromThisSite() {
+    try {
+      return !!document.referrer && new URL(document.referrer).origin === location.origin;
+    } catch (e) { return false; }
   }
+  function isReload() {
+    try {
+      var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      return !!nav && nav.type === "reload";
+    } catch (e) { return false; }
+  }
+  if (stage) {
+    if (cameFromThisSite() && !isReload()) {
+      stage.classList.add("stage-instant", "intro-ready");
+    } else {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { stage.classList.add("intro-ready"); });
+      });
+    }
+  }
+
+  /* ---------- Abgang ----------
+     Beim Wechsel zwischen Kategorien blendet nur das Raster aus (nicht Logo,
+     Kontakt oder Navigation — die bleiben ja stehen), bevor die nächste
+     Seite geladen wird. Diese blendet ihr eigenes Raster dann wieder ein
+     (siehe revealGrid() unten). */
+  document.querySelectorAll(".cats-nav a.cat-pill").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      var href = a.getAttribute("href");
+      if (!href) return;
+      e.preventDefault();
+      var grid = document.querySelector(".om-grid");
+      if (grid) {
+        grid.style.transition = "opacity 0.22s ease";
+        grid.style.opacity = "0";
+      }
+      setTimeout(function () { location.href = href; }, grid ? 200 : 0);
+    });
+  });
 
   /* --navh-- misst die tatsächliche Höhe der unteren Leiste, damit das Raster
      nicht darunter verschwindet (Fallback im CSS: 150px). Läuft auch bei
@@ -44,17 +82,13 @@
 
   /* ---------- Sprache ---------- */
 
-  var isAllePage = window.PAGE_CAT === "alle";
-
   var UI = {
     de: {
       lang: "English",
       contact: "Kontakt",
       tagline: "Illustration und Packungsdesign",
       hint: "Bild anklicken zum Vergrößern",
-      works: function (n) {
-        return isAllePage ? n + " Arbeiten — sortiert nach Beliebtheit" : n + " Arbeiten in dieser Kategorie";
-      },
+      works: function (n) { return n + " Arbeiten in dieser Kategorie"; },
       more: "Weitere Kategorien",
       formTitle: "Kontakt aufnehmen",
       formNote: "Anfrage für Illustration oder Verpackungsgrafik",
@@ -66,9 +100,7 @@
       contact: "Contact",
       tagline: "Illustration and Packaging Design",
       hint: "Click an image to view it",
-      works: function (n) {
-        return isAllePage ? n + " works — sorted by popularity" : n + " works in this category";
-      },
+      works: function (n) { return n + " works in this category"; },
       more: "More categories",
       formTitle: "Get in touch",
       formNote: "Enquiry for illustration or packaging graphics",
@@ -171,6 +203,29 @@
     lockCount = Math.max(0, lockCount - 1);
     if (!lockCount && scrollPanel) scrollPanel.style.overflowY = "auto";
   }
+
+  /* ---------- Bilder einblenden: oben vor unten ----------
+     Das Masonry-Raster (CSS-Spalten) füllt Spalte für Spalte, nicht Zeile
+     für Zeile — die Reihenfolge im Quelltext entspricht also nicht der
+     Reihenfolge auf dem Bildschirm. Breite/Höhe jedes Bilds stehen schon vor
+     dem Laden als width/height-Attribut fest, das Layout ist damit sofort
+     korrekt messbar; erst danach gestaffelt von oben nach unten einblenden. */
+  function revealGrid() {
+    var figures = document.querySelectorAll(".om-grid figure");
+    if (!figures.length) return;
+    requestAnimationFrame(function () {
+      var items = Array.prototype.map.call(figures, function (f) {
+        var r = f.getBoundingClientRect();
+        return { f: f, top: r.top, left: r.left };
+      });
+      items.sort(function (a, b) { return (a.top - b.top) || (a.left - b.left); });
+      items.forEach(function (item, i) {
+        item.f.style.animationDelay = Math.min(0.9, 0.05 + i * 0.025).toFixed(3) + "s";
+        item.f.classList.add("om-figure-in");
+      });
+    });
+  }
+  revealGrid();
 
   /* ---------- Lightbox ---------- */
 

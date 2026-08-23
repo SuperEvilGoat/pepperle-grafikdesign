@@ -1,9 +1,8 @@
 /* pepperle.de — Startseite: nur die animierte Featured-Auswahl (FEATURED in
    data.js). Kategorien werden hier nicht mehr gefiltert — jede Kachel im
    unteren Menü ist ein echter Link auf die jeweilige statische Rasteransicht
-   (siehe js/page.js bzw. js/alle.js). "Alle" fehlt hier bewusst: die
-   Startseite selbst zeigt schon alle Werke, sie führt also nicht mehr auf
-   /alle.html — auf den Kategorieseiten steht "Alle" weiterhin in der Navigation. */
+   (siehe js/page.js). Es gibt keine "Alle"-Seite mehr: die Startseite selbst
+   zeigt schon alle Werke. */
 (function () {
   "use strict";
 
@@ -117,10 +116,29 @@
 
   /* ---------- Hilfen ---------- */
 
-  function pool(cat) {
-    if (cat === "all") return FEATURED;
-    return IMAGES[cat] || [];
+  // "Kartenstapel": zieht Bilder aus FEATURED ohne Wiederholung, bis alle
+  // einmal dran waren — erst danach wird neu gemischt. So laufen nie zwei
+  // Kacheln gleichzeitig mit demselben Bild, und über eine Sitzung hinweg
+  // kommen nach und nach alle Featured-Bilder vor, nicht nur eine feste
+  // Zufallsauswahl von zwanzig.
+  function makeDeck(items) {
+    var order = [];
+    function refill() {
+      order = items.slice();
+      for (var i = order.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = order[i]; order[i] = order[j]; order[j] = t;
+      }
+    }
+    refill();
+    return {
+      next: function () {
+        if (!order.length) refill();
+        return order.pop();
+      }
+    };
   }
+  var deck = makeDeck(FEATURED);
 
   function titleFromSrc(src) {
     if (!src) return "";
@@ -139,14 +157,11 @@
     return window.matchMedia("(max-width: 760px)").matches;
   }
 
-  function buildTiles(cat, base, gap) {
+  function buildTiles(base, gap) {
     base = base === undefined ? 3.4 : base;
     gap = gap === undefined ? 1.8 : gap;
-    var src = pool(cat);
-    if (!src.length) return [];
-    var shuffled = src.slice().sort(function () { return Math.random() - 0.5; });
+    if (!FEATURED.length) return [];
     var tiles = [];
-    var n = 0;
     var mob = isMobileView();
     var lanes = mob ? MOBILE_LANES : LANES;
     var perLane = mob ? MOBILE_PER_LANE : PER_LANE;
@@ -156,7 +171,7 @@
       var spacing = dur / perLane;
       for (var k = 0; k < perLane; k++) {
         tiles.push({
-          src: shuffled[n % shuffled.length],
+          src: deck.next(),
           left: lane.left,
           w: lane.w,
           dur: dur,
@@ -166,7 +181,6 @@
           // Gleichtakt loslaufen
           delay: Math.round((base + li * gap + k * spacing + ((li + k) % 3) * 0.7) * 10) / 10
         });
-        n++;
       }
     });
     return tiles;
@@ -228,6 +242,16 @@
       img.draggable = false;
       d.appendChild(img);
       d.addEventListener("click", function () { openLightbox(t.src); });
+      // Am Ende jedes Umlaufs (opacity ist an dieser Stelle 0, siehe @keyframes
+      // drift) unbemerkt das nächste Bild aus dem Stapel einsetzen — so laufen
+      // mit der Zeit alle Featured-Bilder durch, nicht dieselben zwanzig endlos.
+      if (!reducedMotion) {
+        d.addEventListener("animationiteration", function () {
+          t.src = deck.next();
+          img.src = t.src;
+          img.alt = titleFromSrc(t.src);
+        });
+      }
       el.drift.appendChild(d);
     });
     el.note.textContent = tiles.length === 0 ? C.empty : "";
@@ -248,6 +272,16 @@
     btn.style.color = "rgba(238,243,248,0.78)";
   }
 
+  // Vor dem Wechsel in eine Kategorie blendet die Collage aus, statt hart
+  // umzuschalten — die Zielseite blendet ihr eigenes Raster dann wieder ein.
+  function fadeToCategory(e, href) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    el.drift.style.transition = "opacity 0.22s ease";
+    el.drift.style.opacity = "0";
+    setTimeout(function () { location.href = href; }, 200);
+  }
+
   function makePill(cc, mobile) {
     var pill = document.createElement("a");
     pill.href = cc.slug + ".html";
@@ -255,6 +289,7 @@
     pill.setAttribute("data-cat", cc.id);
     pill.textContent = lang === "de" ? cc.de : cc.en;
     pillStyle(pill);
+    pill.addEventListener("click", function (e) { fadeToCategory(e, pill.href); });
     return pill;
   }
 
@@ -371,6 +406,7 @@
       a.href = cc.slug + ".html";
       a.textContent = lang === "de" ? cc.de : cc.en;
       pillStyle(a);
+      a.addEventListener("click", function (e) { fadeToCategory(e, a.href); });
       el.sheetInner.appendChild(a);
     });
     el.sheetModal.hidden = false;
@@ -421,7 +457,7 @@
   var mq = window.matchMedia("(max-width: 760px)");
   var onMq = function () {
     closeSheet();
-    var tiles = buildTiles("all", 0.1, 1.9);
+    var tiles = buildTiles(0.1, 1.9);
     if (reducedMotion) tiles = staticLayout(tiles);
     renderTiles(tiles);
     renderNavs();
@@ -455,11 +491,29 @@
      Der zweite Schritt hängt bewusst am tatsächlichen Laden der Bilder und
      nicht an festen CSS-Verzögerungen: Letztere liefen ab Seitenaufbau und
      waren durch, bevor die Bilddateien überhaupt da waren — dann erschien das
-     Logo vor den Bildern, also genau verkehrt herum. */
+     Logo vor den Bildern, also genau verkehrt herum.
+
+     Das gilt aber nur für einen echten Seitenaufruf (erster Besuch oder
+     Neuladen). Kommt man per Klick von einer Kategorieseite zurück (Logo),
+     wäre ein erneutes Aus- und Wieder-Einblenden von Logo & Co. störend —
+     die Bühne war ja schon da. In dem Fall sofort alles zeigen. */
   var stage = document.getElementById("stage");
   var INTRO_GAP_MS = 1000;      // Abstand zwischen Bildern und dem Rest
   var INTRO_MAX_WAIT_MS = 2000; // Notbremse: nie länger auf Bilder warten
   var INTRO_WAIT_TILES = 6;     // nur auf die vordersten Kacheln warten
+
+  function cameFromThisSite() {
+    try {
+      return !!document.referrer && new URL(document.referrer).origin === location.origin;
+    } catch (e) { return false; }
+  }
+  function isReload() {
+    try {
+      var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      return !!nav && nav.type === "reload";
+    } catch (e) { return false; }
+  }
+  var skipIntro = cameFromThisSite() && !isReload();
 
   function startIntro() {
     if (!reducedMotion) {
@@ -501,16 +555,22 @@
     var timer = setTimeout(finish, INTRO_MAX_WAIT_MS);
   }
 
-  var initial = buildTiles("all", 0.25, 1.3);
+  var initial = buildTiles(0.25, 1.3);
   if (reducedMotion) {
     initial = staticLayout(initial);
-  } else {
+  } else if (!skipIntro) {
     // Kacheln stehen sofort da (bis zu 75 % ihrer Strecke schon zurückgelegt,
     // siehe preAdvance), statt erst von unten hereinfahren zu müssen.
     initial = preAdvance(initial);
     el.drift.classList.add("faded");
+  } else {
+    initial = preAdvance(initial);
   }
   renderTiles(initial);
   renderNavs();
-  whenTilesVisible(startIntro);
+  if (skipIntro) {
+    stage.classList.add("stage-instant", "intro-ready");
+  } else {
+    whenTilesVisible(startIntro);
+  }
 })();
