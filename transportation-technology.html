@@ -34,7 +34,7 @@
       </svg></a>
     <div class="pg-actions">
       <button type="button" class="pg-lang" id="langBtn">English</button>
-      <a class="pg-contact" href="index.html#kontakt" id="contactLink">Kontakt</a>
+      <button type="button" class="pg-contact" id="contactBtn">Kontakt</button>
     </div>
   </header>
 
@@ -49,6 +49,7 @@
     <a href="pharma-medical.html">Pharma &amp; Medizin</a>
     <a href="logos-icons.html">Logos &amp; Icons</a>
     <a href="packaging-display.html">Verpackung &amp; Display</a>
+    <button type="button" class="pg-more" id="moreCatsBtn">Weitere Kategorien</button>
   </nav>
 
   <main id="inhalt">
@@ -61,7 +62,7 @@
       <p>Die Motive umfassen klassische und aktuelle Automobile, Motorräder, Schienenfahrzeuge sowie technische Darstellungen von Maschinen, Anlagen und Bauteilen — vom Werbemotiv bis zur erklärenden Explosionszeichnung.</p>
     </div>
 
-    <p class="pg-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild antippen zum Vergrößern</p>
+    <p class="pg-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
 
     <ul class="grid">
         <li class="work">
@@ -293,6 +294,25 @@
       <p class="lb-title" id="lbTitle"></p>
     </div>
     <button type="button" class="lb-close" aria-label="Schließen">×</button>
+  </div>
+
+  <div id="sheetModal" hidden>
+    <div class="sheet-inner" id="sheetInner"></div>
+  </div>
+
+  <div id="contactModal" hidden>
+    <div class="contact-card">
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <h2 id="contactTitle">Kontakt aufnehmen</h2>
+      <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <p class="thanks" id="thanks" hidden></p>
+      <form id="contactForm">
+        <input type="text" id="fName" name="name" required>
+        <input type="email" id="fMail" name="email" required>
+        <textarea id="fMsg" name="message" rows="4" required></textarea>
+        <button type="submit" id="fSend">Senden</button>
+      </form>
+    </div>
   </div>
 
   <script>window.PAGE_EN = {"h1":"Transportation & Technology","intro":["Technology shows its best side in illustration: paintwork without reflections of the surroundings, cutaway views no photograph can deliver, and perspectives of objects that do not yet exist.","Subjects include classic and current automobiles, motorcycles and rail vehicles as well as technical renderings of machines, plant and components — from the advertising motif to the explanatory exploded view."]}; window.PAGE_CAT = "transport";</script>

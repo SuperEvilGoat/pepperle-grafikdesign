@@ -1,7 +1,9 @@
 /* pepperle.de — Startseite: nur die animierte Featured-Auswahl (FEATURED in
    data.js). Kategorien werden hier nicht mehr gefiltert — jede Kachel im
-   unteren Menü, auch "Alle", ist ein echter Link auf die jeweilige statische
-   Rasteransicht (siehe js/page.js bzw. js/alle.js). */
+   unteren Menü ist ein echter Link auf die jeweilige statische Rasteransicht
+   (siehe js/page.js bzw. js/alle.js). "Alle" fehlt hier bewusst: die
+   Startseite selbst zeigt schon alle Werke, sie führt also nicht mehr auf
+   /alle.html — auf den Kategorieseiten steht "Alle" weiterhin in der Navigation. */
 (function () {
   "use strict";
 
@@ -13,7 +15,6 @@
   // die der alten Contao-Seite und duerfen nicht geaendert werden, sonst gehen
   // die vorhandenen Suchmaschinen-Platzierungen verloren.
   var CATS = [
-    { id: "all", de: "Alle", en: "All", slug: "alle" },
     { id: "food", de: "Food & Drinks", en: "Food & Drinks", slug: "food-drinks" },
     { id: "transport", de: "Verkehr & Technik", en: "Transportation & Technology", slug: "transportation-technology" },
     { id: "landscape", de: "Landschaft", en: "Landscape & Scenery", slug: "landscape-scenery" },
@@ -236,9 +237,10 @@
   /* ---------- Navigation ----------
      Die Startseite zeigt ausschliesslich die animierte Featured-Auswahl; sie
      ist selbst keine "Kategorie" und filtert auch keine mehr um. Jede Kachel
-     im unteren Menue — inklusive "Alle" — ist ein ganz normaler Link auf die
-     jeweilige statische Rasteransicht. Hier wird nur noch die Beschriftung
-     (Sprache) und die Desktop/Mobil-Variante gepflegt. */
+     im unteren Menue ist ein ganz normaler Link auf die jeweilige statische
+     Rasteransicht — "Alle" fehlt bewusst, das leistet die Startseite bereits
+     selbst. Hier wird nur noch die Beschriftung (Sprache) und die
+     Desktop/Mobil-Variante gepflegt. */
 
   function pillStyle(btn) {
     btn.style.border = "1px solid rgba(238,243,248,0.28)";
@@ -266,11 +268,12 @@
     legalBtn.textContent = C.legal;
     el.catsNav.appendChild(legalBtn);
 
-    // Mobil: "Alle" + "Weitere Kategorien" (öffnet die restlichen als Liste) + Rechtliches
+    // Mobil: nur "Weitere Kategorien" (öffnet alle Kategorien als Liste) + Rechtliches —
+    // die Startseite selbst ist keine Kategorie mehr, es gibt also keine erste
+    // Kachel, die sich als feste Pille anböte.
     el.mobileNav.textContent = "";
     var nav = document.createElement("nav");
     nav.className = "cats-nav";
-    nav.appendChild(makePill(CATS[0], true));
     var more = document.createElement("button");
     more.type = "button";
     more.className = "cat-pill mobile";
@@ -363,8 +366,7 @@
 
   function openSheet() {
     el.sheetInner.textContent = "";
-    // Die erste Kachel ("Alle") steht schon in der Mobil-Leiste, hier nur der Rest
-    CATS.slice(1).forEach(function (cc) {
+    CATS.forEach(function (cc) {
       var a = document.createElement("a");
       a.href = cc.slug + ".html";
       a.textContent = lang === "de" ? cc.de : cc.en;

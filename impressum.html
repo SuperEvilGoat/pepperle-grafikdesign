@@ -27,7 +27,7 @@
         <image href="assets/signature-720.png" x="0" y="0" width="3543" height="1417"></image>
       </svg></a>
     <div class="pg-actions">
-      <a class="pg-contact" href="index.html#kontakt">Kontakt</a>
+      <button type="button" class="pg-contact" id="contactBtn">Kontakt</button>
     </div>
   </header>
 
@@ -90,6 +90,22 @@
     </nav>
   </footer>
 
+  <div id="contactModal" hidden>
+    <div class="contact-card">
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <h2 id="contactTitle">Kontakt aufnehmen</h2>
+      <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <p class="thanks" id="thanks" hidden></p>
+      <form id="contactForm">
+        <input type="text" id="fName" name="name" required>
+        <input type="email" id="fMail" name="email" required>
+        <textarea id="fMsg" name="message" rows="4" required></textarea>
+        <button type="submit" id="fSend">Senden</button>
+      </form>
+    </div>
+  </div>
+
   <script src="js/track.js"></script>
+  <script src="js/page.js"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@
       </svg></a>
     <div class="pg-actions">
       <button type="button" class="pg-lang" id="langBtn">English</button>
-      <a class="pg-contact" href="index.html#kontakt" id="contactLink">Kontakt</a>
+      <button type="button" class="pg-contact" id="contactBtn">Kontakt</button>
     </div>
   </header>
 
@@ -49,6 +49,7 @@
     <a href="pharma-medical.html">Pharma &amp; Medizin</a>
     <a href="logos-icons.html">Logos &amp; Icons</a>
     <a href="packaging-display.html" class="current" aria-current="page">Verpackung &amp; Display</a>
+    <button type="button" class="pg-more" id="moreCatsBtn">Weitere Kategorien</button>
   </nav>
 
   <main id="inhalt">
@@ -61,7 +62,7 @@
       <p>Diese Kategorie zeigt vollständige Packungen, Etiketten, Faltschachteln und Displays: Arbeiten, bei denen das eigene Illustrationsmotiv und der Entwurf der Packung aus einer Hand kommen — bis zur druckfertigen Reinzeichnung.</p>
     </div>
 
-    <p class="pg-count" id="pgCount">25 Arbeiten in dieser Kategorie — Bild antippen zum Vergrößern</p>
+    <p class="pg-count" id="pgCount">25 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
 
     <ul class="grid">
         <li class="work">
@@ -343,6 +344,25 @@
       <p class="lb-title" id="lbTitle"></p>
     </div>
     <button type="button" class="lb-close" aria-label="Schließen">×</button>
+  </div>
+
+  <div id="sheetModal" hidden>
+    <div class="sheet-inner" id="sheetInner"></div>
+  </div>
+
+  <div id="contactModal" hidden>
+    <div class="contact-card">
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <h2 id="contactTitle">Kontakt aufnehmen</h2>
+      <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <p class="thanks" id="thanks" hidden></p>
+      <form id="contactForm">
+        <input type="text" id="fName" name="name" required>
+        <input type="email" id="fMail" name="email" required>
+        <textarea id="fMsg" name="message" rows="4" required></textarea>
+        <button type="submit" id="fSend">Senden</button>
+      </form>
+    </div>
   </div>
 
   <script>window.PAGE_EN = {"h1":"Packaging & Display","intro":["Packaging is where illustration and design cannot be separated. The motif, the typography, the placement of mandatory information and the effect on the shelf emerge as one task — and are ultimately constrained by a printing process that has to be considered from the start.","This category shows complete packs, labels, folding cartons and displays: work in which the illustration and the design of the pack come from one hand — through to print-ready artwork."]}; window.PAGE_CAT = "packaging";</script>

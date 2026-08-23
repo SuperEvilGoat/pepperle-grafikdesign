@@ -34,7 +34,7 @@
       </svg></a>
     <div class="pg-actions">
       <button type="button" class="pg-lang" id="langBtn">English</button>
-      <a class="pg-contact" href="index.html#kontakt" id="contactLink">Kontakt</a>
+      <button type="button" class="pg-contact" id="contactBtn">Kontakt</button>
     </div>
   </header>
 
@@ -49,6 +49,7 @@
     <a href="pharma-medical.html" class="current" aria-current="page">Pharma &amp; Medizin</a>
     <a href="logos-icons.html">Logos &amp; Icons</a>
     <a href="packaging-display.html">Verpackung &amp; Display</a>
+    <button type="button" class="pg-more" id="moreCatsBtn">Weitere Kategorien</button>
   </nav>
 
   <main id="inhalt">
@@ -61,7 +62,7 @@
       <p>Die Motive umfassen anatomische Darstellungen, Zell- und Gerinnungsvorgänge, Wirkmechanismen und Molekülgrafiken — erarbeitet in enger Abstimmung mit den fachlichen Vorgaben des Auftraggebers.</p>
     </div>
 
-    <p class="pg-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild antippen zum Vergrößern</p>
+    <p class="pg-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
 
     <ul class="grid">
         <li class="work">
@@ -293,6 +294,25 @@
       <p class="lb-title" id="lbTitle"></p>
     </div>
     <button type="button" class="lb-close" aria-label="Schließen">×</button>
+  </div>
+
+  <div id="sheetModal" hidden>
+    <div class="sheet-inner" id="sheetInner"></div>
+  </div>
+
+  <div id="contactModal" hidden>
+    <div class="contact-card">
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <h2 id="contactTitle">Kontakt aufnehmen</h2>
+      <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <p class="thanks" id="thanks" hidden></p>
+      <form id="contactForm">
+        <input type="text" id="fName" name="name" required>
+        <input type="email" id="fMail" name="email" required>
+        <textarea id="fMsg" name="message" rows="4" required></textarea>
+        <button type="submit" id="fSend">Senden</button>
+      </form>
+    </div>
   </div>
 
   <script>window.PAGE_EN = {"h1":"Pharma & Medical","intro":["In pharmaceutical communication an image has to do two things at once: be technically correct and immediately understandable. Processes inside the body cannot be photographed — they have to be drawn, and drawn so that the statement holds.","Subjects include anatomical renderings, cellular and coagulation processes, mechanisms of action and molecular graphics — developed in close coordination with the client's technical requirements."]}; window.PAGE_CAT = "pharma";</script>
