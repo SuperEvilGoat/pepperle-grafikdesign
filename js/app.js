@@ -434,6 +434,65 @@
   }
   function closeSheet() { el.sheetModal.hidden = true; }
 
+  /* ---------- Touch-Scrub (Mobile) ----------
+     Auf Mobile soll sich die Drift-Collage wie eine normale Seite anfühlen:
+     Finger auflegen hält die Animation an, Streichen nach oben/unten schiebt
+     sie in die jeweilige Richtung, Loslassen lässt sie normal weiterlaufen.
+     Dafür wird nicht die CSS-animation-delay verändert (die ist ja der feste,
+     dauerhafte Rhythmus jeder Kachel, siehe preAdvance()), sondern über die
+     Web-Animations-API direkt die aktuelle Abspielposition jeder Kachel
+     (Animation.currentTime) verschoben. */
+  var touchAnims = null;
+  var touchLastY = 0;
+  // Strecke einer Kachel laut @keyframes drift: von translateY(116vh) bis
+  // translateY(-132vh), also 248vh insgesamt.
+  var DRIFT_TRAVEL_VH = 2.48;
+
+  function driftAnimations() {
+    try {
+      // getAnimations() liefert mit subtree:true auch die (abgeschlossene)
+      // Opacity-Transition von #drift selbst mit — nur echte "drift"-
+      // Keyframe-Animationen der Kacheln herausfiltern.
+      return el.drift.getAnimations({ subtree: true }).filter(function (a) {
+        return a.animationName === "drift";
+      });
+    } catch (e) { return []; }
+  }
+
+  el.drift.addEventListener("touchstart", function (e) {
+    if (reducedMotion || !isMobileView() || !e.touches.length) return;
+    touchAnims = driftAnimations();
+    touchAnims.forEach(function (a) { a.pause(); });
+    touchLastY = e.touches[0].clientY;
+  }, { passive: true });
+
+  el.drift.addEventListener("touchmove", function (e) {
+    if (!touchAnims || !touchAnims.length || !e.touches.length) return;
+    var y = e.touches[0].clientY;
+    var dy = y - touchLastY;
+    touchLastY = y;
+    if (!dy) return;
+    // Verhindert, dass der Browser daraus eine (ohnehin blockierte, siehe
+    // overscroll-behavior) Seiten-Wischgeste macht, während gescrubbt wird.
+    e.preventDefault();
+    var travelPx = DRIFT_TRAVEL_VH * window.innerHeight;
+    touchAnims.forEach(function (a) {
+      var timing = a.effect && a.effect.getTiming && a.effect.getTiming();
+      var dur = timing && Number(timing.duration);
+      if (!dur) return;
+      var deltaMs = (-dy / travelPx) * dur;
+      a.currentTime = Math.max(0, Number(a.currentTime || 0) + deltaMs);
+    });
+  }, { passive: false });
+
+  function releaseTouchDrift() {
+    if (!touchAnims) return;
+    touchAnims.forEach(function (a) { a.play(); });
+    touchAnims = null;
+  }
+  el.drift.addEventListener("touchend", releaseTouchDrift, { passive: true });
+  el.drift.addEventListener("touchcancel", releaseTouchDrift, { passive: true });
+
   /* ---------- Init ---------- */
 
   function applyTexts() {
