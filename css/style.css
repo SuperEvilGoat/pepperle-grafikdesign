@@ -1,12 +1,19 @@
 /* pepperle.de — portiert aus dem Claude-Design-Entwurf (Quellen/Claude Design) */
 
+:root {
+  /* Eckenradius aus dem Design-Entwurf (Quellen/Claude Design). An einer Stelle,
+     damit Drift-Kacheln, Raster, Lightbox, Panels und Formularfelder nicht
+     auseinanderlaufen. */
+  --radius: 10px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
   overscroll-behavior: none;
-  background: #05325c;
+  background: #04294a;
 }
 
 a { color: #ea4f43; text-decoration: none; }
@@ -33,9 +40,9 @@ button { -webkit-appearance: none; appearance: none; }
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: radial-gradient(125% 105% at 50% 38%, #0c4d84 0%, #05365f 46%, #021f3b 100%);
+  background: radial-gradient(125% 105% at 50% 38%, #093c68 0%, #042a4b 46%, #01172c 100%);
   color: #eef3f8;
-  font-family: Archivo, Helvetica, Arial, sans-serif;
+  font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
 }
 
 .glow {
@@ -43,7 +50,7 @@ button { -webkit-appearance: none; appearance: none; }
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(80% 60% at 50% 46%, rgba(11,77,132,0.35) 0%, rgba(2,31,59,0) 70%);
+  background: radial-gradient(80% 60% at 50% 46%, rgba(11,77,132,0.26) 0%, rgba(2,31,59,0) 70%);
 }
 
 .vignette {
@@ -51,7 +58,7 @@ button { -webkit-appearance: none; appearance: none; }
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(2,26,50,0.88) 0%, rgba(2,26,50,0.25) 17%, rgba(2,26,50,0) 34%, rgba(2,26,50,0) 62%, rgba(2,26,50,0.55) 84%, rgba(2,26,50,0.92) 100%);
+  background: linear-gradient(to bottom, rgba(1,20,38,0.88) 0%, rgba(1,20,38,0.25) 17%, rgba(1,20,38,0) 34%, rgba(1,20,38,0) 62%, rgba(1,20,38,0.55) 84%, rgba(1,20,38,0.92) 100%);
 }
 
 /* ---------- Drift-Ebene ---------- */
@@ -78,6 +85,7 @@ button { -webkit-appearance: none; appearance: none; }
   display: block;
   width: 100%;
   height: auto;
+  border-radius: var(--radius);
 }
 
 /* ---------- Logo & Tagline ----------
@@ -166,6 +174,7 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
   max-height: 72vh;
   width: auto;
   height: auto;
+  border-radius: var(--radius);
   box-shadow: 0 90px 180px rgba(0,7,16,0.85), 0 30px 60px rgba(0,7,16,0.6);
 }
 .lb-title {
@@ -235,93 +244,150 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
 .contact-btn:hover { background: #f5645a; }
 
 /* ---------- Modale (Kontakt / Rechtliches / Kategorien-Sheet) ---------- */
+/* Kontakt fährt als Panel von rechts ein (Design-Entwurf), statt als zentrierte
+   Karte zu erscheinen. Das Markup bleibt unverändert — .form-note rutscht per
+   flex-order über die Überschrift und dient dort als Kopfzeile neben dem
+   Schließen-Knopf. */
+@keyframes sheetIn { from { opacity: 0; transform: translateX(46px); } to { opacity: 1; transform: translateX(0); } }
+
 #contactModal {
   position: absolute;
   inset: 0;
   z-index: 10;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(1,17,33,0.72);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  animation: fadeUp 0.35s ease both;
+  justify-content: flex-end;
+  background: rgba(1,15,30,0.6);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  animation: lbFade 0.35s ease both;
 }
 #contactModal[hidden] { display: none; }
 .contact-card {
   position: relative;
-  width: min(92vw, 520px);
+  display: flex;
+  flex-direction: column;
+  width: min(100vw, 560px);
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   box-sizing: border-box;
-  background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
-  border: 1px solid rgba(238,243,248,0.14);
-  box-shadow: 0 60px 140px rgba(0,8,18,0.7);
-  padding: 34px 34px 30px;
+  background: #04223d;
+  border-left: 1px solid rgba(238,243,248,0.1);
+  box-shadow: -60px 0 130px rgba(0,6,14,0.6);
+  padding: 26px clamp(22px, 4vw, 42px) 44px;
+  animation: sheetIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.contact-card h2 { margin: 0 0 6px; font-size: 26px; font-weight: 500; letter-spacing: -0.01em; }
+.contact-card h2 {
+  margin: 0 0 18px;
+  max-width: 18ch;
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+/* Kopfzeile des Panels: steht im Quelltext hinter der Überschrift, gehört
+   optisch aber darüber — neben den Schließen-Knopf. */
 .form-note {
-  margin: 0 0 24px;
+  order: -1;
+  margin: 0 0 34px;
+  padding-right: 130px;
+  min-height: 20px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-size: 10px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(238,243,248,0.5);
+  color: rgba(238,243,248,0.45);
 }
+.contact-mail {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 34px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(234,79,67,0.5);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #f5837a;
+  transition: border-color 0.3s ease;
+}
+.contact-mail:hover { border-bottom-color: #f5837a; }
 .contact-close {
   position: absolute;
-  top: 12px;
-  right: 14px;
-  background: none;
-  border: 0;
+  top: 22px;
+  right: clamp(22px, 4vw, 42px);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
   cursor: pointer;
-  color: rgba(238,243,248,0.55);
+  border-radius: 999px;
+  border: 1px solid rgba(238,243,248,0.18);
+  background: none;
+  color: rgba(238,243,248,0.72);
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1;
-  padding: 8px;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
-.contact-close:hover { color: #ffffff; }
-#contactForm { display: flex; flex-direction: column; gap: 14px; }
+.contact-close:hover { color: #ffffff; border-color: #ea4f43; }
+#contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(238,243,248,0.12);
+}
 #contactForm input,
 #contactForm textarea {
-  background: rgba(1,17,33,0.45);
-  border: 1px solid rgba(238,243,248,0.18);
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(238,243,248,0.045);
+  border: 1px solid rgba(238,243,248,0.1);
   color: #eef3f8;
-  padding: 13px 14px;
-  font-family: Archivo, Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  padding: 13px 15px;
+  font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
   outline: none;
-  border-radius: 0;
+  border-radius: var(--radius);
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
+#contactForm input::placeholder,
+#contactForm textarea::placeholder { color: rgba(238,243,248,0.34); }
 #contactForm textarea { resize: none; }
 #contactForm input:focus,
-#contactForm textarea:focus { border-color: rgba(234,79,67,0.8); }
+#contactForm textarea:focus { border-color: #ea4f43; background: rgba(238,243,248,0.07); }
 #contactForm button {
-  margin-top: 4px;
+  margin-top: 8px;
+  width: 100%;
   cursor: pointer;
-  align-self: flex-start;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 13px 24px;
-  border: 1px solid rgba(234,79,67,0.85);
+  padding: 16px 24px;
+  border: 0;
   border-radius: 999px;
-  background: rgba(234,79,67,0.9);
+  background: #ea4f43;
   color: #ffffff;
   transition: background 0.3s ease;
 }
-#contactForm button:hover { background: #ea4f43; }
+#contactForm button:hover { background: #f5837a; }
 .thanks {
   margin: 0;
-  padding: 26px 0 8px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  color: #ea4f43;
+  padding: 16px 0 10px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #eef3f8;
 }
 .thanks[hidden] { display: none; }
 #contactForm[hidden] { display: none; }
+@media (max-width: 620px) {
+  .contact-card { border-left: 0; }
+}
 
 #legalModal {
   position: absolute;
@@ -625,33 +691,87 @@ a.legal-link { display: inline-block; }
   margin: 0 auto;
   padding: clamp(190px, 30vh, 300px) clamp(20px, 4vw, 56px) calc(var(--navh, 150px) + 90px);
 }
+/* Kopf der Kategorieseiten, zweispaltig (Design-Entwurf): links Kennzeichnung
+   und Titel, rechts Einleitung und Werkzahl. Unter 900px stapelt sich beides. */
+.om-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(28px, 5vw, 74px);
+  margin: 0 0 clamp(46px, 6vw, 78px);
+}
+.om-head-side { padding-bottom: 4px; }
+@media (max-width: 900px) {
+  .om-head { grid-template-columns: 1fr; align-items: start; gap: 26px; }
+  .om-head-side { padding-bottom: 0; }
+}
+
+.om-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #ea4f43;
+}
+.om-eyebrow::before {
+  content: "";
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 1px;
+  background: #ea4f43;
+}
+
 .om-pad h1 {
-  margin: 0 0 34px;
-  text-align: center;
-  font-size: clamp(34px, 5vw, 64px);
+  margin: 0;
+  font-size: clamp(38px, 6.4vw, 88px);
   font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1.04;
+  letter-spacing: -0.032em;
+  line-height: 0.98;
+  max-width: 16ch;
+  text-wrap: balance;
 }
 .om-intro {
-  margin: 22px auto 0;
-  max-width: 62ch;
-  text-align: center;
-  font-size: clamp(15px, 1.3vw, 17px);
-  line-height: 1.66;
+  margin: 0;
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.68;
   color: rgba(238,243,248,0.62);
   text-wrap: pretty;
 }
 .om-intro p { margin: 0 0 14px; }
 .om-intro p:last-child { margin-bottom: 0; }
 .om-count {
-  margin: 30px 0 34px;
-  text-align: center;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 26px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(238,243,248,0.14);
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(238,243,248,0.42);
+  color: rgba(238,243,248,0.4);
+}
+.om-count-num {
+  flex: none;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: #eef3f8;
+}
+
+/* Die Rechtsseite nutzt dieselbe Bühne, hat aber keinen zweispaltigen Kopf. */
+.om-pad > h1 {
+  margin: 0 0 34px;
+  text-align: center;
+  font-size: clamp(34px, 5vw, 64px);
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  max-width: none;
 }
 
 .om-grid { column-count: 4; column-gap: 30px; }
@@ -661,6 +781,7 @@ a.legal-link { display: inline-block; }
   break-inside: avoid;
   overflow: hidden;
   cursor: zoom-in;
+  border-radius: var(--radius);
   background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
   box-shadow: 0 18px 34px rgba(0,9,20,0.55), 0 5px 12px rgba(0,9,20,0.4);
   opacity: 0;
@@ -682,10 +803,15 @@ a.legal-link { display: inline-block; }
   animation: tileIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Der Radius sitzt bewusst auch am Bild selbst, nicht nur als overflow:hidden
+   an der Kachel: die Kacheln liegen wegen des Flacker-Fixes (translateZ/
+   contain:paint, siehe oben) auf eigenen Compositing-Ebenen, und dort schneidet
+   WebKit ein Kindbild an einer gerundeten Elternecke nicht zuverlässig ab. */
 .om-grid img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: var(--radius);
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .om-grid figure:hover img { transform: scale(1.055); }
@@ -708,7 +834,7 @@ a.legal-link { display: inline-block; }
   left: 0; right: 0; top: 0;
   height: clamp(140px, 22vh, 260px);
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(2,26,50,0.96) 0%, rgba(2,26,50,0.88) 18%, rgba(2,26,50,0.66) 38%, rgba(2,26,50,0.38) 58%, rgba(2,26,50,0.14) 78%, rgba(2,26,50,0) 100%);
+  background: linear-gradient(to bottom, rgba(1,20,38,0.96) 0%, rgba(1,20,38,0.88) 18%, rgba(1,20,38,0.66) 38%, rgba(1,20,38,0.38) 58%, rgba(1,20,38,0.14) 78%, rgba(1,20,38,0) 100%);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 26%, rgba(0,0,0,0.7) 48%, rgba(0,0,0,0.32) 70%, rgba(0,0,0,0.07) 88%, transparent 100%);
@@ -720,7 +846,7 @@ a.legal-link { display: inline-block; }
   left: 0; right: 0; bottom: 0;
   height: clamp(150px, 24vh, 280px);
   pointer-events: none;
-  background: linear-gradient(to top, rgba(2,26,50,0.96) 0%, rgba(2,26,50,0.9) 16%, rgba(2,26,50,0.72) 34%, rgba(2,26,50,0.42) 56%, rgba(2,26,50,0.16) 76%, rgba(2,26,50,0) 100%);
+  background: linear-gradient(to top, rgba(1,20,38,0.96) 0%, rgba(1,20,38,0.9) 16%, rgba(1,20,38,0.72) 34%, rgba(1,20,38,0.42) 56%, rgba(1,20,38,0.16) 76%, rgba(1,20,38,0) 100%);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
   -webkit-mask-image: linear-gradient(to top, #000 0%, #000 24%, rgba(0,0,0,0.72) 46%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0.08) 86%, transparent 100%);
@@ -767,9 +893,9 @@ a.legal-link { display: inline-block; }
   inset: 0;
   z-index: 90;
   overflow: auto;
-  background: #05325c;
+  background: #04294a;
   color: #eef3f8;
-  font-family: Archivo, Helvetica, Arial, sans-serif;
+  font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   padding: 40px 24px;
   text-align: center;
@@ -782,4 +908,20 @@ a.legal-link { display: inline-block; }
 .noscript-fallback nav a {
   font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
   padding: 9px 15px; border-radius: 999px; border: 1px solid rgba(238,243,248,0.28); color: rgba(238,243,248,0.85);
+}
+
+/* ---------- Weiche Ecken (Squircle) ----------
+   Engines mit corner-shape bekommen echte Superellipsen-Geometrie statt des
+   Kreisbogens; überall sonst bleibt es beim oben gesetzten border-radius.
+   Rein optisch — ohne Einfluss auf Layout oder Animation. */
+@supports (corner-shape: superellipse(2)) {
+  .tile img,
+  .om-grid > figure,
+  .om-grid img,
+  .lb-inner img,
+  .legal-card,
+  #contactForm input,
+  #contactForm textarea {
+    corner-shape: superellipse(2.4);
+  }
 }

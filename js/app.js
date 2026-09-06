@@ -36,7 +36,8 @@
       hint: "Bild antippen zum Vergrößern",
       legal: "Impressum & Datenschutz",
       allCats: "Alle Kategorien",
-      langSwitch: "English"
+      langSwitch: "English",
+      close: "Schließen"
     },
     en: {
       empty: "Images coming — folder not uploaded yet",
@@ -48,7 +49,8 @@
       hint: "Click an image to view it",
       legal: "Imprint & Privacy",
       allCats: "All categories",
-      langSwitch: "Deutsch"
+      langSwitch: "Deutsch",
+      close: "Close"
     }
   };
 
@@ -100,6 +102,7 @@
     contactModal: document.getElementById("contactModal"),
     contactTitle: document.getElementById("contactTitle"),
     contactNote: document.getElementById("contactNote"),
+    contactCloseLabel: document.getElementById("contactCloseLabel"),
     contactForm: document.getElementById("contactForm"),
     fName: document.getElementById("fName"),
     fMail: document.getElementById("fMail"),
@@ -561,6 +564,7 @@
     el.contactBtn.textContent = C.contact;
     el.contactTitle.textContent = C.formTitle;
     el.contactNote.textContent = C.formNote;
+    if (el.contactCloseLabel) el.contactCloseLabel.textContent = C.close;
     el.fName.placeholder = C.name;
     el.fMail.placeholder = C.mail;
     el.fMsg.placeholder = C.msg;

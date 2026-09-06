@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Pharma &amp; Medizin — Walter Pepperle">
   <meta name="twitter:description" content="Medizinische Illustration von Walter Pepperle: Anatomie, Zellvorgänge, Wirkmechanismen und Molekülgrafiken für Pharma-Kommunikation und Fachpublikationen — Illustrator aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/images/full/pharma/50-akrinor1.jpg">
-  <meta name="theme-color" content="#05325c">
+  <meta name="theme-color" content="#04294a">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
@@ -40,12 +40,19 @@
 
     <div class="om-scroll">
       <div class="om-pad">
-        <h1 id="pgH1">Pharma &amp; Medizin</h1>
-        <div class="om-intro" id="pgIntro">
-          <p>In der Pharma-Kommunikation muss ein Bild zwei Dinge gleichzeitig leisten: fachlich korrekt sein und für den Betrachter sofort verständlich. Vorgänge im Körper sind nicht fotografierbar — sie müssen gezeichnet werden, und zwar so, dass die Aussage stimmt.</p>
-          <p>Die Motive umfassen anatomische Darstellungen, Zell- und Gerinnungsvorgänge, Wirkmechanismen und Molekülgrafiken — erarbeitet in enger Abstimmung mit den fachlichen Vorgaben des Auftraggebers.</p>
-        </div>
-        <p class="om-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
+        <header class="om-head">
+          <div>
+            <p class="om-eyebrow"><span id="pgEyebrow">Kategorie 07 / 09</span></p>
+            <h1 id="pgH1">Pharma &amp; Medizin</h1>
+          </div>
+          <div class="om-head-side">
+            <div class="om-intro" id="pgIntro">
+              <p>In der Pharma-Kommunikation muss ein Bild zwei Dinge gleichzeitig leisten: fachlich korrekt sein und für den Betrachter sofort verständlich. Vorgänge im Körper sind nicht fotografierbar — sie müssen gezeichnet werden, und zwar so, dass die Aussage stimmt.</p>
+              <p>Die Motive umfassen anatomische Darstellungen, Zell- und Gerinnungsvorgänge, Wirkmechanismen und Molekülgrafiken — erarbeitet in enger Abstimmung mit den fachlichen Vorgaben des Auftraggebers.</p>
+            </div>
+            <p class="om-count"><span class="om-count-num" id="pgCountNum">20</span><span id="pgCount">Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</span></p>
+          </div>
+        </header>
         <div class="om-grid">
           <figure data-full="images/full/pharma/50-akrinor1.jpg" data-title="Akrinor1">
             <picture>
@@ -213,9 +220,10 @@
 
   <div id="contactModal" hidden>
     <div class="contact-card">
-      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
       <h2 id="contactTitle">Kontakt aufnehmen</h2>
       <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
       <p class="thanks" id="thanks" hidden></p>
       <form id="contactForm">
         <input type="text" id="fName" name="name" required>
@@ -244,7 +252,7 @@
     </div>
   </div>
 
-  <script>window.PAGE_EN = {"h1":"Pharma & Medical","intro":["In pharmaceutical communication an image has to do two things at once: be technically correct and immediately understandable. Processes inside the body cannot be photographed — they have to be drawn, and drawn so that the statement holds.","Subjects include anatomical renderings, cellular and coagulation processes, mechanisms of action and molecular graphics — developed in close coordination with the client's technical requirements."]}; window.PAGE_CAT = "pharma";</script>
+  <script>window.PAGE_EN = {"h1":"Pharma & Medical","intro":["In pharmaceutical communication an image has to do two things at once: be technically correct and immediately understandable. Processes inside the body cannot be photographed — they have to be drawn, and drawn so that the statement holds.","Subjects include anatomical renderings, cellular and coagulation processes, mechanisms of action and molecular graphics — developed in close coordination with the client's technical requirements."],"eyebrow":"Category 07 / 09"}; window.PAGE_CAT = "pharma";</script>
   <script src="js/track.js"></script>
   <script src="js/page.js"></script>
 </body>

@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Objekte — Walter Pepperle">
   <meta name="twitter:description" content="Realistische Objekt- und Produktillustration von Walter Pepperle: Materialien, Oberflächen und Gegenstände in fotorealistischer Darstellung — Illustrator aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/images/full/items/50-bad-liebenzeller.jpg">
-  <meta name="theme-color" content="#05325c">
+  <meta name="theme-color" content="#04294a">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
@@ -40,12 +40,19 @@
 
     <div class="om-scroll">
       <div class="om-pad">
-        <h1 id="pgH1">Objekte</h1>
-        <div class="om-intro" id="pgIntro">
-          <p>Glas, Edelstahl, Flüssigkeit, gebürstetes Metall: Objektillustration ist zu einem großen Teil Materialdarstellung. Wie eine Oberfläche das Licht behandelt, entscheidet darüber, ob ein Gegenstand echt wirkt.</p>
-          <p>Die Arbeiten dieser Kategorie zeigen einzelne Produkte und Sachmotive in fotorealistischer Ausführung — freigestellt, in Szene gesetzt oder als erklärende Darstellung technischer Zusammenhänge.</p>
-        </div>
-        <p class="om-count" id="pgCount">27 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
+        <header class="om-head">
+          <div>
+            <p class="om-eyebrow"><span id="pgEyebrow">Kategorie 05 / 09</span></p>
+            <h1 id="pgH1">Objekte</h1>
+          </div>
+          <div class="om-head-side">
+            <div class="om-intro" id="pgIntro">
+              <p>Glas, Edelstahl, Flüssigkeit, gebürstetes Metall: Objektillustration ist zu einem großen Teil Materialdarstellung. Wie eine Oberfläche das Licht behandelt, entscheidet darüber, ob ein Gegenstand echt wirkt.</p>
+              <p>Die Arbeiten dieser Kategorie zeigen einzelne Produkte und Sachmotive in fotorealistischer Ausführung — freigestellt, in Szene gesetzt oder als erklärende Darstellung technischer Zusammenhänge.</p>
+            </div>
+            <p class="om-count"><span class="om-count-num" id="pgCountNum">27</span><span id="pgCount">Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</span></p>
+          </div>
+        </header>
         <div class="om-grid">
           <figure data-full="images/full/items/50-bad-liebenzeller.jpg" data-title="Bad Liebenzeller">
             <picture>
@@ -262,9 +269,10 @@
 
   <div id="contactModal" hidden>
     <div class="contact-card">
-      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
       <h2 id="contactTitle">Kontakt aufnehmen</h2>
       <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
       <p class="thanks" id="thanks" hidden></p>
       <form id="contactForm">
         <input type="text" id="fName" name="name" required>
@@ -293,7 +301,7 @@
     </div>
   </div>
 
-  <script>window.PAGE_EN = {"h1":"Realistic Items","intro":["Glass, stainless steel, liquid, brushed metal: object illustration is to a large extent the depiction of material. How a surface handles light decides whether an object reads as real.","This category shows individual products and objects in photorealistic execution — cut out, staged, or as an explanatory rendering of technical relationships."]}; window.PAGE_CAT = "items";</script>
+  <script>window.PAGE_EN = {"h1":"Realistic Items","intro":["Glass, stainless steel, liquid, brushed metal: object illustration is to a large extent the depiction of material. How a surface handles light decides whether an object reads as real.","This category shows individual products and objects in photorealistic execution — cut out, staged, or as an explanatory rendering of technical relationships."],"eyebrow":"Category 05 / 09"}; window.PAGE_CAT = "items";</script>
   <script src="js/track.js"></script>
   <script src="js/page.js"></script>
 </body>

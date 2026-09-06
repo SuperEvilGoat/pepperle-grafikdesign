@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Verkehr &amp; Technik — Walter Pepperle">
   <meta name="twitter:description" content="Technische Illustration von Walter Pepperle: Automobile, Motorräder, Schienenfahrzeuge sowie Maschinen- und Anlagendarstellungen für Werbung und Technikdokumentation — Illustrator aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/images/full/transport/50-red-racer.jpg">
-  <meta name="theme-color" content="#05325c">
+  <meta name="theme-color" content="#04294a">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
@@ -40,12 +40,19 @@
 
     <div class="om-scroll">
       <div class="om-pad">
-        <h1 id="pgH1">Verkehr &amp; Technik</h1>
-        <div class="om-intro" id="pgIntro">
-          <p>Technik zeigt sich in der Illustration von ihrer besten Seite: Lack ohne Spiegelungen der Umgebung, Schnittdarstellungen, die kein Foto liefern kann, und Perspektiven, für die es das Objekt noch gar nicht gibt.</p>
-          <p>Die Motive umfassen klassische und aktuelle Automobile, Motorräder, Schienenfahrzeuge sowie technische Darstellungen von Maschinen, Anlagen und Bauteilen — vom Werbemotiv bis zur erklärenden Explosionszeichnung.</p>
-        </div>
-        <p class="om-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
+        <header class="om-head">
+          <div>
+            <p class="om-eyebrow"><span id="pgEyebrow">Kategorie 02 / 09</span></p>
+            <h1 id="pgH1">Verkehr &amp; Technik</h1>
+          </div>
+          <div class="om-head-side">
+            <div class="om-intro" id="pgIntro">
+              <p>Technik zeigt sich in der Illustration von ihrer besten Seite: Lack ohne Spiegelungen der Umgebung, Schnittdarstellungen, die kein Foto liefern kann, und Perspektiven, für die es das Objekt noch gar nicht gibt.</p>
+              <p>Die Motive umfassen klassische und aktuelle Automobile, Motorräder, Schienenfahrzeuge sowie technische Darstellungen von Maschinen, Anlagen und Bauteilen — vom Werbemotiv bis zur erklärenden Explosionszeichnung.</p>
+            </div>
+            <p class="om-count"><span class="om-count-num" id="pgCountNum">20</span><span id="pgCount">Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</span></p>
+          </div>
+        </header>
         <div class="om-grid">
           <figure data-full="images/full/transport/50-red-racer.jpg" data-title="Red Racer">
             <picture>
@@ -213,9 +220,10 @@
 
   <div id="contactModal" hidden>
     <div class="contact-card">
-      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
       <h2 id="contactTitle">Kontakt aufnehmen</h2>
       <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
       <p class="thanks" id="thanks" hidden></p>
       <form id="contactForm">
         <input type="text" id="fName" name="name" required>
@@ -244,7 +252,7 @@
     </div>
   </div>
 
-  <script>window.PAGE_EN = {"h1":"Transportation & Technology","intro":["Technology shows its best side in illustration: paintwork without reflections of the surroundings, cutaway views no photograph can deliver, and perspectives of objects that do not yet exist.","Subjects include classic and current automobiles, motorcycles and rail vehicles as well as technical renderings of machines, plant and components — from the advertising motif to the explanatory exploded view."]}; window.PAGE_CAT = "transport";</script>
+  <script>window.PAGE_EN = {"h1":"Transportation & Technology","intro":["Technology shows its best side in illustration: paintwork without reflections of the surroundings, cutaway views no photograph can deliver, and perspectives of objects that do not yet exist.","Subjects include classic and current automobiles, motorcycles and rail vehicles as well as technical renderings of machines, plant and components — from the advertising motif to the explanatory exploded view."],"eyebrow":"Category 02 / 09"}; window.PAGE_CAT = "transport";</script>
   <script src="js/track.js"></script>
   <script src="js/page.js"></script>
 </body>

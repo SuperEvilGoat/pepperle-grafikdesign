@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Menschen &amp; Tiere — Walter Pepperle">
   <meta name="twitter:description" content="Figürliche Illustration von Walter Pepperle: Porträts, Charaktere und Tiermotive für Werbung, Verpackung und Markenauftritte — Illustrator aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/images/full/people/50-bosch-halogen.jpg">
-  <meta name="theme-color" content="#05325c">
+  <meta name="theme-color" content="#04294a">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
@@ -40,12 +40,19 @@
 
     <div class="om-scroll">
       <div class="om-pad">
-        <h1 id="pgH1">Menschen &amp; Tiere</h1>
-        <div class="om-intro" id="pgIntro">
-          <p>Figürliche Motive entscheiden sich an wenigen Millimetern — am Blick, an der Haltung, am Ausdruck. Die Illustration hat hier den Vorteil, dass sich Charakter gezielt aufbauen lässt, statt ihn im richtigen Moment einfangen zu müssen.</p>
-          <p>Diese Kategorie versammelt realistische Figuren und Porträts ebenso wie überzeichnete Charaktere und Tiermotive — von der Bildmarke bis zur Hauptfigur einer Kampagne.</p>
-        </div>
-        <p class="om-count" id="pgCount">20 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
+        <header class="om-head">
+          <div>
+            <p class="om-eyebrow"><span id="pgEyebrow">Kategorie 04 / 09</span></p>
+            <h1 id="pgH1">Menschen &amp; Tiere</h1>
+          </div>
+          <div class="om-head-side">
+            <div class="om-intro" id="pgIntro">
+              <p>Figürliche Motive entscheiden sich an wenigen Millimetern — am Blick, an der Haltung, am Ausdruck. Die Illustration hat hier den Vorteil, dass sich Charakter gezielt aufbauen lässt, statt ihn im richtigen Moment einfangen zu müssen.</p>
+              <p>Diese Kategorie versammelt realistische Figuren und Porträts ebenso wie überzeichnete Charaktere und Tiermotive — von der Bildmarke bis zur Hauptfigur einer Kampagne.</p>
+            </div>
+            <p class="om-count"><span class="om-count-num" id="pgCountNum">20</span><span id="pgCount">Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</span></p>
+          </div>
+        </header>
         <div class="om-grid">
           <figure data-full="images/full/people/50-bosch-halogen.jpg" data-title="Bosch Halogen">
             <picture>
@@ -213,9 +220,10 @@
 
   <div id="contactModal" hidden>
     <div class="contact-card">
-      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
       <h2 id="contactTitle">Kontakt aufnehmen</h2>
       <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
       <p class="thanks" id="thanks" hidden></p>
       <form id="contactForm">
         <input type="text" id="fName" name="name" required>
@@ -244,7 +252,7 @@
     </div>
   </div>
 
-  <script>window.PAGE_EN = {"h1":"People & Animals","intro":["Figurative motifs are decided by a few millimetres — the gaze, the posture, the expression. Illustration has the advantage that character can be built deliberately instead of having to be caught at the right moment.","This category brings together realistic figures and portraits as well as exaggerated characters and animal motifs — from the pictorial mark to the leading figure of a campaign."]}; window.PAGE_CAT = "people";</script>
+  <script>window.PAGE_EN = {"h1":"People & Animals","intro":["Figurative motifs are decided by a few millimetres — the gaze, the posture, the expression. Illustration has the advantage that character can be built deliberately instead of having to be caught at the right moment.","This category brings together realistic figures and portraits as well as exaggerated characters and animal motifs — from the pictorial mark to the leading figure of a campaign."],"eyebrow":"Category 04 / 09"}; window.PAGE_CAT = "people";</script>
   <script src="js/track.js"></script>
   <script src="js/page.js"></script>
 </body>

@@ -1,9 +1,12 @@
+/* Alle Schriften werden lokal ausgeliefert — es wird nichts von Google Fonts
+   oder anderen fremden Servern nachgeladen (siehe Datenschutzerklärung,
+   Abschnitt "Externe Schriftarten"). */
 @font-face {
-  font-family: 'Archivo';
+  font-family: 'Instrument Sans';
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url('../assets/fonts/archivo.woff2') format('woff2');
+  src: url('../assets/fonts/instrument-sans.woff2') format('woff2');
 }
 @font-face {
   font-family: 'IBM Plex Mono';

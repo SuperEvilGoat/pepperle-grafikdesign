@@ -3,8 +3,8 @@
    ohne Scrollen, diese Seiten sind normale, scrollbare Dokumente. */
 
 :root {
-  --bg: #05325c;
-  --bg-deep: #021f3b;
+  --bg: #04294a;
+  --bg-deep: #01172c;
   --ink: #eef3f8;
   --ink-dim: rgba(238, 243, 248, 0.62);
   --ink-faint: rgba(238, 243, 248, 0.4);
@@ -27,10 +27,10 @@ body {
   margin: 0;
   min-height: 100%;
   background:
-    radial-gradient(125% 90% at 50% 0%, #0c4d84 0%, #05365f 46%, #021f3b 100%) no-repeat,
+    radial-gradient(125% 90% at 50% 0%, #093c68 0%, #042a4b 46%, #01172c 100%) no-repeat,
     var(--bg-deep);
   color: var(--ink);
-  font-family: Archivo, Helvetica, Arial, sans-serif;
+  font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -494,7 +494,7 @@ h1 {
   border: 1px solid rgba(238, 243, 248, 0.18);
   color: var(--ink);
   padding: 13px 14px;
-  font-family: Archivo, Helvetica, Arial, sans-serif;
+  font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
   font-size: 15px;
   outline: none;
   border-radius: 0;

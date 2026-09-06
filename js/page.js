@@ -88,12 +88,13 @@
       contact: "Kontakt",
       tagline: "Illustration und Packungsdesign",
       hint: "Bild anklicken zum Vergrößern",
-      works: function (n) { return n + " Arbeiten in dieser Kategorie"; },
+      works: "Arbeiten in dieser Kategorie",
       more: "Weitere Kategorien",
       home: "Startseite",
       formTitle: "Kontakt aufnehmen",
       formNote: "Anfrage für Illustration oder Verpackungsgrafik",
       name: "Name", mail: "E-Mail", msg: "Nachricht", send: "Senden",
+      close: "Schließen",
       thanks: "Danke — die Nachricht ist unterwegs."
     },
     en: {
@@ -101,12 +102,13 @@
       contact: "Contact",
       tagline: "Illustration and Packaging Design",
       hint: "Click an image to view it",
-      works: function (n) { return n + " works in this category"; },
+      works: "works in this category",
       more: "More categories",
       home: "Home",
       formTitle: "Get in touch",
       formNote: "Enquiry for illustration or packaging graphics",
       name: "Name", mail: "Email", msg: "Message", send: "Send",
+      close: "Close",
       thanks: "Thank you — your message is on its way."
     }
   };
@@ -126,6 +128,8 @@
   // überspringt den Textwechsel dann einfach).
   var h1El = document.getElementById("pgH1");
   var introEl = document.getElementById("pgIntro");
+  var eyebrowEl = document.getElementById("pgEyebrow");
+  var DE_EYEBROW = eyebrowEl ? eyebrowEl.textContent : "";
   var DE = h1El && introEl
     ? { h1: h1El.textContent, intro: Array.prototype.map.call(introEl.querySelectorAll("p"), function (p) { return p.textContent; }) }
     : null;
@@ -145,10 +149,14 @@
     if (tagline) tagline.textContent = t.tagline;
 
     var count = document.getElementById("pgCount");
-    if (count) {
-      var workCount = document.querySelectorAll(".om-grid figure").length;
-      count.textContent = t.works(workCount) + " — " + t.hint;
-    }
+    if (count) count.textContent = t.works + " — " + t.hint;
+    var countNum = document.getElementById("pgCountNum");
+    if (countNum) countNum.textContent = document.querySelectorAll(".om-grid figure").length;
+
+    // "Kategorie 01 / 09": die Ziffern stehen schon im HTML, getauscht wird
+    // nur das führende Wort (Kategorie/Category).
+    var eyebrow = document.getElementById("pgEyebrow");
+    if (eyebrow && EN && EN.eyebrow) eyebrow.textContent = next === "en" ? EN.eyebrow : DE_EYEBROW;
 
     var more = document.getElementById("moreCatsBtn");
     if (more) more.textContent = t.more;
@@ -160,6 +168,8 @@
     if (cTitle) cTitle.textContent = t.formTitle;
     var cNote = document.getElementById("contactNote");
     if (cNote) cNote.textContent = t.formNote;
+    var cCloseLabel = document.getElementById("contactCloseLabel");
+    if (cCloseLabel) cCloseLabel.textContent = t.close;
     var fName = document.getElementById("fName");
     if (fName) fName.placeholder = t.name;
     var fMail = document.getElementById("fMail");

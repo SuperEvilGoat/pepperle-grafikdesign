@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Poster &amp; Anzeigen — Walter Pepperle">
   <meta name="twitter:description" content="Plakat- und Anzeigenillustration von Walter Pepperle: Werbemotive, Veranstaltungsplakate und Titelbilder für Print und Außenwerbung — Illustrator aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/images/full/poster/50-adventskalender.jpg">
-  <meta name="theme-color" content="#05325c">
+  <meta name="theme-color" content="#04294a">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
@@ -40,12 +40,19 @@
 
     <div class="om-scroll">
       <div class="om-pad">
-        <h1 id="pgH1">Poster &amp; Anzeigen</h1>
-        <div class="om-intro" id="pgIntro">
-          <p>Ein Plakat hat wenige Sekunden. Es muss aus der Entfernung wirken, aus der Nähe standhalten und im Kopf bleiben — Anforderungen, die ein einzelnes starkes Bildmotiv besser erfüllt als jede Aufzählung von Argumenten.</p>
-          <p>Diese Kategorie versammelt Motive für Anzeigen, Veranstaltungsplakate, Titelbilder und Kampagnen — Arbeiten, die als Hauptmotiv eines Auftritts konzipiert wurden.</p>
-        </div>
-        <p class="om-count" id="pgCount">26 Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</p>
+        <header class="om-head">
+          <div>
+            <p class="om-eyebrow"><span id="pgEyebrow">Kategorie 06 / 09</span></p>
+            <h1 id="pgH1">Poster &amp; Anzeigen</h1>
+          </div>
+          <div class="om-head-side">
+            <div class="om-intro" id="pgIntro">
+              <p>Ein Plakat hat wenige Sekunden. Es muss aus der Entfernung wirken, aus der Nähe standhalten und im Kopf bleiben — Anforderungen, die ein einzelnes starkes Bildmotiv besser erfüllt als jede Aufzählung von Argumenten.</p>
+              <p>Diese Kategorie versammelt Motive für Anzeigen, Veranstaltungsplakate, Titelbilder und Kampagnen — Arbeiten, die als Hauptmotiv eines Auftritts konzipiert wurden.</p>
+            </div>
+            <p class="om-count"><span class="om-count-num" id="pgCountNum">26</span><span id="pgCount">Arbeiten in dieser Kategorie — Bild anklicken zum Vergrößern</span></p>
+          </div>
+        </header>
         <div class="om-grid">
           <figure data-full="images/full/poster/50-adventskalender.jpg" data-title="Adventskalender">
             <picture>
@@ -255,9 +262,10 @@
 
   <div id="contactModal" hidden>
     <div class="contact-card">
-      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen">×</button>
+      <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
       <h2 id="contactTitle">Kontakt aufnehmen</h2>
       <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
+      <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
       <p class="thanks" id="thanks" hidden></p>
       <form id="contactForm">
         <input type="text" id="fName" name="name" required>
@@ -286,7 +294,7 @@
     </div>
   </div>
 
-  <script>window.PAGE_EN = {"h1":"Poster & Ads","intro":["A poster has a few seconds. It has to work from a distance, hold up close and stay in the mind — demands that a single strong image meets better than any list of arguments.","This category gathers motifs for advertisements, event posters, cover images and campaigns — work conceived as the lead visual of an appearance."]}; window.PAGE_CAT = "poster";</script>
+  <script>window.PAGE_EN = {"h1":"Poster & Ads","intro":["A poster has a few seconds. It has to work from a distance, hold up close and stay in the mind — demands that a single strong image meets better than any list of arguments.","This category gathers motifs for advertisements, event posters, cover images and campaigns — work conceived as the lead visual of an appearance."],"eyebrow":"Category 06 / 09"}; window.PAGE_CAT = "poster";</script>
   <script src="js/track.js"></script>
   <script src="js/page.js"></script>
 </body>
