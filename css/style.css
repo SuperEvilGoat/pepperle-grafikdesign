@@ -664,6 +664,15 @@ a.legal-link { display: inline-block; }
   background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
   box-shadow: 0 18px 34px rgba(0,9,20,0.55), 0 5px 12px rgba(0,9,20,0.4);
   opacity: 0;
+  /* CSS-Spaltenlayout (column-count) lässt WebKit/Safari (und teils Chrome)
+     die einzelnen Kacheln beim Scrollen gelegentlich kurz neu rastern, was als
+     Aufblitzen/Verschwinden einzelner Bilder sichtbar wird. Eigene
+     Compositing-Ebene pro Kachel umgeht das Repaint-Flackern; contain: paint
+     verhindert zusätzlich, dass ein Repaint einer Kachel auf Nachbarkacheln
+     in derselben Spalte übergreift. */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
 }
 /* Der Einblend-Zeitpunkt wird von js/page.js gesetzt, nachdem die tatsächliche
    Position im Masonry-Raster gemessen wurde — nur so blenden die oberen
