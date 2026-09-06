@@ -176,7 +176,8 @@
   function openContact() {
     if (!contactModal) return;
     track({ type: "contact_open" });
-    if (contactThanks) contactThanks.hidden = true;
+    // Eine stehen gebliebene Fehlermeldung vom letzten Versuch zurücksetzen
+    if (contactThanks) { contactThanks.hidden = true; contactThanks.classList.remove("fehler"); }
     if (contactForm) contactForm.hidden = false;
     contactModal.hidden = false;
     lockScroll();

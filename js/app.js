@@ -373,7 +373,9 @@
 
   function openContact() {
     if (window.pptrack) window.pptrack({ type: "contact_open" });
+    // Eine stehen gebliebene Fehlermeldung vom letzten Versuch zurücksetzen
     el.thanks.hidden = true;
+    el.thanks.classList.remove("fehler");
     el.contactForm.hidden = false;
     el.contactModal.hidden = false;
   }
