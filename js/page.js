@@ -2,14 +2,15 @@
    Bühne wie die Startseite (Logo, Tagline, Kontakt, Kategorien-Leiste,
    Blur-Fades), nur mit einem scrollbaren Werk-Raster statt der Drift-Collage.
 
-   Ausgeliefert wird immer Deutsch, damit Suchmaschinen die deutschen Texte
-   indexieren. Englisch wird erst auf Klick eingesetzt (window.PAGE_EN) und in
-   localStorage gemerkt (gleicher Schlüssel wie js/app.js), damit die Wahl
-   beim Seitenwechsel erhalten bleibt. */
+   Seit der Sprachumstellung ist jede Seite statisch einsprachig: alle Texte
+   stehen fertig im HTML (erzeugt aus Quellen/texte/<lang>.json über
+   Quellen/seiten-vorlage.mjs). Der frühere Laufzeit-Textaustausch samt
+   UI-Tabelle, applyLang() und window.PAGE_EN ist deshalb entfallen — dieses
+   Skript kennt keine Sprache mehr. Die Auswahlliste steckt in
+   js/sprache.js, die automatische Erkennung als Inline-Skript im <head>. */
 (function () {
   "use strict";
 
-  var LANG_KEY = "pp_lang";
   var track = window.pptrack || function () {};
 
   // Gleicher Endpunkt wie auf der Startseite (js/app.js) — eigener Cloudflare
@@ -79,132 +80,6 @@
   measureNav();
   window.addEventListener("resize", measureNav);
   setInterval(measureNav, 800);
-
-  /* ---------- Sprache ---------- */
-
-  var UI = {
-    de: {
-      lang: "English",
-      contact: "Kontakt",
-      tagline: "Illustration und Packungsdesign",
-      hint: "Bild anklicken zum Vergrößern",
-      works: "Arbeiten in dieser Kategorie",
-      more: "Weitere Kategorien",
-      home: "Startseite",
-      formTitle: "Kontakt aufnehmen",
-      formNote: "Anfrage für Illustration oder Verpackungsgrafik",
-      name: "Name", mail: "E-Mail", msg: "Nachricht", send: "Senden",
-      close: "Schließen",
-      thanks: "Danke — die Nachricht ist unterwegs."
-    },
-    en: {
-      lang: "Deutsch",
-      contact: "Contact",
-      tagline: "Illustration and Packaging Design",
-      hint: "Click an image to view it",
-      works: "works in this category",
-      more: "More categories",
-      home: "Home",
-      formTitle: "Get in touch",
-      formNote: "Enquiry for illustration or packaging graphics",
-      name: "Name", mail: "Email", msg: "Message", send: "Send",
-      close: "Close",
-      thanks: "Thank you — your message is on its way."
-    }
-  };
-
-  function stored() {
-    try { return localStorage.getItem(LANG_KEY); } catch (e) { return null; }
-  }
-  function store(v) {
-    try { localStorage.setItem(LANG_KEY, v); } catch (e) { /* Privatmodus */ }
-  }
-
-  var lang = stored() === "en" ? "en" : "de";
-  var EN = window.PAGE_EN || null;
-
-  // Deutsche Fassung sichern, bevor sie ersetzt wird (nur Kategorieseiten
-  // haben pgH1/pgIntro — auf der Rechtsseite bleiben diese null, applyLang()
-  // überspringt den Textwechsel dann einfach).
-  var h1El = document.getElementById("pgH1");
-  var introEl = document.getElementById("pgIntro");
-  var eyebrowEl = document.getElementById("pgEyebrow");
-  var DE_EYEBROW = eyebrowEl ? eyebrowEl.textContent : "";
-  var DE = h1El && introEl
-    ? { h1: h1El.textContent, intro: Array.prototype.map.call(introEl.querySelectorAll("p"), function (p) { return p.textContent; }) }
-    : null;
-
-  function applyLang(next) {
-    lang = next;
-    var t = UI[next];
-    document.documentElement.lang = next === "en" ? "en" : "de";
-
-    var btn = document.getElementById("langBtn");
-    if (btn) btn.textContent = t.lang;
-
-    var contact = document.getElementById("contactBtn");
-    if (contact) contact.textContent = t.contact;
-
-    var tagline = document.getElementById("tagline");
-    if (tagline) tagline.textContent = t.tagline;
-
-    var count = document.getElementById("pgCount");
-    if (count) count.textContent = t.works + " — " + t.hint;
-    var countNum = document.getElementById("pgCountNum");
-    if (countNum) countNum.textContent = document.querySelectorAll(".om-grid figure").length;
-
-    // "Kategorie 01 / 09": die Ziffern stehen schon im HTML, getauscht wird
-    // nur das führende Wort (Kategorie/Category).
-    var eyebrow = document.getElementById("pgEyebrow");
-    if (eyebrow && EN && EN.eyebrow) eyebrow.textContent = next === "en" ? EN.eyebrow : DE_EYEBROW;
-
-    var more = document.getElementById("moreCatsBtn");
-    if (more) more.textContent = t.more;
-
-    var home = document.getElementById("homeBtn");
-    if (home) home.textContent = t.home;
-
-    var cTitle = document.getElementById("contactTitle");
-    if (cTitle) cTitle.textContent = t.formTitle;
-    var cNote = document.getElementById("contactNote");
-    if (cNote) cNote.textContent = t.formNote;
-    var cCloseLabel = document.getElementById("contactCloseLabel");
-    if (cCloseLabel) cCloseLabel.textContent = t.close;
-    var fName = document.getElementById("fName");
-    if (fName) fName.placeholder = t.name;
-    var fMail = document.getElementById("fMail");
-    if (fMail) fMail.placeholder = t.mail;
-    var fMsg = document.getElementById("fMsg");
-    if (fMsg) fMsg.placeholder = t.msg;
-    var fSend = document.getElementById("fSend");
-    if (fSend) fSend.textContent = t.send;
-    var cThanks = document.getElementById("thanks");
-    if (cThanks) cThanks.textContent = t.thanks;
-
-    // Überschrift und Einleitung nur auf den Kategorieseiten
-    var src = next === "en" ? EN : DE;
-    if (src && h1El && introEl) {
-      h1El.textContent = src.h1;
-      introEl.textContent = "";
-      src.intro.forEach(function (text) {
-        var p = document.createElement("p");
-        p.textContent = text;
-        introEl.appendChild(p);
-      });
-    }
-  }
-
-  var langBtn = document.getElementById("langBtn");
-  if (langBtn) {
-    langBtn.addEventListener("click", function () {
-      var next = lang === "de" ? "en" : "de";
-      store(next);
-      applyLang(next);
-      track({ type: "cat_select", cat: "lang:" + next });
-    });
-  }
-  // Beim Laden anwenden, falls die Wahl schon getroffen wurde
-  if (lang === "en") applyLang("en");
 
   /* ---------- Scroll sperren, solange ein Overlay offen ist ----------
      Betrifft das innere Raster-Panel (.om-scroll), nicht den body — die
@@ -280,9 +155,7 @@
   document.addEventListener("click", function (e) {
     var fig = e.target.closest && e.target.closest(".om-grid figure[data-full]");
     if (!fig) return;
-    var title = lang === "en"
-      ? (fig.getAttribute("data-title-en") || fig.getAttribute("data-title") || "")
-      : (fig.getAttribute("data-title") || "");
+    var title = fig.getAttribute("data-title") || "";
     openLb(fig.getAttribute("data-full"), title);
   });
 

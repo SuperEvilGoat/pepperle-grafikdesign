@@ -13,7 +13,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   overscroll-behavior: none;
-  background: #04294a;
+  background: var(--bg-deep);
 }
 
 a { color: #ea4f43; text-decoration: none; }
@@ -40,7 +40,7 @@ button { -webkit-appearance: none; appearance: none; }
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: radial-gradient(125% 105% at 50% 38%, #093c68 0%, #042a4b 46%, #01172c 100%);
+  background: var(--bg-grad);
   color: #eef3f8;
   font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
 }
@@ -50,7 +50,7 @@ button { -webkit-appearance: none; appearance: none; }
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(80% 60% at 50% 46%, rgba(11,77,132,0.26) 0%, rgba(2,31,59,0) 70%);
+  background: var(--bg-glow);
 }
 
 .vignette {
@@ -58,7 +58,7 @@ button { -webkit-appearance: none; appearance: none; }
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(1,20,38,0.88) 0%, rgba(1,20,38,0.25) 17%, rgba(1,20,38,0) 34%, rgba(1,20,38,0) 62%, rgba(1,20,38,0.55) 84%, rgba(1,20,38,0.92) 100%);
+  background: var(--bg-vignette);
 }
 
 /* ---------- Drift-Ebene ---------- */
@@ -654,20 +654,9 @@ a.cat-pill { display: inline-block; line-height: normal; }
 .legal-link { text-decoration: none; }
 a.legal-link { display: inline-block; }
 
-.lang-btn {
-  cursor: pointer;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(238,243,248,0.28);
-  background: rgba(238,243,248,0.04);
-  color: rgba(238,243,248,0.78);
-  transition: border-color 0.3s ease, color 0.3s ease;
-}
-.lang-btn:hover { border-color: rgba(234,79,67,0.85); color: #ffffff; }
+/* Der frühere Sprachknopf in der Topbar ist entfallen — jede Sprachfassung
+   ist eine eigene Seite, die Auswahl steckt jetzt als kleiner Textlink
+   "Sprache" unten in der Fußleiste (Klasse .legal-link, js/sprache.js). */
 
 /* ---------- Kategorieseiten ----------
    Dieselbe feststehende Bühne wie die Startseite (Logo, Tagline, Kontakt,
@@ -893,7 +882,7 @@ a.legal-link { display: inline-block; }
   inset: 0;
   z-index: 90;
   overflow: auto;
-  background: #04294a;
+  background: var(--bg-deep);
   color: #eef3f8;
   font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
   line-height: 1.6;
@@ -925,3 +914,12 @@ a.legal-link { display: inline-block; }
     corner-shape: superellipse(2.4);
   }
 }
+
+/* Sprachwähler: feine Trennlinie unter Deutsch/Englisch, darunter der
+   alphabetisch sortierte Rest (siehe js/sprache.js). */
+.sheet-inner a.sheet-sep { margin-top: 14px; position: relative; }
+.sheet-inner a.sheet-sep::before {
+  content: ""; position: absolute; left: 18%; right: 18%; top: -12px;
+  border-top: 1px solid rgba(238,243,248,0.16);
+}
+.sheet-inner a[aria-current] { color: #ffffff !important; }

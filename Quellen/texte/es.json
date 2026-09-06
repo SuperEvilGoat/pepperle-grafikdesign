@@ -1,0 +1,141 @@
+{
+  "lang": "es",
+  "locale": "es-ES",
+  "name": "Español",
+  "ui": {
+    "tagline": "Ilustración y diseño de envases",
+    "contact": "Contacto",
+    "close": "Cerrar",
+    "formTitle": "Ponerse en contacto",
+    "formNote": "Consulta de ilustración o gráfica de envases",
+    "name": "Nombre",
+    "mail": "Correo electrónico",
+    "msg": "Mensaje",
+    "send": "Enviar",
+    "thanks": "Gracias — su mensaje está en camino.",
+    "hint": "Haga clic en una imagen para ampliarla",
+    "hintTouch": "Toque una imagen para ampliarla",
+    "empty": "Imágenes en camino — carpeta aún no subida",
+    "legal": "Aviso legal y privacidad",
+    "language": "Idioma",
+    "languageTitle": "Elegir idioma",
+    "allCats": "Todas las categorías",
+    "moreCats": "Más categorías",
+    "home": "Inicio",
+    "categoryWord": "Categoría",
+    "worksLabel": "trabajos en esta categoría",
+    "footerRole": "Illustration & Graphic Design, Fráncfort del Meno",
+    "notFoundTitle": "Esta página ya no existe",
+    "notFoundText": "El sitio web se ha rehecho. Quizá busque una de estas categorías:",
+    "legalOnlyHint": "El aviso legal y la política de privacidad están disponibles en alemán e inglés.",
+    "startDescription": "Ilustración fotorrealista, diseño de logotipos y diseño de envases desde Fráncfort del Meno — Walter Pepperle, diseñador gráfico e ilustrador. Portafolio: alimentación, envases, farmacia, técnica, carteles y lettering.",
+    "noscript": "La página de inicio muestra un collage de imágenes en movimiento y necesita JavaScript. El portafolio completo también es accesible sin él:",
+    "legalDescription": "Aviso legal y política de privacidad de Walter Pepperle, Illustration & Graphic Design, Fráncfort del Meno.",
+    "privacyTitle": "Política de privacidad",
+    "redirecting": "Redirigiendo …",
+    "redirectNote": "El aviso legal y la política de privacidad están ahora juntos en",
+    "city": "Fráncfort del Meno",
+    "startTitle": "Walter Pepperle — Ilustración y diseño de envases, Fráncfort",
+    "startOgDescription": "Ilustración fotorrealista y diseño de envases desde Fráncfort del Meno.",
+    "services": [
+      "Ilustración",
+      "Diseño de envases",
+      "Diseño de logotipos y lettering"
+    ],
+    "logoAlt": "Walter Pepperle — logotipo",
+    "servicesLabel": "Servicios",
+    "startOgTitle": "Walter Pepperle — Ilustración y diseño de envases"
+  },
+  "alt": {
+    "pattern": "{title} — {kind} de {name}, {city}",
+    "kindDefault": "ilustración"
+  },
+  "seiten": {
+    "food-drinks": {
+      "h1": "Alimentos & Bebidas",
+      "title": "Alimentos & Bebidas — ilustración fotorrealista de alimentos",
+      "description": "Ilustración fotorrealista de alimentos de Walter Pepperle: frutas, chocolate, café y bebidas para envase, anuncio y cartel — ilustrador y diseñador gráfico en Fráncfort del Meno.",
+      "intro": [
+        "Un alimento apetitoso rara vez nace ante el objetivo. Donde la fotografía llega a su límite — fruta cortada, chocolate que fluye, la salpicadura perfecta en el vaso — toma el relevo la ilustración. Muestra el producto tal como debe verse: limpio, tentador y reproducible de forma idéntica en cada tirada.",
+        "Los trabajos de esta categoría van desde la representación de una fruta suelta hasta motivos de café y leche, pasando por imágenes completas de envase para mermeladas, barritas y bebidas. Ejecutados de forma fotorrealista, con aerógrafo y en digital — según lo que exijan el motivo y el proceso de impresión."
+      ]
+    },
+    "transportation-technology": {
+      "h1": "Transporte & Técnica",
+      "title": "Transporte & Técnica — ilustración técnica y motivos de vehículos",
+      "description": "Ilustración técnica de Walter Pepperle: automóviles, motocicletas, vehículos ferroviarios y representaciones de máquinas e instalaciones para publicidad y documentación técnica — ilustrador en Fráncfort del Meno.",
+      "altKind": "ilustración técnica",
+      "intro": [
+        "La técnica se muestra en su mejor cara en la ilustración: pintura sin reflejos del entorno, vistas en corte que ninguna fotografía puede ofrecer y perspectivas de objetos que aún no existen.",
+        "Los motivos abarcan automóviles clásicos y actuales, motocicletas y vehículos ferroviarios, así como representaciones técnicas de máquinas, instalaciones y componentes — del motivo publicitario al despiece explicativo."
+      ]
+    },
+    "landscape-scenery": {
+      "h1": "Paisaje & Escenario",
+      "title": "Paisaje & Escenario — lugares y atmósferas ilustrados",
+      "description": "Paisajes y escenarios ilustrados de Walter Pepperle: motivos de viaje, naturaleza y arquitectura, así como mundos narrativos para publicidad y envase — ilustrador en Fráncfort del Meno.",
+      "intro": [
+        "Un escenario debe transmitir una atmósfera antes de ser leído. El paisaje ilustrado permite exactamente eso: la luz, la estación y el punto de vista se fijan libremente, y todo lo que molesta sencillamente se queda fuera.",
+        "Los trabajos van de motivos de viaje y naturaleza a la arquitectura y los interiores, hasta mundos narrativos — lugares que para envases, carteles y anuncios encierran toda una historia en una sola imagen."
+      ]
+    },
+    "people-animals": {
+      "h1": "Personas & Animales",
+      "title": "Personas & Animales — figura, retrato e ilustración de personajes",
+      "description": "Ilustración figurativa de Walter Pepperle: retratos, personajes y motivos animales para publicidad, envase e identidad de marca — ilustrador en Fráncfort del Meno.",
+      "intro": [
+        "Los motivos figurativos se deciden por unos pocos milímetros — la mirada, la postura, la expresión. La ilustración tiene la ventaja de que el carácter se construye deliberadamente, en lugar de tener que captarlo en el momento justo.",
+        "Esta categoría reúne figuras y retratos realistas junto a personajes acentuados y motivos animales — de la marca figurativa a la figura principal de una campaña."
+      ]
+    },
+    "realistic-items": {
+      "h1": "Objetos",
+      "title": "Objetos — ilustración realista de productos y objetos",
+      "description": "Ilustración realista de objetos y productos de Walter Pepperle: materiales, superficies y objetos en representación fotorrealista — ilustrador en Fráncfort del Meno.",
+      "intro": [
+        "Vidrio, acero inoxidable, líquido, metal cepillado: la ilustración de objetos es en gran medida representación del material. Cómo trata la luz una superficie decide si un objeto se lee como real.",
+        "Esta categoría muestra productos y objetos sueltos en ejecución fotorrealista — recortados, puestos en escena o como representación explicativa de relaciones técnicas."
+      ]
+    },
+    "poster-ads": {
+      "h1": "Carteles & Anuncios",
+      "title": "Carteles & Anuncios — ilustración de cartel y motivos publicitarios",
+      "description": "Ilustración de carteles y anuncios de Walter Pepperle: motivos publicitarios, carteles de eventos e imágenes de portada para impresión y publicidad exterior — ilustrador en Fráncfort del Meno.",
+      "altKind": "motivo de cartel",
+      "intro": [
+        "Un cartel dispone de unos segundos. Tiene que funcionar de lejos, aguantar de cerca y quedarse en la memoria — exigencias que una sola imagen fuerte cumple mejor que cualquier lista de argumentos.",
+        "Esta categoría reúne motivos para anuncios, carteles de eventos, imágenes de portada y campañas — trabajos concebidos como el visual principal de una presencia."
+      ]
+    },
+    "pharma-medical": {
+      "h1": "Farmacia & Medicina",
+      "title": "Farmacia & Medicina — ilustración médica y científica",
+      "description": "Ilustración médica de Walter Pepperle: anatomía, procesos celulares, mecanismos de acción y gráficos moleculares para la comunicación farmacéutica y las publicaciones especializadas — ilustrador en Fráncfort del Meno.",
+      "altKind": "ilustración médica",
+      "intro": [
+        "En la comunicación farmacéutica una imagen debe hacer dos cosas a la vez: ser técnicamente correcta e inmediatamente comprensible. Los procesos dentro del cuerpo no se pueden fotografiar — hay que dibujarlos, y dibujarlos de modo que la afirmación se sostenga.",
+        "Los motivos abarcan representaciones anatómicas, procesos celulares y de coagulación, mecanismos de acción y gráficos moleculares — desarrollados en estrecha coordinación con las exigencias técnicas del cliente."
+      ]
+    },
+    "logos-icons": {
+      "h1": "Logotipos & Iconos",
+      "title": "Logotipos & Iconos — marcas figurativas, lettering y hand lettering, Fráncfort",
+      "description": "Diseño de logotipos y lettering de Walter Pepperle: marcas figurativas, hand lettering e iconos para marcas, productos y envases — desde Fráncfort del Meno.",
+      "altKind": "logotipo",
+      "intro": [
+        "Una marca figurativa tiene que funcionar en el estand de una feria igual de bien que grabada en relieve sobre una tapa de cuatro centímetros. Ese recorrido decide cada trazo del diseño.",
+        "Los trabajos van de marcas figurativas e iconos a lettering dibujado y hand lettering, hasta marcas completas — creados a menudo en el contexto del envase al que estaban destinados."
+      ]
+    },
+    "packaging-display": {
+      "h1": "Envase & Display",
+      "title": "Diseño de envases & Display — diseño de packaging desde Fráncfort",
+      "description": "Diseño de envases de Walter Pepperle, diseñador de packaging en Fráncfort del Meno: diseño de envases, etiquetas y displays — del motivo ilustrado al archivo listo para imprenta.",
+      "altKind": "diseño de envases",
+      "intro": [
+        "Es en el envase donde la ilustración y el diseño ya no se dejan separar. El motivo, la tipografía, la colocación de las menciones obligatorias y el efecto en el lineal surgen como una sola tarea — y topan finalmente con un proceso de impresión que hay que tener en cuenta desde el principio.",
+        "Esta categoría muestra envases completos, etiquetas, estuches plegables y displays: trabajos en los que la ilustración y el diseño del envase vienen de una sola mano — hasta el archivo listo para imprenta."
+      ]
+    }
+  }
+}

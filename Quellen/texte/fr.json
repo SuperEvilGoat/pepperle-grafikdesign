@@ -1,0 +1,141 @@
+{
+  "lang": "fr",
+  "locale": "fr-FR",
+  "name": "Français",
+  "ui": {
+    "tagline": "Illustration et design d'emballage",
+    "contact": "Contact",
+    "close": "Fermer",
+    "formTitle": "Prendre contact",
+    "formNote": "Demande d'illustration ou de graphisme d'emballage",
+    "name": "Nom",
+    "mail": "E-mail",
+    "msg": "Message",
+    "send": "Envoyer",
+    "thanks": "Merci — votre message est en route.",
+    "hint": "Cliquez sur une image pour l'agrandir",
+    "hintTouch": "Touchez une image pour l'agrandir",
+    "empty": "Images à venir — dossier pas encore téléversé",
+    "legal": "Mentions légales et confidentialité",
+    "language": "Langue",
+    "languageTitle": "Choisir une langue",
+    "allCats": "Toutes les catégories",
+    "moreCats": "Autres catégories",
+    "home": "Accueil",
+    "categoryWord": "Catégorie",
+    "worksLabel": "travaux dans cette catégorie",
+    "footerRole": "Illustration & Graphic Design, Francfort-sur-le-Main",
+    "notFoundTitle": "Cette page n'existe plus",
+    "notFoundText": "Le site a été refait. Vous cherchez peut-être l'une de ces catégories :",
+    "legalOnlyHint": "Les mentions légales et la déclaration de confidentialité sont disponibles en allemand et en anglais.",
+    "startDescription": "Illustration photoréaliste, création de logos et design d'emballage depuis Francfort-sur-le-Main — Walter Pepperle, graphiste et illustrateur. Portfolio : alimentaire, emballage, pharma, technique, affiches et lettrages.",
+    "noscript": "La page d'accueil présente un collage d'images animé et nécessite JavaScript. Le portfolio complet reste accessible sans :",
+    "legalDescription": "Mentions légales et déclaration de confidentialité de Walter Pepperle, Illustration & Graphic Design, Francfort-sur-le-Main.",
+    "privacyTitle": "Déclaration de confidentialité",
+    "redirecting": "Redirection …",
+    "redirectNote": "Les mentions légales et la déclaration de confidentialité se trouvent désormais à",
+    "city": "Francfort-sur-le-Main",
+    "startTitle": "Walter Pepperle — Illustration & design d'emballage, Francfort",
+    "startOgDescription": "Illustration photoréaliste et design d'emballage depuis Francfort-sur-le-Main.",
+    "services": [
+      "Illustration",
+      "Design d'emballage",
+      "Création de logos et de lettrages"
+    ],
+    "logoAlt": "Walter Pepperle — logo",
+    "servicesLabel": "Prestations",
+    "startOgTitle": "Walter Pepperle — Illustration & design d'emballage"
+  },
+  "alt": {
+    "pattern": "{title} — {kind} par {name}, {city}",
+    "kindDefault": "illustration"
+  },
+  "seiten": {
+    "food-drinks": {
+      "h1": "Alimentation & Boissons",
+      "title": "Alimentation & Boissons — illustration photoréaliste de produits alimentaires",
+      "description": "Illustration alimentaire photoréaliste par Walter Pepperle : fruits, chocolat, café et boissons pour l'emballage, l'annonce et l'affiche — illustrateur et graphiste à Francfort-sur-le-Main.",
+      "intro": [
+        "Un aliment appétissant naît rarement devant l'objectif. Là où la photographie atteint ses limites — fruits coupés, chocolat coulant, l'éclaboussure parfaite dans le verre — l'illustration prend le relais. Elle montre le produit tel qu'il doit être : net, tentant et reproductible à l'identique à chaque tirage.",
+        "Les travaux de cette catégorie vont de la représentation d'un fruit isolé aux motifs de café et de lait, jusqu'aux visuels complets de packaging pour confitures, barres et boissons. Réalisés de façon photoréaliste, à l'aérographe et en numérique — selon ce qu'exigent le sujet et le procédé d'impression."
+      ]
+    },
+    "transportation-technology": {
+      "h1": "Transport & Technique",
+      "title": "Transport & Technique — illustration technique et motifs de véhicules",
+      "description": "Illustration technique par Walter Pepperle : automobiles, motos, matériel ferroviaire ainsi que représentations de machines et d'installations pour la publicité et la documentation technique — illustrateur à Francfort-sur-le-Main.",
+      "altKind": "illustration technique",
+      "intro": [
+        "La technique se montre sous son meilleur jour en illustration : une carrosserie sans reflets de l'environnement, des vues en coupe qu'aucune photographie ne peut livrer, et des perspectives d'objets qui n'existent pas encore.",
+        "Les sujets couvrent automobiles classiques et actuelles, motos et matériel ferroviaire, ainsi que des représentations techniques de machines, d'installations et de composants — du motif publicitaire à la vue éclatée explicative."
+      ]
+    },
+    "landscape-scenery": {
+      "h1": "Paysage & Décor",
+      "title": "Paysage & Décor — lieux et atmosphères illustrés",
+      "description": "Paysages et décors illustrés par Walter Pepperle : motifs de voyage, de nature et d'architecture ainsi que des univers narratifs pour la publicité et l'emballage — illustrateur à Francfort-sur-le-Main.",
+      "intro": [
+        "Un décor doit transmettre une atmosphère avant même d'être lu. Le paysage illustré permet exactement cela : la lumière, la saison et le point de vue se choisissent librement, et tout ce qui dérange reste simplement en dehors.",
+        "Les travaux vont des motifs de voyage et de nature à l'architecture et aux intérieurs, jusqu'aux univers narratifs — des lieux qui font tenir toute une histoire dans une seule image, pour l'emballage, l'affiche et l'annonce."
+      ]
+    },
+    "people-animals": {
+      "h1": "Personnages & Animaux",
+      "title": "Personnages & Animaux — figure, portrait et illustration de personnages",
+      "description": "Illustration figurative par Walter Pepperle : portraits, personnages et motifs animaliers pour la publicité, l'emballage et l'identité de marque — illustrateur à Francfort-sur-le-Main.",
+      "intro": [
+        "Les motifs figuratifs se jouent à quelques millimètres — le regard, la posture, l'expression. L'illustration a cet avantage : le caractère se construit délibérément au lieu de devoir être saisi au bon moment.",
+        "Cette catégorie réunit figures et portraits réalistes ainsi que des personnages accentués et des motifs animaliers — de la marque figurative à la figure principale d'une campagne."
+      ]
+    },
+    "realistic-items": {
+      "h1": "Objets",
+      "title": "Objets — illustration réaliste de produits et d'objets",
+      "description": "Illustration réaliste d'objets et de produits par Walter Pepperle : matériaux, surfaces et objets en représentation photoréaliste — illustrateur à Francfort-sur-le-Main.",
+      "intro": [
+        "Verre, acier inoxydable, liquide, métal brossé : l'illustration d'objet est en grande partie une affaire de matière. La manière dont une surface traite la lumière décide si un objet se lit comme réel.",
+        "Cette catégorie montre produits et objets isolés en exécution photoréaliste — détourés, mis en scène, ou en représentation explicative de rapports techniques."
+      ]
+    },
+    "poster-ads": {
+      "h1": "Affiches & Annonces",
+      "title": "Affiches & Annonces — illustration d'affiche et motifs publicitaires",
+      "description": "Illustration d'affiches et d'annonces par Walter Pepperle : motifs publicitaires, affiches d'événement et images de couverture pour l'imprimé et l'affichage extérieur — illustrateur à Francfort-sur-le-Main.",
+      "altKind": "motif d'affiche",
+      "intro": [
+        "Une affiche dispose de quelques secondes. Elle doit fonctionner de loin, tenir de près et rester en mémoire — des exigences qu'une seule image forte satisfait mieux que n'importe quelle liste d'arguments.",
+        "Cette catégorie rassemble des motifs pour annonces, affiches d'événement, images de couverture et campagnes — des travaux conçus comme le visuel principal d'une présence."
+      ]
+    },
+    "pharma-medical": {
+      "h1": "Pharma & Médical",
+      "title": "Pharma & Médical — illustration médicale et scientifique",
+      "description": "Illustration médicale par Walter Pepperle : anatomie, processus cellulaires, mécanismes d'action et graphiques moléculaires pour la communication pharmaceutique et les publications spécialisées — illustrateur à Francfort-sur-le-Main.",
+      "altKind": "illustration médicale",
+      "intro": [
+        "Dans la communication pharmaceutique, une image doit faire deux choses à la fois : être techniquement exacte et immédiatement compréhensible. Les processus à l'intérieur du corps ne se photographient pas — il faut les dessiner, et les dessiner de sorte que l'affirmation tienne.",
+        "Les sujets comprennent représentations anatomiques, processus cellulaires et de coagulation, mécanismes d'action et graphiques moléculaires — développés en concertation étroite avec les exigences techniques du client."
+      ]
+    },
+    "logos-icons": {
+      "h1": "Logos & Icônes",
+      "title": "Logos & Icônes — marques figuratives, lettrages et hand lettering, Francfort",
+      "description": "Création de logos et de lettrages par Walter Pepperle : marques figuratives, hand lettering et icônes pour marques, produits et emballages — depuis Francfort-sur-le-Main.",
+      "altKind": "logo",
+      "intro": [
+        "Une marque figurative doit fonctionner aussi bien sur un stand de salon qu'estampée sur un couvercle de quatre centimètres. Cette amplitude décide de chaque trait du dessin.",
+        "Les travaux vont des marques figuratives et icônes aux lettrages dessinés et au hand lettering, jusqu'aux marques complètes — souvent créés dans le contexte de l'emballage auquel ils étaient destinés."
+      ]
+    },
+    "packaging-display": {
+      "h1": "Emballage & Display",
+      "title": "Design d'emballage & Display — conception d'emballages depuis Francfort",
+      "description": "Design d'emballage par Walter Pepperle, concepteur d'emballages à Francfort-sur-le-Main : conception de packaging, étiquettes et displays — du motif illustré jusqu'au fichier prêt à imprimer.",
+      "altKind": "design d'emballage",
+      "intro": [
+        "C'est sur l'emballage que l'illustration et le design ne se laissent plus séparer. Le motif, la typographie, le placement des mentions obligatoires et l'effet en rayon forment une seule tâche — et se heurtent finalement à un procédé d'impression qu'il faut prendre en compte dès le départ.",
+        "Cette catégorie montre des packagings complets, étiquettes, étuis pliants et displays : des travaux où l'illustration et la conception de l'emballage viennent d'une même main — jusqu'au fichier prêt à imprimer."
+      ]
+    }
+  }
+}

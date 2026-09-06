@@ -3,6 +3,9 @@ User-agent: *
 Allow: /
 # Entwicklungs- und Testdateien gehören nicht in den Index
 Disallow: /test-ohne-statistik.html
+# Bauquellen: liegen im Repo, weil der Worker sie zur Laufzeit liest
+# (siehe worker/src/site-gen.js) — gehören aber nicht in die Suche
+Disallow: /Quellen/
 
 # Bilder ausdrücklich freigeben — die Bildersuche ist für ein Portfolio
 # der wichtigste Kanal

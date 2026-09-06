@@ -7,10 +7,19 @@
   <meta name="description" content="Fotorealistische Illustration, Logodesign und Packungsdesign aus Frankfurt am Main — Walter Pepperle, Grafikdesigner und Illustrator. Portfolio: Food, Verpackungsdesign, Pharma, Technik, Poster und Schriftzüge.">
   <link rel="canonical" href="https://www.pepperle.de/">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-
+  <link rel="alternate" hreflang="de" href="https://www.pepperle.de/">
+  <link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/">
+  <link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/">
+  <link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/">
+  <link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/">
+  <link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Walter Pepperle — Illustration &amp; Graphic Design">
   <meta property="og:locale" content="de_DE">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="it_IT">
   <meta property="og:url" content="https://www.pepperle.de/">
   <meta property="og:title" content="Walter Pepperle — Illustration &amp; Packungsdesign">
   <meta property="og:description" content="Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.">
@@ -22,86 +31,25 @@
   <meta name="twitter:title" content="Walter Pepperle — Illustration &amp; Packungsdesign">
   <meta name="twitter:description" content="Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.">
   <meta name="twitter:image" content="https://www.pepperle.de/assets/og-image.png">
-
-  <meta name="theme-color" content="#04294a">
+  <meta name="theme-color" content="#01172c">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/style.css">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://www.pepperle.de/#website",
-        "url": "https://www.pepperle.de/",
-        "name": "Walter Pepperle — Illustration & Graphic Design",
-        "inLanguage": "de-DE",
-        "publisher": { "@id": "https://www.pepperle.de/#person" }
-      },
-      {
-        "@type": "Person",
-        "@id": "https://www.pepperle.de/#person",
-        "name": "Walter Pepperle",
-        "jobTitle": "Illustrator, Grafik-Designer und Packungsdesigner",
-        "url": "https://www.pepperle.de/",
-        "email": "mailto:info@pepperle.de",
-        "telephone": "+49-171-1963147",
-        "image": "https://www.pepperle.de/assets/og-image.png",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Untermainkai 1",
-          "postalCode": "60311",
-          "addressLocality": "Frankfurt am Main",
-          "addressCountry": "DE"
-        },
-        "knowsAbout": [
-          "Fotorealistische Illustration",
-          "Packungsdesign",
-          "Verpackungsdesign",
-          "Verpackungsgestaltung",
-          "Airbrush",
-          "Handlettering",
-          "Logoentwicklung",
-          "Logodesign",
-          "Grafikdesign",
-          "Technische Illustration",
-          "Medizinische Illustration"
-        ]
-      },
-      {
-        "@type": "ProfessionalService",
-        "@id": "https://www.pepperle.de/#business",
-        "name": "Walter Pepperle — Illustration & Graphic Design",
-        "url": "https://www.pepperle.de/",
-        "image": "https://www.pepperle.de/assets/og-image.png",
-        "founder": { "@id": "https://www.pepperle.de/#person" },
-        "priceRange": "$$",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Untermainkai 1",
-          "postalCode": "60311",
-          "addressLocality": "Frankfurt am Main",
-          "addressCountry": "DE"
-        },
-        "areaServed": { "@type": "Country", "name": "Deutschland" },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Leistungen",
-          "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Illustration" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Packungsdesign" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Logo- und Schriftzugentwicklung" } }
-          ]
-        }
-      }
-    ]
-  }
-  </script>
+  <script>(function(){var S=["de","en","es","fr","it"],D="de",F="en",K="pp_lang";
+try{var g=location.pathname.split("/"),i=g.length-2;if(i>=0&&S.indexOf(g[i])>-1)return;
+if(navigator.webdriver||/bot|crawl|spider|slurp|mediapartners|inspectiontool/i.test(navigator.userAgent||""))return;
+var z=null;try{var w=localStorage.getItem(K);if(w&&S.indexOf(w)>-1)z=w;}catch(e){}
+if(!z){var L=navigator.languages||(navigator.language?[navigator.language]:null);if(!L||!L.length)return;
+for(var a=0;a<L.length&&!z;a++){var t=String(L[a]||"").toLowerCase();
+while(t){if(S.indexOf(t)>-1){z=t;break;}var c=t.lastIndexOf("-");t=c>0?t.slice(0,c):"";}}
+if(!z)z=F;}
+if(z===D)return;var f=g[g.length-1]||"";
+location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.pepperle.de/#website","url":"https://www.pepperle.de/","name":"Walter Pepperle — Illustration & Graphic Design","inLanguage":"de-DE","publisher":{"@id":"https://www.pepperle.de/#person"}},{"@type":"Person","@id":"https://www.pepperle.de/#person","name":"Walter Pepperle","jobTitle":"Illustrator, Grafik-Designer und Packungsdesigner","url":"https://www.pepperle.de/","email":"mailto:info@pepperle.de","telephone":"+49-171-1963147","image":"https://www.pepperle.de/assets/og-image.png","address":{"@type":"PostalAddress","streetAddress":"Untermainkai 1","postalCode":"60311","addressLocality":"Frankfurt am Main","addressCountry":"DE"},"knowsAbout":["Fotorealistische Illustration","Packungsdesign","Verpackungsdesign","Verpackungsgestaltung","Airbrush","Handlettering","Logoentwicklung","Logodesign","Grafikdesign","Technische Illustration","Medizinische Illustration"]},{"@type":"ProfessionalService","@id":"https://www.pepperle.de/#business","name":"Walter Pepperle — Illustration & Graphic Design","url":"https://www.pepperle.de/","image":"https://www.pepperle.de/assets/og-image.png","founder":{"@id":"https://www.pepperle.de/#person"},"priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Untermainkai 1","postalCode":"60311","addressLocality":"Frankfurt am Main","addressCountry":"DE"},"areaServed":{"@type":"Country","name":"Deutschland"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Leistungen","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Illustration"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Packungsdesign"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Logo- und Schriftzugentwicklung"}}]}}]}</script>
 </head>
 <body>
   <div id="stage">
@@ -111,12 +59,10 @@
 
     <div class="vignette"></div>
 
-    <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Startseite">
-      <svg viewBox="0 0 3543 1417" role="img" aria-label="Pepperle — Logo">
+    <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Startseite"><svg viewBox="0 0 3543 1417" role="img" aria-label="Walter Pepperle — Logo">
         <polygon points="1606,75 2612,1307 595,1307" fill="#ea4f43"></polygon>
         <image href="assets/signature-720.png" x="0" y="0" width="3543" height="1417"></image>
-      </svg>
-    </a>
+      </svg></a>
 
     <!-- Der Schriftzug im Logo ist der Name; für Vorleseprogramme und
          Suchmaschinen steht er hier zusätzlich als Text in der Überschrift. -->
@@ -131,7 +77,6 @@
     </div>
 
     <div class="topbar">
-      <button type="button" class="lang-btn" id="langBtn">English</button>
       <button type="button" class="contact-btn" id="contactBtn">Kontakt</button>
     </div>
 
@@ -145,11 +90,11 @@
         <h2 id="contactTitle">Kontakt aufnehmen</h2>
         <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
         <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
-        <p class="thanks" id="thanks" hidden></p>
+        <p class="thanks" id="thanks" hidden>Danke — die Nachricht ist unterwegs.</p>
         <form id="contactForm">
-          <input type="text" id="fName" name="name" required>
-          <input type="email" id="fMail" name="email" required>
-          <textarea id="fMsg" name="message" rows="4" required></textarea>
+          <input type="text" id="fName" name="name" placeholder="Name" required>
+          <input type="email" id="fMail" name="email" placeholder="E-Mail" required>
+          <textarea id="fMsg" name="message" rows="4" placeholder="Nachricht" required></textarea>
           <button type="submit" id="fSend">Senden</button>
         </form>
       </div>
@@ -163,18 +108,18 @@
       <p class="note" id="note"></p>
 
       <!-- Die Startseite zeigt ausschließlich die animierte Featured-Auswahl.
-           Jede Kategorie — auch "Alle" — führt auf die eigene, statische
-           Rasteransicht; hier wird nichts mehr per JavaScript umgefiltert. -->
-      <nav class="cats-nav" id="catsNav" aria-label="Kategorien">
-        <a class="cat-pill" href="food-drinks.html" data-cat="food">Food &amp; Drinks</a>
-        <a class="cat-pill" href="transportation-technology.html" data-cat="transport">Verkehr &amp; Technik</a>
-        <a class="cat-pill" href="landscape-scenery.html" data-cat="landscape">Landschaft &amp; Szenerie</a>
-        <a class="cat-pill" href="people-animals.html" data-cat="people">Menschen &amp; Tiere</a>
-        <a class="cat-pill" href="realistic-items.html" data-cat="items">Objekte</a>
-        <a class="cat-pill" href="poster-ads.html" data-cat="poster">Poster &amp; Anzeigen</a>
-        <a class="cat-pill" href="pharma-medical.html" data-cat="pharma">Pharma &amp; Medizin</a>
-        <a class="cat-pill" href="logos-icons.html" data-cat="logos">Logos &amp; Icons</a>
-        <a class="cat-pill" href="packaging-display.html" data-cat="packaging">Verpackung &amp; Display</a>
+           Jede Kategorie führt auf die eigene, statische Rasteransicht. -->
+      <nav class="cats-nav" id="catsNav" aria-label="Kategorie">
+        <a class="cat-pill" href="food-drinks.html">Food &amp; Drinks</a>
+        <a class="cat-pill" href="transportation-technology.html">Verkehr &amp; Technik</a>
+        <a class="cat-pill" href="landscape-scenery.html">Landschaft &amp; Szenerie</a>
+        <a class="cat-pill" href="people-animals.html">Menschen &amp; Tiere</a>
+        <a class="cat-pill" href="realistic-items.html">Objekte</a>
+        <a class="cat-pill" href="poster-ads.html">Poster &amp; Anzeigen</a>
+        <a class="cat-pill" href="pharma-medical.html">Pharma &amp; Medizin</a>
+        <a class="cat-pill" href="logos-icons.html">Logos &amp; Icons</a>
+        <a class="cat-pill" href="packaging-display.html">Verpackung &amp; Display</a>
+        <button type="button" class="legal-link js-lang">Sprache</button>
         <a class="legal-link" href="impressum.html">Impressum &amp; Datenschutz</a>
       </nav>
 
@@ -184,9 +129,8 @@
 
   <noscript>
     <div class="noscript-fallback">
-      <h2>Walter Pepperle — Illustration &amp; Packungsdesign, Frankfurt am Main</h2>
-      <p>Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript.
-         Das vollständige Portfolio erreichen Sie auch ohne:</p>
+      <h2>Walter Pepperle — Illustration und Packungsdesign, Frankfurt am Main</h2>
+      <p>Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript. Das vollständige Portfolio erreichen Sie auch ohne:</p>
       <nav>
         <a href="food-drinks.html">Food &amp; Drinks</a>
         <a href="transportation-technology.html">Verkehr &amp; Technik</a>
@@ -198,12 +142,14 @@
         <a href="logos-icons.html">Logos &amp; Icons</a>
         <a href="packaging-display.html">Verpackung &amp; Display</a>
       </nav>
-      <p>Kontakt: <a href="mailto:info@pepperle.de">info@pepperle.de</a> · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+      <p>Kontakt: <a href="mailto:info@pepperle.de">info@pepperle.de</a> · <a href="impressum.html">Impressum &amp; Datenschutz</a></p>
     </div>
   </noscript>
 
+  <script>window.PP_LANG="de";window.PP_BASE="";window.PP_LANGS=[{"code":"de","name":"Deutsch"},{"code":"en","name":"English"},{"code":"es","name":"Español"},{"code":"fr","name":"Français"},{"code":"it","name":"Italiano"}];window.PP_UI={"tagline":"Illustration und Packungsdesign","contact":"Kontakt","close":"Schließen","formTitle":"Kontakt aufnehmen","formNote":"Anfrage für Illustration oder Verpackungsgrafik","name":"Name","mail":"E-Mail","msg":"Nachricht","send":"Senden","thanks":"Danke — die Nachricht ist unterwegs.","hint":"Bild anklicken zum Vergrößern","hintTouch":"Bild antippen zum Vergrößern","empty":"Bilder folgen — Ordner noch nicht hochgeladen","legal":"Impressum & Datenschutz","language":"Sprache","languageTitle":"Sprache wählen","allCats":"Alle Kategorien","moreCats":"Weitere Kategorien","home":"Startseite","categoryWord":"Kategorie","worksLabel":"Arbeiten in dieser Kategorie","footerRole":"Illustration & Graphic Design, Frankfurt am Main","notFoundTitle":"Diese Seite gibt es nicht mehr","notFoundText":"Die Website wurde neu gebaut. Vielleicht suchen Sie eine dieser Kategorien:","legalOnlyHint":"","startDescription":"Fotorealistische Illustration, Logodesign und Packungsdesign aus Frankfurt am Main — Walter Pepperle, Grafikdesigner und Illustrator. Portfolio: Food, Verpackungsdesign, Pharma, Technik, Poster und Schriftzüge.","noscript":"Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript. Das vollständige Portfolio erreichen Sie auch ohne:","legalDescription":"Impressum und Datenschutzerklärung von Walter Pepperle, Illustration & Graphic Design, Frankfurt am Main — nach § 5 DDG und DSGVO.","privacyTitle":"Datenschutzerklärung","redirecting":"Weiterleitung …","redirectNote":"Impressum und Datenschutzerklärung stehen jetzt gemeinsam unter","city":"Frankfurt am Main","startTitle":"Walter Pepperle — Illustration & Packungsdesign, Frankfurt","startOgDescription":"Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.","services":["Illustration","Packungsdesign","Logo- und Schriftzugentwicklung"],"logoAlt":"Walter Pepperle — Logo","servicesLabel":"Leistungen","startOgTitle":"Walter Pepperle — Illustration & Packungsdesign"};window.PP_CATS=[{"id":"food","slug":"food-drinks","name":"Food & Drinks"},{"id":"transport","slug":"transportation-technology","name":"Verkehr & Technik"},{"id":"landscape","slug":"landscape-scenery","name":"Landschaft & Szenerie"},{"id":"people","slug":"people-animals","name":"Menschen & Tiere"},{"id":"items","slug":"realistic-items","name":"Objekte"},{"id":"poster","slug":"poster-ads","name":"Poster & Anzeigen"},{"id":"pharma","slug":"pharma-medical","name":"Pharma & Medizin"},{"id":"logos","slug":"logos-icons","name":"Logos & Icons"},{"id":"packaging","slug":"packaging-display","name":"Verpackung & Display"}];</script>
   <script src="js/track.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/sprache.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

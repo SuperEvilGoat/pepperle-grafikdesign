@@ -1,0 +1,141 @@
+{
+  "lang": "it",
+  "locale": "it-IT",
+  "name": "Italiano",
+  "ui": {
+    "tagline": "Illustrazione e packaging design",
+    "contact": "Contatto",
+    "close": "Chiudi",
+    "formTitle": "Mettersi in contatto",
+    "formNote": "Richiesta di illustrazione o grafica per packaging",
+    "name": "Nome",
+    "mail": "E-mail",
+    "msg": "Messaggio",
+    "send": "Invia",
+    "thanks": "Grazie — il messaggio è in viaggio.",
+    "hint": "Clicca su un'immagine per ingrandirla",
+    "hintTouch": "Tocca un'immagine per ingrandirla",
+    "empty": "Immagini in arrivo — cartella non ancora caricata",
+    "legal": "Note legali e privacy",
+    "language": "Lingua",
+    "languageTitle": "Scegli una lingua",
+    "allCats": "Tutte le categorie",
+    "moreCats": "Altre categorie",
+    "home": "Home",
+    "categoryWord": "Categoria",
+    "worksLabel": "lavori in questa categoria",
+    "footerRole": "Illustration & Graphic Design, Francoforte sul Meno",
+    "notFoundTitle": "Questa pagina non esiste più",
+    "notFoundText": "Il sito è stato ricostruito. Forse cerchi una di queste categorie:",
+    "legalOnlyHint": "Le note legali e l'informativa sulla privacy sono disponibili in tedesco e in inglese.",
+    "startDescription": "Illustrazione fotorealistica, progettazione di loghi e packaging design da Francoforte sul Meno — Walter Pepperle, graphic designer e illustratore. Portfolio: food, packaging, pharma, tecnica, manifesti e lettering.",
+    "noscript": "La pagina iniziale mostra un collage di immagini in movimento e richiede JavaScript. Il portfolio completo è raggiungibile anche senza:",
+    "legalDescription": "Note legali e informativa sulla privacy di Walter Pepperle, Illustration & Graphic Design, Francoforte sul Meno.",
+    "privacyTitle": "Informativa sulla privacy",
+    "redirecting": "Reindirizzamento …",
+    "redirectNote": "Note legali e informativa sulla privacy si trovano ora insieme su",
+    "city": "Francoforte sul Meno",
+    "startTitle": "Walter Pepperle — Illustrazione e packaging design, Francoforte",
+    "startOgDescription": "Illustrazione fotorealistica e packaging design da Francoforte sul Meno.",
+    "services": [
+      "Illustrazione",
+      "Packaging design",
+      "Progettazione di loghi e lettering"
+    ],
+    "logoAlt": "Walter Pepperle — logo",
+    "servicesLabel": "Servizi",
+    "startOgTitle": "Walter Pepperle — Illustrazione e packaging design"
+  },
+  "alt": {
+    "pattern": "{title} — {kind} di {name}, {city}",
+    "kindDefault": "illustrazione"
+  },
+  "seiten": {
+    "food-drinks": {
+      "h1": "Food & Drinks",
+      "title": "Food & Drinks — illustrazione fotorealistica di alimenti",
+      "description": "Illustrazione food fotorealistica di Walter Pepperle: frutta, cioccolato, caffè e bevande per packaging, annunci e manifesti — illustratore e graphic designer a Francoforte sul Meno.",
+      "intro": [
+        "Un alimento appetitoso nasce raramente davanti all'obiettivo. Dove la fotografia arriva al suo limite — frutta tagliata, cioccolato che cola, lo schizzo perfetto nel bicchiere — subentra l'illustrazione. Mostra il prodotto esattamente come deve apparire: pulito, invitante e riproducibile identico in ogni tiratura.",
+        "I lavori di questa categoria vanno dalla singola resa di un frutto ai motivi di caffè e latte, fino alle immagini complete di confezione per confetture, barrette e bevande. Realizzati in modo fotorealistico, ad aerografo e in digitale — a seconda di ciò che richiedono il soggetto e il processo di stampa."
+      ]
+    },
+    "transportation-technology": {
+      "h1": "Trasporti & Tecnica",
+      "title": "Trasporti & Tecnica — illustrazione tecnica e motivi di veicoli",
+      "description": "Illustrazione tecnica di Walter Pepperle: automobili, motociclette, veicoli ferroviari e rappresentazioni di macchine e impianti per pubblicità e documentazione tecnica — illustratore a Francoforte sul Meno.",
+      "altKind": "illustrazione tecnica",
+      "intro": [
+        "La tecnica dà il meglio di sé nell'illustrazione: vernice senza riflessi dell'ambiente, viste in sezione che nessuna fotografia può fornire, e prospettive di oggetti che ancora non esistono.",
+        "I soggetti comprendono automobili classiche e attuali, motociclette e veicoli ferroviari, oltre a rappresentazioni tecniche di macchine, impianti e componenti — dal motivo pubblicitario allo spaccato esplicativo."
+      ]
+    },
+    "landscape-scenery": {
+      "h1": "Paesaggio & Scenari",
+      "title": "Paesaggio & Scenari — luoghi e atmosfere illustrate",
+      "description": "Paesaggi e scenari illustrati da Walter Pepperle: motivi di viaggio, natura e architettura oltre a mondi narrativi per pubblicità e packaging — illustratore a Francoforte sul Meno.",
+      "intro": [
+        "Uno scenario deve trasmettere un'atmosfera prima ancora di essere letto. Il paesaggio illustrato permette proprio questo: luce, stagione e punto di vista si stabiliscono liberamente, e tutto ciò che disturba semplicemente resta fuori.",
+        "I lavori vanno da motivi di viaggio e natura all'architettura e agli interni, fino a mondi narrativi — luoghi che per packaging, manifesti e annunci racchiudono un'intera storia in una sola immagine."
+      ]
+    },
+    "people-animals": {
+      "h1": "Persone & Animali",
+      "title": "Persone & Animali — figura, ritratto e illustrazione di personaggi",
+      "description": "Illustrazione figurativa di Walter Pepperle: ritratti, personaggi e motivi animali per pubblicità, packaging e identità di marca — illustratore a Francoforte sul Meno.",
+      "intro": [
+        "I motivi figurativi si decidono per pochi millimetri — lo sguardo, la postura, l'espressione. L'illustrazione ha il vantaggio che il carattere si costruisce deliberatamente, invece di doverlo cogliere al momento giusto.",
+        "Questa categoria riunisce figure e ritratti realistici oltre a personaggi accentuati e motivi animali — dal marchio figurativo alla figura guida di una campagna."
+      ]
+    },
+    "realistic-items": {
+      "h1": "Oggetti",
+      "title": "Oggetti — illustrazione realistica di prodotti e oggetti",
+      "description": "Illustrazione realistica di oggetti e prodotti di Walter Pepperle: materiali, superfici e oggetti in resa fotorealistica — illustratore a Francoforte sul Meno.",
+      "intro": [
+        "Vetro, acciaio inox, liquido, metallo spazzolato: l'illustrazione di oggetti è in larga parte rappresentazione della materia. Il modo in cui una superficie tratta la luce decide se un oggetto si legge come reale.",
+        "Questa categoria mostra singoli prodotti e oggetti in esecuzione fotorealistica — scontornati, messi in scena, oppure come resa esplicativa di rapporti tecnici."
+      ]
+    },
+    "poster-ads": {
+      "h1": "Manifesti & Annunci",
+      "title": "Manifesti & Annunci — illustrazione per manifesti e motivi pubblicitari",
+      "description": "Illustrazione per manifesti e annunci di Walter Pepperle: motivi pubblicitari, manifesti per eventi e immagini di copertina per stampa e affissione — illustratore a Francoforte sul Meno.",
+      "altKind": "motivo per manifesto",
+      "intro": [
+        "Un manifesto ha pochi secondi. Deve funzionare da lontano, reggere da vicino e restare in mente — esigenze che una sola immagine forte soddisfa meglio di qualsiasi elenco di argomenti.",
+        "Questa categoria raccoglie motivi per annunci, manifesti di eventi, immagini di copertina e campagne — lavori concepiti come visual principale di una presenza."
+      ]
+    },
+    "pharma-medical": {
+      "h1": "Pharma & Medicina",
+      "title": "Pharma & Medicina — illustrazione medica e scientifica",
+      "description": "Illustrazione medica di Walter Pepperle: anatomia, processi cellulari, meccanismi d'azione e grafica molecolare per la comunicazione farmaceutica e le pubblicazioni specialistiche — illustratore a Francoforte sul Meno.",
+      "altKind": "illustrazione medica",
+      "intro": [
+        "Nella comunicazione farmaceutica un'immagine deve fare due cose insieme: essere tecnicamente corretta e immediatamente comprensibile. I processi all'interno del corpo non si fotografano — vanno disegnati, e disegnati in modo che l'affermazione regga.",
+        "I soggetti comprendono rappresentazioni anatomiche, processi cellulari e della coagulazione, meccanismi d'azione e grafica molecolare — sviluppati in stretto accordo con le esigenze tecniche del committente."
+      ]
+    },
+    "logos-icons": {
+      "h1": "Loghi & Icone",
+      "title": "Loghi & Icone — marchi figurativi, lettering e hand lettering, Francoforte",
+      "description": "Progettazione di loghi e lettering di Walter Pepperle: marchi figurativi, hand lettering e icone per marche, prodotti e packaging — da Francoforte sul Meno.",
+      "altKind": "logo",
+      "intro": [
+        "Un marchio figurativo deve funzionare sullo stand fieristico tanto quanto goffrato su un coperchio di quattro centimetri. Questa escursione decide ogni tratto del disegno.",
+        "I lavori vanno da marchi figurativi e icone a lettering disegnati e hand lettering, fino a marchi completi — spesso nati nel contesto del packaging a cui erano destinati."
+      ]
+    },
+    "packaging-display": {
+      "h1": "Packaging & Display",
+      "title": "Packaging design & Display — progettazione di confezioni da Francoforte",
+      "description": "Packaging design di Walter Pepperle, progettista di confezioni a Francoforte sul Meno: progettazione di packaging, etichette e display — dal motivo illustrato al file pronto per la stampa.",
+      "altKind": "packaging design",
+      "intro": [
+        "È sulla confezione che illustrazione e design non si lasciano più separare. Il motivo, la tipografia, la collocazione delle diciture obbligatorie e l'effetto a scaffale nascono come un unico compito — e trovano infine il limite in un processo di stampa che va considerato fin dall'inizio.",
+        "Questa categoria mostra confezioni complete, etichette, astucci pieghevoli e display: lavori in cui l'illustrazione e il progetto della confezione vengono da una sola mano — fino al file pronto per la stampa."
+      ]
+    }
+  }
+}

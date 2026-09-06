@@ -1,10 +1,9 @@
 /* pepperle.de — statische Unterseiten (Kategorien, Impressum, Datenschutz).
    Bewusst getrennt von style.css: die Startseite ist eine feststehende Bühne
-   ohne Scrollen, diese Seiten sind normale, scrollbare Dokumente. */
+   ohne Scrollen, diese Seiten sind normale, scrollbare Dokumente.
+   Die Hintergrundfarben stehen gemeinsam mit style.css in base.css. */
 
 :root {
-  --bg: #04294a;
-  --bg-deep: #01172c;
   --ink: #eef3f8;
   --ink-dim: rgba(238, 243, 248, 0.62);
   --ink-faint: rgba(238, 243, 248, 0.4);
@@ -26,14 +25,26 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background:
-    radial-gradient(125% 90% at 50% 0%, #093c68 0%, #042a4b 46%, #01172c 100%) no-repeat,
-    var(--bg-deep);
   color: var(--ink);
   font-family: 'Instrument Sans', Helvetica, Arial, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Derselbe Hintergrund wie auf der Bühne (style.css): Verlauf, weiches Licht
+   und Vignette, feststehend hinter dem scrollenden Dokument. Bewusst ein
+   Pseudo-Element statt background-attachment: fixed — das ruckelt auf iOS. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    var(--bg-vignette),
+    var(--bg-glow),
+    var(--bg-grad);
 }
 
 a { color: var(--red); text-decoration: none; }

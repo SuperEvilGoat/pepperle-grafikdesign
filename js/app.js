@@ -10,49 +10,16 @@
   // Dashboard (keine E-Mail). Nach dem DNS-Umzug auf api.pepperle.de umstellen.
   var FORM_ENDPOINT = "https://pepperle-analytics.a347157.workers.dev/contact";
 
-  // slug = Adresse der zugehoerigen statischen Kategorieseite. Die Pfade sind
-  // die der alten Contao-Seite und duerfen nicht geaendert werden, sonst gehen
-  // die vorhandenen Suchmaschinen-Platzierungen verloren.
-  var CATS = [
-    { id: "food", de: "Food & Drinks", en: "Food & Drinks", slug: "food-drinks" },
-    { id: "transport", de: "Verkehr & Technik", en: "Transportation & Technology", slug: "transportation-technology" },
-    { id: "landscape", de: "Landschaft", en: "Landscape & Scenery", slug: "landscape-scenery" },
-    { id: "people", de: "Menschen & Tiere", en: "People & Animals", slug: "people-animals" },
-    { id: "items", de: "Objekte", en: "Realistic Items", slug: "realistic-items" },
-    { id: "poster", de: "Poster & Anzeigen", en: "Poster & Ads", slug: "poster-ads" },
-    { id: "pharma", de: "Pharma & Medizin", en: "Pharma & Medical", slug: "pharma-medical" },
-    { id: "logos", de: "Logos & Icons", en: "Logos & Icons", slug: "logos-icons" },
-    { id: "packaging", de: "Verpackung & Display", en: "Packaging & Display", slug: "packaging-display" }
-  ];
-
-  var COPY = {
-    de: {
-      empty: "Bilder folgen — Ordner noch nicht hochgeladen",
-      contact: "Kontakt", formTitle: "Kontakt aufnehmen",
-      formNote: "Anfrage für Illustration oder Verpackungsgrafik",
-      tagline: "Illustration und Packungsdesign",
-      name: "Name", mail: "E-Mail", msg: "Nachricht", send: "Senden",
-      thanks: "Danke — die Nachricht ist unterwegs.",
-      hint: "Bild antippen zum Vergrößern",
-      legal: "Impressum & Datenschutz",
-      allCats: "Alle Kategorien",
-      langSwitch: "English",
-      close: "Schließen"
-    },
-    en: {
-      empty: "Images coming — folder not uploaded yet",
-      contact: "Contact", formTitle: "Get in touch",
-      formNote: "Enquiry for illustration or packaging graphics",
-      tagline: "Illustration and Packaging Design",
-      name: "Name", mail: "Email", msg: "Message", send: "Send",
-      thanks: "Thank you — your message is on its way.",
-      hint: "Click an image to view it",
-      legal: "Imprint & Privacy",
-      allCats: "All categories",
-      langSwitch: "Deutsch",
-      close: "Close"
-    }
-  };
+  // Kategorien und Oberflächentexte kommen seit der Sprachumstellung von der
+  // Seite selbst (window.PP_CATS / window.PP_UI, erzeugt in
+  // Quellen/seiten-vorlage.mjs). Vorher standen sie hier als zweisprachige
+  // Tabelle im Skript — bei fünf Sprachen wäre das nicht mehr pflegbar, und
+  // jede Seite ist ohnehin statisch einsprachig.
+  //
+  // Die Pfade (slug) sind die der alten Contao-Seite und dürfen sich nicht
+  // ändern, sonst gehen die vorhandenen Suchmaschinen-Platzierungen verloren.
+  var CATS = window.PP_CATS || [];
+  var C = window.PP_UI || {};
 
   var TIERS = {
     large: { dur: 21, z: 3, shadow: "0 90px 160px rgba(0,9,20,0.85), 0 34px 66px rgba(0,9,20,0.6)" },
@@ -77,16 +44,6 @@
   var PER_LANE = 4;
   var MOBILE_PER_LANE = 5;
 
-  // Ausgeliefert wird immer Deutsch: der Googlebot ruft die Seite mit
-  // Accept-Language en-US ab und hat bisher die englische Fassung indexiert,
-  // obwohl im HTML lang="de" steht. Englisch gibt es weiterhin, aber nur auf
-  // ausdruecklichen Klick — die Wahl merkt sich localStorage und gilt auch auf
-  // den Kategorieseiten (gleicher Schluessel wie in js/page.js).
-  var LANG_KEY = "pp_lang";
-  var lang = (function () {
-    try { return localStorage.getItem(LANG_KEY) === "en" ? "en" : "de"; } catch (e) { return "de"; }
-  })();
-  var C = COPY[lang];
   var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var state = { lightbox: null, mobile: false };
@@ -112,7 +69,6 @@
     lightbox: document.getElementById("lightbox"),
     lbImg: document.getElementById("lbImg"),
     lbTitle: document.getElementById("lbTitle"),
-    langBtn: document.getElementById("langBtn"),
     sheetModal: document.getElementById("sheetModal"),
     sheetInner: document.getElementById("sheetInner")
   };
@@ -152,8 +108,17 @@
     return s.split(" ").map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" ");
   }
 
+  // Alle Bildpfade aus js/data.js sind relativ zur deutschen Fassung im
+  // Wurzelverzeichnis. In einer Sprachfassung (/fr/ …) muss deshalb ein "../"
+  // davor, sonst zeigen sie ins Leere.
+  var BASE = window.PP_BASE || "";
+
+  function bildPfad(src) {
+    return BASE + src;
+  }
+
   function fullSrc(tileSrc) {
-    return tileSrc.replace("images/tiles/", "images/full/");
+    return BASE + tileSrc.replace("images/tiles/", "images/full/");
   }
 
   function isMobileView() {
@@ -252,7 +217,7 @@
         d.style.animationDelay = t.delay + "s";
       }
       var img = document.createElement("img");
-      img.src = t.src;
+      img.src = bildPfad(t.src);
       img.alt = titleFromSrc(t.src);
       img.style.boxShadow = t.shadow;
       // Bewusst nicht "lazy": die Kacheln sind der Hauptinhalt und sollen sofort
@@ -268,7 +233,7 @@
       if (!reducedMotion) {
         d.addEventListener("animationiteration", function () {
           t.src = deck.next();
-          img.src = t.src;
+          img.src = bildPfad(t.src);
           img.alt = titleFromSrc(t.src);
         });
       }
@@ -285,6 +250,13 @@
      Rasteransicht — "Alle" fehlt bewusst, das leistet die Startseite bereits
      selbst. Hier wird nur noch die Beschriftung (Sprache) und die
      Desktop/Mobil-Variante gepflegt. */
+
+  // Impressum und Datenschutz gibt es nur auf Deutsch und Englisch; aus den
+  // übrigen Sprachfassungen führt der Link auf die englische Seite.
+  function rechtsZiel() {
+    var l = window.PP_LANG || "de";
+    return l === "de" || l === "en" ? "impressum.html" : "../en/impressum.html";
+  }
 
   function pillStyle(btn) {
     btn.style.border = "1px solid rgba(238,243,248,0.28)";
@@ -307,7 +279,7 @@
     pill.href = cc.slug + ".html";
     pill.className = "cat-pill" + (mobile ? " mobile" : "");
     pill.setAttribute("data-cat", cc.id);
-    pill.textContent = lang === "de" ? cc.de : cc.en;
+    pill.textContent = cc.name;
     pillStyle(pill);
     pill.addEventListener("click", function (e) { fadeToCategory(e, pill.href); });
     return pill;
@@ -317,9 +289,16 @@
     // Desktop
     el.catsNav.textContent = "";
     CATS.forEach(function (cc) { el.catsNav.appendChild(makePill(cc, false)); });
+    // "Sprache" und "Impressum & Datenschutz" — dieselbe zurückhaltende
+    // Größe, nebeneinander am Ende der Leiste.
+    var langBtn = document.createElement("button");
+    langBtn.type = "button";
+    langBtn.className = "legal-link js-lang";
+    langBtn.textContent = C.language;
+    el.catsNav.appendChild(langBtn);
     var legalBtn = document.createElement("a");
     legalBtn.className = "legal-link";
-    legalBtn.href = "impressum.html";
+    legalBtn.href = rechtsZiel();
     legalBtn.textContent = C.legal;
     el.catsNav.appendChild(legalBtn);
 
@@ -343,9 +322,14 @@
     more.addEventListener("click", openSheet);
     nav.appendChild(more);
     el.mobileNav.appendChild(nav);
+    var langM = document.createElement("button");
+    langM.type = "button";
+    langM.className = "legal-link mobile js-lang";
+    langM.textContent = C.language;
+    el.mobileNav.appendChild(langM);
     var legalM = document.createElement("a");
     legalM.className = "legal-link mobile";
-    legalM.href = "impressum.html";
+    legalM.href = rechtsZiel();
     legalM.textContent = C.legal;
     el.mobileNav.appendChild(legalM);
 
@@ -428,7 +412,7 @@
     CATS.forEach(function (cc) {
       var a = document.createElement("a");
       a.href = cc.slug + ".html";
-      a.textContent = lang === "de" ? cc.de : cc.en;
+      a.textContent = cc.name;
       pillStyle(a);
       a.addEventListener("click", function (e) { fadeToCategory(e, a.href); });
       el.sheetInner.appendChild(a);
@@ -557,33 +541,14 @@
 
   /* ---------- Init ---------- */
 
+  // Die meisten Texte stehen bereits im erzeugten HTML (siehe
+  // Quellen/seiten-vorlage.mjs). Nachzutragen sind nur die beiden Stellen, die
+  // erst zur Laufzeit entstehen: der Hinweis unter der Collage und, falls gar
+  // keine Bilder da sind, die Notiz darüber.
   function applyTexts() {
-    document.documentElement.lang = lang;
-    el.tagline.textContent = C.tagline;
-    el.hint.textContent = C.hint;
-    el.contactBtn.textContent = C.contact;
-    el.contactTitle.textContent = C.formTitle;
-    el.contactNote.textContent = C.formNote;
-    if (el.contactCloseLabel) el.contactCloseLabel.textContent = C.close;
-    el.fName.placeholder = C.name;
-    el.fMail.placeholder = C.mail;
-    el.fMsg.placeholder = C.msg;
-    el.fSend.textContent = C.send;
-    el.thanks.textContent = C.thanks;
-    if (el.langBtn) el.langBtn.textContent = C.langSwitch;
+    if (el.hint) el.hint.textContent = C.hintTouch && isMobileView() ? C.hintTouch : (C.hint || "");
   }
   applyTexts();
-
-  if (el.langBtn) {
-    el.langBtn.addEventListener("click", function () {
-      lang = lang === "de" ? "en" : "de";
-      C = COPY[lang];
-      try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* Privatmodus */ }
-      applyTexts();
-      renderNavs();
-      if (window.pptrack) window.pptrack({ type: "cat_select", cat: "lang:" + lang });
-    });
-  }
 
   el.contactBtn.addEventListener("click", openContact);
   document.getElementById("contactClose").addEventListener("click", closeContact);

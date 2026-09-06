@@ -1,57 +1,569 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.pepperle.de/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/"/>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/food-drinks.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/food-drinks.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/food-drinks.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/food-drinks.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/food-drinks.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/food-drinks.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/food-drinks.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/food-drinks.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/food-drinks.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/food-drinks.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/food-drinks.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/transportation-technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/transportation-technology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/transportation-technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/transportation-technology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/transportation-technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/transportation-technology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/transportation-technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/transportation-technology.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/transportation-technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/transportation-technology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/transportation-technology.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/landscape-scenery.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/landscape-scenery.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/landscape-scenery.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/landscape-scenery.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/landscape-scenery.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/landscape-scenery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/landscape-scenery.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/people-animals.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/people-animals.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/people-animals.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/people-animals.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/people-animals.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/people-animals.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/people-animals.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/people-animals.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/people-animals.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/people-animals.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/people-animals.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/realistic-items.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/realistic-items.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/realistic-items.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/realistic-items.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/realistic-items.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/realistic-items.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/realistic-items.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/realistic-items.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/realistic-items.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/realistic-items.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/realistic-items.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/poster-ads.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/poster-ads.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/poster-ads.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/poster-ads.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/poster-ads.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/poster-ads.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/poster-ads.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/poster-ads.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/poster-ads.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/poster-ads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/poster-ads.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/pharma-medical.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/pharma-medical.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/pharma-medical.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/pharma-medical.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/pharma-medical.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/pharma-medical.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/pharma-medical.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/pharma-medical.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/pharma-medical.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/pharma-medical.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/pharma-medical.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/logos-icons.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/logos-icons.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/logos-icons.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/logos-icons.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/logos-icons.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/logos-icons.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/logos-icons.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/logos-icons.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/logos-icons.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/logos-icons.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/logos-icons.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/packaging-display.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/packaging-display.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/packaging-display.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/packaging-display.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/es/packaging-display.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/packaging-display.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/fr/packaging-display.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/packaging-display.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/it/packaging-display.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.pepperle.de/es/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.pepperle.de/fr/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.pepperle.de/it/packaging-display.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/packaging-display.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.pepperle.de/impressum.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/impressum.html"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.pepperle.de/en/impressum.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.pepperle.de/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pepperle.de/en/impressum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pepperle.de/impressum.html"/>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

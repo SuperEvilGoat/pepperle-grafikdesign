@@ -1,0 +1,141 @@
+{
+  "lang": "de",
+  "locale": "de-DE",
+  "name": "Deutsch",
+  "ui": {
+    "tagline": "Illustration und Packungsdesign",
+    "contact": "Kontakt",
+    "close": "Schließen",
+    "formTitle": "Kontakt aufnehmen",
+    "formNote": "Anfrage für Illustration oder Verpackungsgrafik",
+    "name": "Name",
+    "mail": "E-Mail",
+    "msg": "Nachricht",
+    "send": "Senden",
+    "thanks": "Danke — die Nachricht ist unterwegs.",
+    "hint": "Bild anklicken zum Vergrößern",
+    "hintTouch": "Bild antippen zum Vergrößern",
+    "empty": "Bilder folgen — Ordner noch nicht hochgeladen",
+    "legal": "Impressum & Datenschutz",
+    "language": "Sprache",
+    "languageTitle": "Sprache wählen",
+    "allCats": "Alle Kategorien",
+    "moreCats": "Weitere Kategorien",
+    "home": "Startseite",
+    "categoryWord": "Kategorie",
+    "worksLabel": "Arbeiten in dieser Kategorie",
+    "footerRole": "Illustration & Graphic Design, Frankfurt am Main",
+    "notFoundTitle": "Diese Seite gibt es nicht mehr",
+    "notFoundText": "Die Website wurde neu gebaut. Vielleicht suchen Sie eine dieser Kategorien:",
+    "legalOnlyHint": "",
+    "startDescription": "Fotorealistische Illustration, Logodesign und Packungsdesign aus Frankfurt am Main — Walter Pepperle, Grafikdesigner und Illustrator. Portfolio: Food, Verpackungsdesign, Pharma, Technik, Poster und Schriftzüge.",
+    "noscript": "Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript. Das vollständige Portfolio erreichen Sie auch ohne:",
+    "legalDescription": "Impressum und Datenschutzerklärung von Walter Pepperle, Illustration & Graphic Design, Frankfurt am Main — nach § 5 DDG und DSGVO.",
+    "privacyTitle": "Datenschutzerklärung",
+    "redirecting": "Weiterleitung …",
+    "redirectNote": "Impressum und Datenschutzerklärung stehen jetzt gemeinsam unter",
+    "city": "Frankfurt am Main",
+    "startTitle": "Walter Pepperle — Illustration & Packungsdesign, Frankfurt",
+    "startOgDescription": "Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.",
+    "services": [
+      "Illustration",
+      "Packungsdesign",
+      "Logo- und Schriftzugentwicklung"
+    ],
+    "logoAlt": "Walter Pepperle — Logo",
+    "servicesLabel": "Leistungen",
+    "startOgTitle": "Walter Pepperle — Illustration & Packungsdesign"
+  },
+  "alt": {
+    "pattern": "{title} — {kind} von {name}, {city}",
+    "kindDefault": "Illustration"
+  },
+  "seiten": {
+    "food-drinks": {
+      "h1": "Food & Drinks",
+      "title": "Food & Drinks — fotorealistische Illustration von Lebensmitteln",
+      "description": "Fotorealistische Food-Illustration von Walter Pepperle: Früchte, Schokolade, Kaffee und Getränke für Verpackung, Anzeige und Plakat — Illustrator und Grafikdesigner aus Frankfurt am Main.",
+      "intro": [
+        "Appetitliche Lebensmittel entstehen auf der Verpackung selten vor der Kamera. Wo ein Foto an seine Grenzen kommt — bei aufgeschnittenen Früchten, fließender Schokolade, dem perfekten Spritzer im Glas — übernimmt die Illustration. Sie zeigt das Produkt so, wie es aussehen soll: sauber, verführerisch und in jeder Auflage identisch reproduzierbar.",
+        "Die Arbeiten dieser Kategorie reichen von einzelnen Fruchtabbildungen über Kaffee- und Milchmotive bis zu vollständigen Packungsbildern für Konfitüre, Riegel und Getränke. Gearbeitet wird fotorealistisch, in Airbrush-Technik und digital — je nachdem, was das Motiv und der Druckprozess verlangen."
+      ]
+    },
+    "transportation-technology": {
+      "h1": "Verkehr & Technik",
+      "title": "Verkehr & Technik — technische Illustration und Fahrzeugmotive",
+      "description": "Technische Illustration von Walter Pepperle: Automobile, Motorräder, Schienenfahrzeuge sowie Maschinen- und Anlagendarstellungen für Werbung und Technikdokumentation — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "Technik zeigt sich in der Illustration von ihrer besten Seite: Lack ohne Spiegelungen der Umgebung, Schnittdarstellungen, die kein Foto liefern kann, und Perspektiven, für die es das Objekt noch gar nicht gibt.",
+        "Die Motive umfassen klassische und aktuelle Automobile, Motorräder, Schienenfahrzeuge sowie technische Darstellungen von Maschinen, Anlagen und Bauteilen — vom Werbemotiv bis zur erklärenden Explosionszeichnung."
+      ],
+      "altKind": "technische Illustration"
+    },
+    "landscape-scenery": {
+      "h1": "Landschaft & Szenerie",
+      "title": "Landschaft & Szenerie — illustrierte Schauplätze und Stimmungen",
+      "description": "Illustrierte Landschaften und Szenerien von Walter Pepperle: Reise-, Natur- und Architekturmotive sowie erzählende Bildwelten für Werbung und Verpackung — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "Eine Szenerie muss eine Stimmung transportieren, bevor sie gelesen wird. Illustrierte Landschaften erlauben genau das: Licht, Jahreszeit und Blickwinkel lassen sich frei setzen, und alles Störende bleibt einfach weg.",
+        "Die Arbeiten reichen von Reise- und Naturmotiven über Architektur und Innenräume bis zu erzählenden Bildwelten — Schauplätze, die für Verpackungen, Plakate und Anzeigen eine ganze Geschichte in einem Bild unterbringen."
+      ]
+    },
+    "people-animals": {
+      "h1": "Menschen & Tiere",
+      "title": "Menschen & Tiere — Figur, Porträt und Charakter-Illustration",
+      "description": "Figürliche Illustration von Walter Pepperle: Porträts, Charaktere und Tiermotive für Werbung, Verpackung und Markenauftritte — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "Figürliche Motive entscheiden sich an wenigen Millimetern — am Blick, an der Haltung, am Ausdruck. Die Illustration hat hier den Vorteil, dass sich Charakter gezielt aufbauen lässt, statt ihn im richtigen Moment einfangen zu müssen.",
+        "Diese Kategorie versammelt realistische Figuren und Porträts ebenso wie überzeichnete Charaktere und Tiermotive — von der Bildmarke bis zur Hauptfigur einer Kampagne."
+      ]
+    },
+    "realistic-items": {
+      "h1": "Objekte",
+      "title": "Objekte — realistische Produkt- und Sachillustration",
+      "description": "Realistische Objekt- und Produktillustration von Walter Pepperle: Materialien, Oberflächen und Gegenstände in fotorealistischer Darstellung — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "Glas, Edelstahl, Flüssigkeit, gebürstetes Metall: Objektillustration ist zu einem großen Teil Materialdarstellung. Wie eine Oberfläche das Licht behandelt, entscheidet darüber, ob ein Gegenstand echt wirkt.",
+        "Die Arbeiten dieser Kategorie zeigen einzelne Produkte und Sachmotive in fotorealistischer Ausführung — freigestellt, in Szene gesetzt oder als erklärende Darstellung technischer Zusammenhänge."
+      ]
+    },
+    "poster-ads": {
+      "h1": "Poster & Anzeigen",
+      "title": "Poster & Anzeigen — Plakatillustration und Werbemotive",
+      "description": "Plakat- und Anzeigenillustration von Walter Pepperle: Werbemotive, Veranstaltungsplakate und Titelbilder für Print und Außenwerbung — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "Ein Plakat hat wenige Sekunden. Es muss aus der Entfernung wirken, aus der Nähe standhalten und im Kopf bleiben — Anforderungen, die ein einzelnes starkes Bildmotiv besser erfüllt als jede Aufzählung von Argumenten.",
+        "Diese Kategorie versammelt Motive für Anzeigen, Veranstaltungsplakate, Titelbilder und Kampagnen — Arbeiten, die als Hauptmotiv eines Auftritts konzipiert wurden."
+      ],
+      "altKind": "Plakatmotiv"
+    },
+    "pharma-medical": {
+      "h1": "Pharma & Medizin",
+      "title": "Pharma & Medizin — medizinische und wissenschaftliche Illustration",
+      "description": "Medizinische Illustration von Walter Pepperle: Anatomie, Zellvorgänge, Wirkmechanismen und Molekülgrafiken für Pharma-Kommunikation und Fachpublikationen — Illustrator aus Frankfurt am Main.",
+      "intro": [
+        "In der Pharma-Kommunikation muss ein Bild zwei Dinge gleichzeitig leisten: fachlich korrekt sein und für den Betrachter sofort verständlich. Vorgänge im Körper sind nicht fotografierbar — sie müssen gezeichnet werden, und zwar so, dass die Aussage stimmt.",
+        "Die Motive umfassen anatomische Darstellungen, Zell- und Gerinnungsvorgänge, Wirkmechanismen und Molekülgrafiken — erarbeitet in enger Abstimmung mit den fachlichen Vorgaben des Auftraggebers."
+      ],
+      "altKind": "medizinische Illustration"
+    },
+    "logos-icons": {
+      "h1": "Logos & Icons",
+      "title": "Logos & Icons — Bildmarken, Schriftzüge und Handlettering, Frankfurt",
+      "description": "Logodesign und Schriftzugentwicklung von Walter Pepperle: Bildmarken, Handlettering und Icons für Marken, Produkte und Verpackungen — aus Frankfurt am Main.",
+      "intro": [
+        "Eine Bildmarke muss auf dem Messestand ebenso funktionieren wie geprägt auf einem Deckel von vier Zentimetern Durchmesser. Diese Spannweite entscheidet über jede Linie im Entwurf.",
+        "Die Arbeiten reichen von Bildmarken und Icons über gezeichnete Schriftzüge und Handlettering bis zu vollständigen Markenzeichen — häufig entstanden im Zusammenhang mit der Verpackung, für die sie gedacht waren."
+      ],
+      "altKind": "Logo"
+    },
+    "packaging-display": {
+      "h1": "Verpackung & Display",
+      "title": "Packungsdesign & Display — Verpackungsgestaltung aus Frankfurt",
+      "description": "Packungsdesign & Verpackungsdesign von Walter Pepperle, Packungsdesigner aus Frankfurt am Main: Verpackungsgestaltung, Etiketten und Displays — vom Illustrationsmotiv bis zur druckfertigen Packung.",
+      "intro": [
+        "Verpackungsdesign ist der Ort, an dem sich Illustration und Gestaltung nicht trennen lassen. Das Motiv, die Typografie, die Anordnung der Pflichtangaben und die Wirkung im Regal entstehen als eine Aufgabe — und werden am Ende von einem Druckverfahren begrenzt, das von Anfang an mitgedacht sein will.",
+        "Diese Kategorie zeigt vollständige Packungen, Etiketten, Faltschachteln und Displays: Arbeiten, bei denen das eigene Illustrationsmotiv und der Entwurf der Packung aus einer Hand kommen — bis zur druckfertigen Reinzeichnung."
+      ],
+      "altKind": "Packungsdesign"
+    }
+  }
+}
