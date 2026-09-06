@@ -382,21 +382,42 @@
   function submitForm(e) {
     e.preventDefault();
     if (window.pptrack) window.pptrack({ type: "contact_submit" });
-    var done = function () {
+    /* Erfolg und Fehler MÜSSEN auseinandergehalten werden. Vorher stand hier
+       .then(done, done) — beides führte zur Danke-Meldung. Dadurch bekam der
+       Absender eine Bestätigung für eine Nachricht, die nie ankam; genau so
+       blieb ein Ausfall am 2026-09-06 unbemerkt. Auch Safaris Tracking-Schutz
+       kann den Aufruf blockieren, dann greift derselbe Zweig. */
+    var geglueckt = function () {
       el.contactForm.hidden = true;
+      el.thanks.textContent = C.thanks;
+      el.thanks.classList.remove("fehler");
       el.thanks.hidden = false;
     };
-    if (!FORM_ENDPOINT) { done(); return; }
+    var gescheitert = function () {
+      // Formular stehen lassen, damit der Text nicht verloren geht
+      el.thanks.textContent = C.sendError || "";
+      el.thanks.classList.add("fehler");
+      el.thanks.hidden = false;
+      el.fSend.disabled = false;
+      el.fSend.textContent = C.send;
+    };
+    if (!FORM_ENDPOINT) { geglueckt(); return; }
     var payload = {
       name: el.fName.value,
       email: el.fMail.value,
       message: el.fMsg.value
     };
+    el.fSend.disabled = true;
     fetch(FORM_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(payload)
-    }).then(done, done);
+    }).then(function (r) {
+      if (!r.ok) { gescheitert(); return; }
+      return r.json().then(function (d) {
+        if (d && d.ok) geglueckt(); else gescheitert();
+      }, geglueckt);
+    }, gescheitert);
   }
 
   /* ---------- Rechtliches ----------

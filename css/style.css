@@ -923,3 +923,7 @@ a.legal-link { display: inline-block; }
   border-top: 1px solid rgba(238,243,248,0.16);
 }
 .sheet-inner a[aria-current] { color: #ffffff !important; }
+
+/* Fehlermeldung im Kontaktformular — dieselbe Stelle wie die Danke-Meldung,
+   nur in Warnfarbe. Ein stiller Fehlschlag kostet eine Kundenanfrage. */
+.thanks.fehler { color: #ea4f43; }

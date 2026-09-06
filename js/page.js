@@ -189,10 +189,27 @@
   function submitContact(e) {
     e.preventDefault();
     track({ type: "contact_submit" });
-    var done = function () {
+    /* Erfolg und Fehler auseinanderhalten — siehe die ausführliche Begründung
+       in js/app.js. Eine stille Fehlmeldung kostet eine Kundenanfrage. */
+    var UI = window.PP_UI || {};
+    var fSend = document.getElementById("fSend");
+    var geglueckt = function () {
       if (contactForm) contactForm.hidden = true;
-      if (contactThanks) contactThanks.hidden = false;
+      if (contactThanks) {
+        contactThanks.textContent = UI.thanks || contactThanks.textContent;
+        contactThanks.classList.remove("fehler");
+        contactThanks.hidden = false;
+      }
     };
+    var gescheitert = function () {
+      if (contactThanks) {
+        contactThanks.textContent = UI.sendError || "";
+        contactThanks.classList.add("fehler");
+        contactThanks.hidden = false;
+      }
+      if (fSend) { fSend.disabled = false; fSend.textContent = UI.send || fSend.textContent; }
+    };
+    if (fSend) fSend.disabled = true;
     fetch(FORM_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -201,7 +218,12 @@
         email: fMail ? fMail.value : "",
         message: fMsg ? fMsg.value : ""
       })
-    }).then(done, done);
+    }).then(function (r) {
+      if (!r.ok) { gescheitert(); return; }
+      return r.json().then(function (d) {
+        if (d && d.ok) geglueckt(); else gescheitert();
+      }, geglueckt);
+    }, gescheitert);
   }
 
   if (contactBtn) contactBtn.addEventListener("click", openContact);
