@@ -745,8 +745,13 @@ export function bilderSitemapXml(o) {
   const blocks = [];
   for (const lang of SPRACHEN) {
     const t = o.texteAlle[lang];
+    // Zwei Aufrufer: der lokale Build kennt nur eine Bildliste (Titel aus
+    // js/data.js), das Dashboard liefert je Sprache eine eigene.
+    const jeKategorie = o.bilderJeKategorieSprache
+      ? o.bilderJeKategorieSprache[lang]
+      : o.bilderJeKategorie;
     for (const p of o.seiten) {
-      const bilder = o.bilderJeKategorie[p.cat] || [];
+      const bilder = jeKategorie[p.cat] || [];
       if (!bilder.length) continue;
       const seite = t.seiten[p.slug];
       const kind = seite.altKind || t.alt.kindDefault;

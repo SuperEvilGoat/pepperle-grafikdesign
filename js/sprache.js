@@ -66,7 +66,13 @@
       a.style.color = "rgba(238,243,248,0.78)";
       a.addEventListener("click", function () {
         merken(s.code);
-        if (window.pptrack) window.pptrack({ type: "lang_pick", cat: s.code });
+        // "cat" ist die gewählte Sprache, "path" verrät dem Server über den
+        // Ordner, aus welcher Fassung heraus gewechselt wurde. Aus dem Paar
+        // ergibt sich im Dashboard die Zeile "erkannt → gewählt", also die
+        // gemessene Fehlerkennungsrate der Automatik.
+        if (window.pptrack) {
+          window.pptrack({ type: "lang_pick", cat: s.code, path: location.pathname });
+        }
       });
       inner.appendChild(a);
     });
