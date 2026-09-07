@@ -194,9 +194,14 @@ export function kategorieSeite(o) {
   const kind = seite.altKind || t.alt.kindDefault;
   const canonical = url(o.origin, o.lang, `${o.slug}.html`);
 
+  // Ganzer Beschreibungssatz, wenn vorhanden — er sagt bereits, was zu sehen
+  // ist, und braucht den festen Anhang "— Illustration von … " nicht mehr.
+  // Fehlt er, greift unverändert das bisherige Muster aus den Sprachdateien.
+  // Deshalb kann der Umbau ausgerollt werden, bevor eine einzige Beschreibung
+  // geschrieben ist.
   const bilder = o.bilder.map((b) => ({
     ...b,
-    alt: t.alt.pattern
+    alt: b.description || t.alt.pattern
       .replace("{title}", b.title)
       .replace("{kind}", kind)
       .replace("{name}", o.site.name)
@@ -209,7 +214,7 @@ export function kategorieSeite(o) {
       // das Mehrspalten-Raster füllt spaltenweise, das native Lazy-Loading richtet
       // sich nach der echten Position statt nach der Quelltextreihenfolge.
       const prio = i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-      return `          <figure data-full="${esc(pfad(r, b.full))}" data-title="${esc(b.title)}">
+      return `          <figure data-full="${esc(pfad(r, b.full))}" data-title="${esc(b.description || b.title)}">
             <picture>${
                 b.webp ? `\n              <source srcset="${esc(pfad(r, b.webp))}" type="image/webp">` : ""
               }
@@ -757,7 +762,10 @@ export function bilderSitemapXml(o) {
       const kind = seite.altKind || t.alt.kindDefault;
       const eintraege = bilder
         .map((b) => {
-          const caption = t.alt.pattern
+          // Wie im Alt-Attribut: der Beschreibungssatz, sonst das Muster.
+          // <image:title> bleibt in jedem Fall der kurze Titel — das
+          // Sitemap-Protokoll erwartet dort einen Namen, keinen Fließtext.
+          const caption = b.description || t.alt.pattern
             .replace("{title}", b.title)
             .replace("{kind}", kind)
             .replace("{name}", o.site.name)
