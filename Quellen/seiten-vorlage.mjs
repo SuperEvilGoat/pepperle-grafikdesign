@@ -128,6 +128,7 @@ ${SPRACHEN.filter((l) => l !== o.lang && (!o.hreflangNur || o.hreflangNur.indexO
   <link rel="stylesheet" href="${r}css/fonts.css">
   <link rel="stylesheet" href="${r}css/base.css">
   <link rel="stylesheet" href="${r}css/${o.stylesheet || "style.css"}">
+  <script>document.documentElement.className+=" js";</script>
   ${erkennung()}`;
 }
 
@@ -185,6 +186,79 @@ export function sprachDaten(namen, lang, ui, kategorien) {
   return `<script>${teile.join(";")};</script>`;
 }
 
+/* ---------- Werk-Raster ----------
+
+   Das Raster der Kategorieseiten ist ein CSS-Grid mit vorberechneten
+   Zeilenspannen (siehe .om-grid in css/style.css), kein Spaltenlayout mehr.
+   Die Spannen entstehen hier, weil nur der Build die Bildmaße kennt. */
+
+/* Wie viele Rasterzeilen eine Kachel überspannt.
+
+   Muss zahlengenau zu css/style.css passen:
+     Rasterfeinheit  grid-auto-rows: 0.1cqw   → EINHEIT
+     Spaltenabstand  column-gap: 2cqw         → ABSTAND
+     Kachelabstand   margin-bottom: 2cqw      → derselbe Wert
+
+   Gerechnet wird in cqw, also in Prozent der Rasterbreite. Dadurch hängen die
+   Spannen nur noch von der Spaltenzahl ab und gelten in jeder Fenstergröße —
+   sonst bräuchte jede Bildschirmbreite eigene Zahlen.
+
+   Aufgerundet wird bewusst nach oben: der Rest von höchstens einer
+   Rasterzeile (≈ 1,4 px) fällt durch align-self: start als Zwischenraum unter
+   die Kachel statt als Beschnitt ins Bild. */
+const RASTER_EINHEIT = 0.1;
+const RASTER_ABSTAND = 2;
+
+export function spanne(w, h, spalten) {
+  if (!w || !h) return Math.ceil((75 + RASTER_ABSTAND) / RASTER_EINHEIT);
+  const spaltenBreite = (100 - RASTER_ABSTAND * (spalten - 1)) / spalten;
+  const hoehe = spaltenBreite * (h / w);
+  return Math.ceil((hoehe + RASTER_ABSTAND) / RASTER_EINHEIT);
+}
+
+/* Die sizes-Angabe beschreibt dem Browser, wie breit die Kachel im Layout
+   tatsächlich wird — nur so kann er aus dem srcset die passende Fassung
+   wählen, und zwar bevor das CSS ausgewertet ist. Die Werte folgen den
+   Umbruchpunkten in css/style.css (4 / 3 / 2 / 1 Spalten) und sind eine Spur
+   großzügig gerechnet: zu klein geschätzt lieferte er ein unscharfes Bild,
+   zu groß nur ein paar Kilobyte zu viel. */
+export const KACHEL_SIZES =
+  "(max-width: 620px) calc(100vw - 32px), (max-width: 860px) 46vw, " +
+  "(max-width: 1180px) 31vw, min(24vw, 345px)";
+
+/* Baut aus den vorhandenen Fassungen eines Bildes das srcset.
+   b.quellen ist [{ w, src }, …] und kommt aus dem jeweiligen Generator —
+   lokal aus dem Dateisystem (Quellen/build-seiten.mjs), im Dashboard aus D1
+   (worker/src/site-gen.js). Fehlen die neuen Fassungen (Bild von vor der
+   Umstellung), bleibt genau die 800er übrig und alles funktioniert wie
+   bisher, nur ohne Auswahl. */
+export function kachelSrcset(vorsatz, b) {
+  const q = (b.quellen || []).filter((x) => x && x.src);
+  if (!q.length) return "";
+  return q.map((x) => `${esc(pfad(vorsatz, x.src))} ${x.w}w`).join(", ");
+}
+
+/* Ladepriorität nach der Position im Raster.
+
+   Das ist der Punkt, an dem der Umbau seinen Zweck erfüllt: Weil das Grid in
+   Lesereihenfolge platziert, sind die ersten vier Bilder im Quelltext auch
+   die vier der sichtbaren ersten Reihe. Vorher (column-count, spaltenweise
+   gefüllt) waren das die Bilder 1, 8, 15 und 22 — deshalb brachte die frühere
+   Regel "nur Bild 0 lädt eager" für die erste Reihe so gut wie nichts.
+
+   Bild 2–4 stehen bewusst auf lazy UND fetchpriority=high: die beiden
+   Angaben sind unabhängig voneinander. lazy entscheidet, OB jetzt geladen
+   wird (auf dem Desktop ja, sie stehen im Bild; auf dem Handy nein, dort
+   liegen sie weit unten), fetchpriority entscheidet, WIE DRINGEND. So ist die
+   erste Reihe auf dem Desktop sofort da, ohne auf dem Handy Daten zu
+   verschwenden. */
+function ladeArt(i) {
+  if (i === 0) return 'loading="eager" fetchpriority="high"';
+  if (i < 4) return 'loading="lazy" fetchpriority="high"';
+  if (i < 12) return 'loading="lazy"';
+  return 'loading="lazy" fetchpriority="low"';
+}
+
 /* ---------- Kategorieseite ---------- */
 
 export function kategorieSeite(o) {
@@ -210,20 +284,43 @@ export function kategorieSeite(o) {
 
   const raster = bilder
     .map((b, i) => {
-      // Nur das erste Bild sofort und mit hoher Priorität laden, der Rest "lazy" —
-      // das Mehrspalten-Raster füllt spaltenweise, das native Lazy-Loading richtet
-      // sich nach der echten Position statt nach der Quelltextreihenfolge.
-      const prio = i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-      return `          <figure data-full="${esc(pfad(r, b.full))}" data-title="${esc(b.description || b.title)}">
+      const srcset = kachelSrcset(r, b);
+      /* Die Spannen für 4, 3 und 2 Spalten stehen als Custom Properties an der
+         Kachel; css/style.css greift je Umbruchpunkt die passende ab. Einspaltig
+         (Handy) braucht keine — dort ist das Raster ein schlichter Flex-Stapel. */
+      const spannen = `--s4:${spanne(b.w, b.h, 4)};--s3:${spanne(b.w, b.h, 3)};--s2:${spanne(b.w, b.h, 2)}`;
+      /* data-title und data-desc sind getrennt: die Kachel zeigt beim
+         Überfahren nur den kurzen Titel, die Lightbox darunter Titel UND
+         Beschreibungssatz. Vorher lag in data-title beides vermischt. */
+      return `          <figure style="${spannen}" data-large="${esc(pfad(r, b.large || b.full))}" data-full="${esc(
+        pfad(r, b.full)
+      )}" data-title="${esc(b.title)}" data-desc="${esc(b.description || "")}">
             <picture>${
-                b.webp ? `\n              <source srcset="${esc(pfad(r, b.webp))}" type="image/webp">` : ""
-              }
+              srcset
+                ? `\n              <source srcset="${srcset}" sizes="${KACHEL_SIZES}" type="image/webp">`
+                : ""
+            }
               <img src="${esc(pfad(r, b.tile))}" alt="${esc(b.alt)}" width="${b.w}" height="${b.h}"
-                   ${prio} decoding="async">
+                   ${ladeArt(i)} decoding="async" draggable="false">
             </picture>
+            <figcaption>${esc(b.title)}</figcaption>
           </figure>`;
     })
     .join("\n");
+
+  /* Das erste Bild wird schon im <head> angefordert, bevor der Browser das
+     CSS ausgewertet oder den Body geparst hat — es ist der LCP-Kandidat der
+     Seite. imagesrcset/imagesizes müssen exakt dem <img> unten entsprechen,
+     sonst lädt der Browser zwei verschiedene Fassungen statt einer. */
+  const erstesBild = bilder[0];
+  const vorladen = erstesBild
+    ? (() => {
+        const srcset = kachelSrcset(r, erstesBild);
+        return srcset
+          ? `\n  <link rel="preload" as="image" fetchpriority="high" type="image/webp" imagesrcset="${srcset}" imagesizes="${KACHEL_SIZES}">`
+          : `\n  <link rel="preload" as="image" fetchpriority="high" href="${esc(pfad(r, erstesBild.tile))}">`;
+      })()
+    : "";
 
   const pad2 = (n) => String(n).padStart(2, "0");
   const nr = o.seiten.findIndex((p) => p.slug === o.slug) + 1;
@@ -266,7 +363,7 @@ export function kategorieSeite(o) {
   };
 
   return `<!DOCTYPE html>
-<html lang="${o.lang}">
+<html lang="${o.lang}" class="seite-scroll">
 <head>
 ${kopf({
   ...o,
@@ -278,7 +375,7 @@ ${kopf({
   canonical,
   siteName: `${o.site.name} — ${o.site.role}`,
   locale: t.locale
-})}
+})}${vorladen}
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 </head>
 <body>
@@ -305,8 +402,10 @@ ${seite.intro.map((x) => `              <p>${esc(x)}</p>`).join("\n")}
   )} — ${esc(t.ui.hint)}</span></p>
           </div>
         </header>
-        <div class="om-grid">
+        <div class="om-grid-wrap">
+          <div class="om-grid">
 ${raster}
+          </div>
         </div>
       </div>
     </div>
@@ -322,6 +421,7 @@ ${raster}
       <div class="lb-inner">
         <img id="lbImg" alt="">
         <p class="lb-title" id="lbTitle"></p>
+        <p class="lb-desc" id="lbDesc" hidden></p>
         <button type="button" class="lb-close" aria-label="${esc(t.ui.close)}">×</button>
       </div>
     </div>
@@ -564,7 +664,7 @@ export function rechtsSeite(o) {
   };
 
   return `<!DOCTYPE html>
-<html lang="${o.lang}">
+<html lang="${o.lang}" class="seite-scroll">
 <head>
 ${kopf({
   ...o,

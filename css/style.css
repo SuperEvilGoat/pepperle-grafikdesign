@@ -16,6 +16,69 @@ html, body {
   background: var(--bg-deep);
 }
 
+/* ---------- Seiten, die im Dokument scrollen ----------
+   Die Startseite bleibt eine feststehende Bühne: die Drift-Collage braucht
+   einen Bildausschnitt, der sich nicht bewegt. Kategorie- und Rechtsseiten
+   dagegen scrollten bisher in einem inneren Panel (.om-scroll) auf ebendieser
+   feststehenden Bühne — mit drei Nachteilen, die zusammen das Ruckeln ergaben:
+
+     1. Das native Lazy-Loading richtet sein Vorausschau-Fenster (rund 1250 px
+        vor dem Sichtbereich) am Dokument aus und arbeitet in verschachtelten
+        Scrollcontainern unzuverlässig.
+     2. iOS/Safari legt einen verschachtelten Scroller nicht auf den schnellen
+        Compositor-Pfad, sobald darüber Elemente mit backdrop-filter liegen —
+        jeder Frame läuft dann über den Hauptthread.
+     3. overscroll-behavior: contain auf einer fixierten Bühne erzeugt auf iOS
+        das bekannte Gummiband-Zucken.
+
+   Die Klasse steht am <html>, nicht am <body> — so kommt man ohne :has() an
+   das Wurzelelement heran. Optisch ändert sich nichts: alles, was vorher
+   absolut auf der Bühne saß, wird jetzt fixed und steht damit an derselben
+   Stelle im Bild. */
+html.seite-scroll,
+html.seite-scroll body {
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+/* Verhindert den Breitensprung, wenn Lightbox oder Kontaktformular das
+   Dokument-Scrollen sperren (siehe lockScroll in js/page.js). */
+html.seite-scroll { scrollbar-gutter: stable; }
+
+html.seite-scroll #stage {
+  position: relative;
+  min-height: 100vh;
+  overflow: visible;
+  /* Der Verlauf ist radial und würde sich sonst über die gesamte
+     Dokumenthöhe strecken — "fixed" hält ihn auf Bildschirmgröße, also
+     exakt so, wie er auf der Startseite aussieht. */
+  background-attachment: fixed;
+}
+/* relative, nicht static: z-index wirkt nur auf positionierte Elemente. Mit
+   static verlöre .om-scroll seine Ebene 2 und läge damit unter .vignette
+   (Ebene 3) und den Blur-Fades (Ebene 5) — der Inhalt verschwände hinter
+   ihnen. Die inset: 0 aus der Grundregel bleibt bei relativer Positionierung
+   folgenlos (0 Versatz), die Bühne verschiebt sich also nicht. */
+html.seite-scroll .om-scroll {
+  position: relative;
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+html.seite-scroll .glow,
+html.seite-scroll .vignette,
+html.seite-scroll .om-logo,
+html.seite-scroll .om-tag,
+html.seite-scroll .topbar,
+html.seite-scroll .bottom,
+html.seite-scroll .om-fade-top,
+html.seite-scroll .om-fade,
+html.seite-scroll #lightbox,
+html.seite-scroll #contactModal,
+html.seite-scroll #sheetModal {
+  position: fixed;
+}
+
 a { color: #ea4f43; text-decoration: none; }
 a:hover { color: #f5837a; }
 
@@ -186,6 +249,19 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
   text-transform: uppercase;
   color: rgba(238,243,248,0.82);
 }
+/* Beschreibungssatz unter dem Titel. Auf der Kachel steht beim Überfahren nur
+   der kurze Titel — der ganze Satz erst hier, wo Platz dafür ist. Fehlt er in
+   einer Sprache, bleibt der Absatz per [hidden] leer statt eine Lücke zu
+   reißen (siehe openLb in js/page.js). */
+.lb-desc {
+  margin: -6px 0 0;
+  max-width: 62ch;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(238,243,248,0.62);
+}
+.lb-desc[hidden] { display: none; }
 /* Am Bildrand fixiert statt frei im Overlay zu schweben: .lb-close sitzt jetzt
    in .lb-inner und positioniert sich relativ zum Bild (dessen Breite/Höhe die
    Größe von .lb-inner bestimmt), nicht mehr relativ zum ganzen Viewport. */
@@ -763,55 +839,146 @@ a.legal-link { display: inline-block; }
   max-width: none;
 }
 
-.om-grid { column-count: 4; column-gap: 30px; }
+/* ---------- Werk-Raster ----------
+
+   Masonry über CSS-Grid mit vorberechneten Zeilenspannen — NICHT über
+   column-count. Der Unterschied ist der Kern dieses Umbaus:
+
+   column-count füllt Spalte für Spalte. Bei vier Spalten und 28 Bildern
+   bestand die sichtbare erste Reihe aus den Bildern 1, 8, 15 und 22. Die
+   Reihenfolge im Quelltext hatte also nichts mit der Reihenfolge auf dem
+   Bildschirm zu tun, und jede Ladepriorität nach Quelltextposition ging ins
+   Leere — genau deshalb war die erste Reihe nie schneller da als der Rest.
+
+   CSS-Grid platziert dagegen in Lesereihenfolge: links nach rechts, dann
+   nächste Zeile. Damit gilt Bild 1–4 = sichtbare erste Reihe, und die
+   Priorisierung in Quellen/seiten-vorlage.mjs stimmt automatisch.
+
+   Damit die Kacheln trotzdem ihre echten Proportionen behalten (kein
+   Zuschnitt), bekommt das Raster sehr feine implizite Zeilen, und jede Kachel
+   überspannt so viele davon, wie ihre Höhe erfordert. Die Spannenzahlen
+   stehen als --s4/--s3/--s2 am <figure> und werden im Build aus width/height
+   gerechnet (spanne() in Quellen/seiten-vorlage.mjs).
+
+   Maßeinheit ist cqw (Prozent der Rasterbreite), damit die Spannen unabhängig
+   von der Fenstergröße gelten und nur noch von der Spaltenzahl abhängen.
+   Deshalb der Wrapper: ein Element löst cqw immer gegen seinen VORFAHREN-
+   Container auf, nie gegen sich selbst — läge container-type auf .om-grid,
+   würde dessen eigenes grid-auto-rows gegen den Viewport rechnen und die
+   Spannen wären falsch. */
+.om-grid-wrap { container-type: inline-size; }
+
+.om-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Rasterfeinheit: 0,1 % der Breite ≈ 1,4 px bei 1448 px Inhaltsbreite.
+     Der Aufrundungsrest je Kachel bleibt damit unter 1,5 px. */
+  grid-auto-rows: 0.1cqw;
+  column-gap: 2cqw;
+  /* Der senkrechte Abstand steckt als margin in der Kachel, nicht in row-gap:
+     row-gap würde die Quantisierung von 0,1cqw auf 0,1cqw + Abstand vergröbern
+     und die Kachelhöhen um bis zu 30 px verfehlen. */
+  row-gap: 0;
+}
+
 .om-grid > figure {
   position: relative;
-  margin: 0 0 30px;
-  break-inside: avoid;
+  margin: 0 0 2cqw;
+  grid-row-end: span var(--s4);
+  /* Der Aufrundungsrest fällt dadurch als unsichtbarer Zwischenraum nach
+     unten und nie als Beschnitt ins Bild — die Proportionen bleiben exakt. */
+  align-self: start;
   overflow: hidden;
   cursor: zoom-in;
   border-radius: var(--radius);
   background: linear-gradient(160deg, #073c68 0%, #042a4c 100%);
   box-shadow: 0 18px 34px rgba(0,9,20,0.55), 0 5px 12px rgba(0,9,20,0.4);
-  opacity: 0;
-  /* CSS-Spaltenlayout (column-count) lässt WebKit/Safari (und teils Chrome)
-     die einzelnen Kacheln beim Scrollen gelegentlich kurz neu rastern, was als
-     Aufblitzen/Verschwinden einzelner Bilder sichtbar wird. Eigene
-     Compositing-Ebene pro Kachel umgeht das Repaint-Flackern; contain: paint
-     verhindert zusätzlich, dass ein Repaint einer Kachel auf Nachbarkacheln
-     in derselben Spalte übergreift. */
-  transform: translateZ(0);
-  will-change: transform;
-  contain: paint;
-}
-/* Der Einblend-Zeitpunkt wird von js/page.js gesetzt, nachdem die tatsächliche
-   Position im Masonry-Raster gemessen wurde — nur so blenden die oberen
-   Bilder wirklich vor den unteren ein (CSS-Spaltenlayout füllt Spalte für
-   Spalte, nicht Zeile für Zeile). Ohne JavaScript bleiben sie einfach sichtbar. */
-.om-grid > figure.om-figure-in {
-  animation: tileIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Der Radius sitzt bewusst auch am Bild selbst, nicht nur als overflow:hidden
-   an der Kachel: die Kacheln liegen wegen des Flacker-Fixes (translateZ/
-   contain:paint, siehe oben) auf eigenen Compositing-Ebenen, und dort schneidet
-   WebKit ein Kindbild an einer gerundeten Elternecke nicht zuverlässig ab. */
+/* Ohne das Spaltenlayout entfällt auch dessen Repaint-Fehler in WebKit. Die
+   frühere Gegenmaßnahme (transform: translateZ(0) + will-change: transform +
+   contain: paint auf JEDER Kachel) ist deshalb ersatzlos gestrichen: sie gab
+   20–27 Kacheln je eine dauerhafte GPU-Ebene, und auf Geräten mit knappem
+   Grafikspeicher warf der Browser genau diese Ebenen wieder weg und zeichnete
+   sie neu — das Flackern, das sie verhindern sollte. */
+
+/* Der Radius sitzt auch am Bild selbst, nicht nur als overflow:hidden an der
+   Kachel: WebKit schneidet ein Kindbild an einer gerundeten Elternecke nicht
+   in jedem Fall zuverlässig ab. */
 .om-grid img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radius);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.om-grid figure:hover img { transform: scale(1.055); }
 
-@keyframes tileIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+/* Einblenden je Bild, sobald es dekodiert ist — gesetzt von js/page.js.
 
-@media (max-width: 1180px) { .om-grid { column-count: 3; } }
+   Die Polarität ist bewusst herum: sichtbar ist der Grundzustand, unsichtbar
+   die Ausnahme, und die Ausnahme gilt nur, wenn JavaScript läuft (html.js).
+   Vorher war es andersherum — die Kachel startete auf opacity: 0 und wartete
+   darauf, dass revealGrid() ihr eine Klasse gab. Blieb die aus, war "geladen,
+   aber unsichtbar" ein erreichbarer Endzustand, aus dem nur ein erzwungener
+   Repaint befreite: der Hover. Genau das war der Fehler "Bild erscheint erst,
+   wenn man mit der Maus darüberfährt". In dieser Richtung kann er nicht mehr
+   auftreten: fällt das Skript aus, bleibt einfach alles sichtbar. */
+html.js .om-grid img:not(.geladen) { opacity: 0; }
+html.js .om-grid.alle-sichtbar img { opacity: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .om-grid figure:hover img { transform: scale(1.055); }
+}
+
+/* Bildunterschrift beim Überfahren: Titel über einem Schattengradienten am
+   unteren Bildrand. Nur opacity wird animiert — das läuft auf dem Compositor
+   und kostet weder Layout noch Paint. Auf Touch-Geräten gibt es kein Hover,
+   dort steht der Text erst in der Lightbox (display: none spart auch das
+   Zeichnen des Gradienten). */
+.om-grid figcaption {
+  display: none;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 40px 16px 13px;
+  border-radius: 0 0 var(--radius) var(--radius);
+  background: linear-gradient(to top,
+              rgba(1,17,33,0.88) 0%, rgba(1,17,33,0.62) 42%, rgba(1,17,33,0) 100%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(238,243,248,0.94);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .om-grid figcaption { display: block; }
+  .om-grid figure:hover figcaption,
+  .om-grid figure:focus-within figcaption { opacity: 1; }
+}
+
+@media (max-width: 1180px) {
+  .om-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .om-grid > figure { grid-row-end: span var(--s3); }
+}
+@media (max-width: 860px) {
+  .om-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .om-grid > figure { grid-row-end: span var(--s2); }
+}
+/* Handy: die Bilder stehen untereinander in voller Breite. Ein einspaltiges
+   Masonry ist kein Masonry mehr — deshalb hier ganz ohne Raster und ohne
+   Spannen, das spart auch jede Rundungsfrage. */
+@media (max-width: 620px) {
+  .om-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .om-grid > figure { margin: 0; }
+}
 @media (max-width: 760px) {
   .om-pad { padding: clamp(170px, 26vh, 220px) 16px calc(var(--navh, 150px) + 70px); }
-  .om-grid { column-count: 2; column-gap: 16px; }
-  .om-grid > figure { margin: 0 0 16px; }
 }
 
 /* Progressive Blur-Fades oben/unten: der Inhalt hinter der Leiste wird zum

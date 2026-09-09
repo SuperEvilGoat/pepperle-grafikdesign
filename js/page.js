@@ -1,6 +1,10 @@
-/* pepperle.de — Logik der Kategorie- und Rechtsseiten: dieselbe feststehende
-   Bühne wie die Startseite (Logo, Tagline, Kontakt, Kategorien-Leiste,
-   Blur-Fades), nur mit einem scrollbaren Werk-Raster statt der Drift-Collage.
+/* pepperle.de — Logik der Kategorie- und Rechtsseiten: dieselbe Bühne wie die
+   Startseite (Logo, Tagline, Kontakt, Kategorien-Leiste, Blur-Fades), nur mit
+   einem Werk-Raster statt der Drift-Collage.
+
+   Anders als die Startseite scrollen diese Seiten im DOKUMENT, nicht in einem
+   inneren Panel — siehe html.seite-scroll in css/style.css. Logo, Kontakt und
+   Navigation stehen dort per position: fixed, sehen also unverändert aus.
 
    Seit der Sprachumstellung ist jede Seite statisch einsprachig: alle Texte
    stehen fertig im HTML (erzeugt aus Quellen/texte/<lang>.json über
@@ -18,7 +22,6 @@
   var FORM_ENDPOINT = "https://pepperle-analytics.a347157.workers.dev/contact";
 
   var stage = document.getElementById("stage");
-  var scrollPanel = document.querySelector(".om-scroll");
 
   /* ---------- Auftritt ----------
      Logo, Tagline, Kontakt/Sprache und die Kategorien-Leiste starten mit
@@ -52,8 +55,8 @@
   /* ---------- Abgang ----------
      Beim Wechsel zwischen Kategorien blendet nur das Raster aus (nicht Logo,
      Kontakt oder Navigation — die bleiben ja stehen), bevor die nächste
-     Seite geladen wird. Diese blendet ihr eigenes Raster dann wieder ein
-     (siehe revealGrid() unten). */
+     Seite geladen wird. Dort blenden die Bilder einzeln wieder auf, sobald
+     sie dekodiert sind (siehe "Bilder einblenden" unten). */
   document.querySelectorAll(".cats-nav a.cat-pill").forEach(function (a) {
     a.addEventListener("click", function (e) {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -71,7 +74,13 @@
 
   /* --navh-- misst die tatsächliche Höhe der unteren Leiste, damit das Raster
      nicht darunter verschwindet (Fallback im CSS: 150px). Läuft auch bei
-     Sprachwechsel/Zeilenumbruch neu, wie schon auf der Startseite. */
+     Sprachwechsel/Zeilenumbruch neu, wie schon auf der Startseite.
+
+     Früher lief das zusätzlich alle 800 ms in einem setInterval — für immer,
+     auch mitten im Scrollen. Jede Messung liest getBoundingClientRect() und
+     erzwingt damit eine Layout-Berechnung; das war eine der Dauerlasten hinter
+     dem Ruckeln. Der ResizeObserver meldet sich stattdessen genau dann, wenn
+     sich die Höhe wirklich ändert. */
   function measureNav() {
     var nav = document.querySelector(".bottom");
     if (!nav) return;
@@ -79,51 +88,89 @@
   }
   measureNav();
   window.addEventListener("resize", measureNav);
-  setInterval(measureNav, 800);
+  if (window.ResizeObserver) {
+    var navEl = document.querySelector(".bottom");
+    if (navEl) new ResizeObserver(measureNav).observe(navEl);
+  } else {
+    setInterval(measureNav, 800);
+  }
 
   /* ---------- Scroll sperren, solange ein Overlay offen ist ----------
-     Betrifft das innere Raster-Panel (.om-scroll), nicht den body — die
-     Bühne selbst ist feststehend (position: fixed), wie auf der Startseite. */
+     Gescrollt wird jetzt das Dokument, nicht mehr das innere Panel (.om-scroll)
+     — siehe html.seite-scroll in css/style.css. Die Sperre muss deshalb am
+     Wurzelelement ansetzen.
+
+     Die Scrollposition wird gemerkt und beim Entsperren wiederhergestellt:
+     overflow: hidden am <html> setzt die Position sonst auf 0 zurück, und
+     nach dem Schließen der Lightbox stünde man wieder ganz oben. Den
+     Breitensprung durch die verschwindende Bildlaufleiste fängt
+     scrollbar-gutter: stable im CSS ab. */
   var lockCount = 0;
+  var scrollPos = 0;
   function lockScroll() {
     lockCount++;
-    if (scrollPanel) scrollPanel.style.overflowY = "hidden";
+    if (lockCount > 1) return;
+    scrollPos = window.scrollY || window.pageYOffset || 0;
+    document.documentElement.style.overflow = "hidden";
   }
   function unlockScroll() {
     lockCount = Math.max(0, lockCount - 1);
-    if (!lockCount && scrollPanel) scrollPanel.style.overflowY = "auto";
+    if (lockCount) return;
+    document.documentElement.style.overflow = "";
+    window.scrollTo(0, scrollPos);
   }
 
-  /* ---------- Bilder einblenden: oben vor unten ----------
-     Das Masonry-Raster (CSS-Spalten) füllt Spalte für Spalte, nicht Zeile
-     für Zeile — die Reihenfolge im Quelltext entspricht also nicht der
-     Reihenfolge auf dem Bildschirm. Breite/Höhe jedes Bilds stehen schon vor
-     dem Laden als width/height-Attribut fest, das Layout ist damit sofort
-     korrekt messbar; erst danach gestaffelt von oben nach unten einblenden. */
-  function revealGrid() {
-    var figures = document.querySelectorAll(".om-grid figure");
-    if (!figures.length) return;
-    requestAnimationFrame(function () {
-      var items = Array.prototype.map.call(figures, function (f) {
-        var r = f.getBoundingClientRect();
-        return { f: f, top: r.top, left: r.left };
-      });
-      items.sort(function (a, b) { return (a.top - b.top) || (a.left - b.left); });
-      items.forEach(function (item, i) {
-        item.f.style.animationDelay = Math.min(0.9, 0.05 + i * 0.025).toFixed(3) + "s";
-        item.f.classList.add("om-figure-in");
-      });
-    });
+  /* ---------- Bilder einblenden ----------
+
+     Jedes Bild blendet für sich auf, sobald es dekodiert ist. Das Raster
+     selbst steht davon unabhängig schon vollständig da: Breite und Höhe jedes
+     Bildes stehen als Attribut im HTML, die Zeilenspannen im style-Attribut —
+     es gibt nichts zu messen und nichts zu sortieren.
+
+     Vorher lief hier revealGrid(): 27-mal getBoundingClientRect(), Sortierung
+     nach Bildschirmposition, dann gestaffelte Animationsverzögerungen. Nötig
+     war das nur, weil das Spaltenlayout die Kacheln in einer anderen
+     Reihenfolge anordnete als im Quelltext. Es war zugleich die Ursache des
+     Hauptfehlers: Die Kachel startete auf opacity: 0 und wurde erst durch
+     diese Klasse sichtbar. Blieb sie aus, war "geladen, aber unsichtbar" ein
+     Endzustand, aus dem nur ein erzwungener Repaint befreite — der Hover.
+
+     Jetzt ist die Richtung umgedreht (siehe html.js in css/style.css):
+     sichtbar ist der Grundzustand. Ohne JavaScript, bei einem Fehler in
+     diesem Skript oder bei einem verpassten Ereignis bleibt das Bild sichtbar.
+     Zusätzlich schaltet eine Notbremse nach zwei Sekunden pauschal alles frei. */
+  var gitter = document.querySelector(".om-grid");
+
+  function markiereGeladen(img) {
+    if (img.classList.contains("geladen")) return;
+    img.classList.add("geladen");
   }
-  revealGrid();
+
+  if (gitter) {
+    Array.prototype.forEach.call(gitter.querySelectorAll("img"), function (img) {
+      // complete deckt zwei Fälle ab, in denen "load" nie mehr feuert: das Bild
+      // lag schon im Cache, oder die Seite kommt aus dem bfcache zurück.
+      if (img.complete && img.naturalWidth) {
+        markiereGeladen(img);
+        return;
+      }
+      img.addEventListener("load", function () { markiereGeladen(img); });
+      // Auch ein kaputtes Bild darf die Kachel nicht dauerhaft leer lassen —
+      // sichtbar ist dann immerhin das alt-Attribut statt gar nichts.
+      img.addEventListener("error", function () { markiereGeladen(img); });
+    });
+    setTimeout(function () { gitter.classList.add("alle-sichtbar"); }, 2000);
+  }
 
   /* ---------- Lightbox ---------- */
 
   var lb = document.getElementById("lightbox");
   var lbImg = document.getElementById("lbImg");
   var lbTitle = document.getElementById("lbTitle");
+  var lbDesc = document.getElementById("lbDesc");
   var openedAt = 0;
   var openSrc = null;
+  var ladeLauf = 0;
 
   function flushView() {
     if (!openSrc || !openedAt) return;
@@ -131,21 +178,65 @@
     openedAt = 0;
   }
 
-  function openLb(full, title) {
+  /* Das große Bild wird in zwei Stufen gezeigt.
+
+     Stufe eins ist die Kachel, die auf dem Bildschirm ohnehin schon dekodiert
+     im Speicher liegt: sie steht sofort da, in der richtigen Größe, nur
+     weicher. Stufe zwei ist die 1600-px-Fassung, die im Hintergrund lädt und
+     stillschweigend eingesetzt wird, sobald sie fertig ist.
+
+     Vorher wurde direkt das unskalierte Original aus images/full geladen (bis
+     3543 px, bis 2,6 MB) und bis dahin blieb die Fläche leer — das war die
+     Wartezeit beim Öffnen.
+
+     ladeLauf zählt die Öffnungen mit: klickt man schnell durch mehrere Bilder,
+     darf ein spät eintreffendes großes Bild nicht mehr in eine inzwischen
+     andere Lightbox einsetzen. */
+  function zeige(fig) {
     if (!lb) return;
-    lbImg.src = full;
-    lbImg.alt = title;
+    var kachel = fig.querySelector("img");
+    var gross = fig.getAttribute("data-large") || fig.getAttribute("data-full");
+    var voll = fig.getAttribute("data-full");
+    var title = fig.getAttribute("data-title") || "";
+    var desc = fig.getAttribute("data-desc") || "";
+    var lauf = ++ladeLauf;
+
+    lbImg.src = (kachel && kachel.currentSrc) || (kachel && kachel.src) || gross;
+    lbImg.alt = desc || title;
     lbTitle.textContent = title;
+    if (lbDesc) {
+      lbDesc.textContent = desc;
+      lbDesc.hidden = !desc;
+    }
     lb.hidden = false;
     lockScroll();
-    openSrc = full;
+
+    var hoch = new Image();
+    hoch.onload = function () {
+      if (lauf === ladeLauf && !lb.hidden) lbImg.src = hoch.src;
+    };
+    /* Die 1600er ist WebP. Kann ein Browser sie nicht (oder fehlt sie für
+       dieses Bild), wird das JPEG-Original nachgeladen — dann eben langsam,
+       aber nie gar nicht. */
+    hoch.onerror = function () {
+      if (lauf !== ladeLauf || lb.hidden || !voll || voll === gross) return;
+      var ersatz = new Image();
+      ersatz.onload = function () {
+        if (lauf === ladeLauf && !lb.hidden) lbImg.src = ersatz.src;
+      };
+      ersatz.src = voll;
+    };
+    hoch.src = gross;
+
+    openSrc = voll;
     openedAt = Date.now();
-    track({ type: "img_click", img: full, cat: window.PAGE_CAT || null });
+    track({ type: "img_click", img: voll, cat: window.PAGE_CAT || null });
   }
 
   function closeLb() {
     if (!lb || lb.hidden) return;
     flushView();
+    ladeLauf++;
     lb.hidden = true;
     lbImg.src = "";
     openSrc = null;
@@ -155,11 +246,18 @@
   document.addEventListener("click", function (e) {
     var fig = e.target.closest && e.target.closest(".om-grid figure[data-full]");
     if (!fig) return;
-    var title = fig.getAttribute("data-title") || "";
-    openLb(fig.getAttribute("data-full"), title);
+    zeige(fig);
   });
 
-  if (lb) lb.addEventListener("click", closeLb);
+  /* Geschlossen wird über den Knopf oben rechts und über den Hintergrund —
+     aber NICHT über das Bild selbst. Vorher hing der Handler am gesamten
+     #lightbox, weshalb ein Klick auf das gerade geöffnete Bild es wieder
+     zuklappte; wer hineinzoomen oder es nur ansehen wollte, verlor es. */
+  if (lb) {
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb || (e.target.closest && e.target.closest(".lb-close"))) closeLb();
+    });
+  }
 
   /* ---------- Kontakt ----------
      Eingebettetes Formular statt Sprung auf index.html#kontakt — so bleibt man
