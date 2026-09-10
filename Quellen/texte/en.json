@@ -45,7 +45,7 @@
     "logoAlt": "Walter Pepperle — logo",
     "servicesLabel": "Services",
     "startOgTitle": "Walter Pepperle — Illustration & Packaging Design",
-    "sendError": "The message could not be sent just now. Please write directly to info@pepperle.de — or try again later."
+    "sendError": "The message could not be sent just now. Please write directly to {email} — or try again later."
   },
   "alt": {
     "pattern": "{title} — {kind} by {name}, {city}",

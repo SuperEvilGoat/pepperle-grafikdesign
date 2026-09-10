@@ -45,7 +45,7 @@
     "logoAlt": "Walter Pepperle — logo",
     "servicesLabel": "Prestations",
     "startOgTitle": "Walter Pepperle — Illustration & design d'emballage",
-    "sendError": "Le message n'a pas pu être envoyé pour le moment. Écrivez directement à info@pepperle.de ou réessayez plus tard."
+    "sendError": "Le message n'a pas pu être envoyé pour le moment. Écrivez directement à {email} ou réessayez plus tard."
   },
   "alt": {
     "pattern": "{title} — {kind} par {name}, {city}",

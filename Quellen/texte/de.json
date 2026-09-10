@@ -45,7 +45,7 @@
     "logoAlt": "Walter Pepperle — Logo",
     "servicesLabel": "Leistungen",
     "startOgTitle": "Walter Pepperle — Illustration & Packungsdesign",
-    "sendError": "Die Nachricht konnte gerade nicht übermittelt werden. Bitte schreiben Sie direkt an info@pepperle.de — oder versuchen Sie es später noch einmal."
+    "sendError": "Die Nachricht konnte gerade nicht übermittelt werden. Bitte schreiben Sie direkt an {email} — oder versuchen Sie es später noch einmal."
   },
   "alt": {
     "pattern": "{title} — {kind} von {name}, {city}",

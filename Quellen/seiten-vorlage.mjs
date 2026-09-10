@@ -48,6 +48,35 @@ export function pfad(vorsatz, p) {
   return !p || /^(https?:)?\/\//.test(p) ? p : vorsatz + p;
 }
 
+/* Adresse einer CSS- oder JS-Datei mit Versionsstempel.
+
+   GitHub Pages liefert HTML, CSS und JS mit Cache-Control: max-age=600 aus,
+   und die Adressen css/style.css oder js/page.js ändern sich bei einem
+   Deploy nie. Nach jedem Deploy gab es deshalb ein Zeitfenster, in dem ein
+   wiederkehrender Besucher neues HTML gegen altes CSS bekam — Safari
+   besonders hartnäckig, weil sein "Reload From Origin" die Unterressourcen
+   weniger gründlich neu anfragt als Chromes Hard Reload. Genau so entstand
+   am 10.09.2026 eine halb umgestellte Kategorieseite.
+
+   Der Stempel ist der gekürzte SHA-256 des Dateiinhalts: Ändert sich die
+   Datei, ändert sich die Adresse, und das neue HTML zeigt zwangsläufig auf
+   die neue Fassung. Unveränderte Dateien behalten ihre Adresse und bleiben
+   im Browser-Cache gültig.
+
+   Die Stempel rechnet Quellen/build-seiten.mjs aus den Dateien und legt sie
+   in website/Quellen/asset-versionen.json ab; der Worker liest dieselbe
+   Datei. Diese Vorlage bleibt dadurch frei von Dateisystem und Node-Bausteinen.
+
+   Fehlt ein Stempel, entsteht die blanke Adresse wie bisher — nie eine
+   kaputte. js/data.js bekommt bewusst KEINEN: der Worker schreibt sie bei
+   jeder Bildänderung neu, erzeugt index.html aber nicht mit. Ein Stempel
+   dort bliebe auf der Startseite also stehen und zeigte auf eine veraltete
+   Adresse. */
+export function asset(vorsatz, datei, versionen) {
+  const v = versionen && versionen[datei];
+  return `${vorsatz}${datei}${v ? `?v=${v}` : ""}`;
+}
+
 /* Logo als Inline-SVG. Steht hier, damit beide Generatoren dasselbe erzeugen. */
 export function logoSvg(vorsatz, name) {
   return `<svg viewBox="0 0 3543 1417" role="img" aria-label="${esc(name)} — Logo">
@@ -125,9 +154,9 @@ ${SPRACHEN.filter((l) => l !== o.lang && (!o.hreflangNur || o.hreflangNur.indexO
   <link rel="preload" href="${r}assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="${r}assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="${r}assets/signature-720.png" as="image">
-  <link rel="stylesheet" href="${r}css/fonts.css">
-  <link rel="stylesheet" href="${r}css/base.css">
-  <link rel="stylesheet" href="${r}css/${o.stylesheet || "style.css"}">
+  <link rel="stylesheet" href="${asset(r, "css/fonts.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset(r, "css/base.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset(r, `css/${o.stylesheet || "style.css"}`, o.assetV)}">
   <script>document.documentElement.className+=" js";</script>
   ${erkennung()}`;
 }
@@ -446,9 +475,9 @@ ${fussLeiste({
 
   <script>window.PAGE_CAT = ${JSON.stringify(o.cat)};</script>
   ${sprachDaten(o.namen, o.lang, t.ui, o.kategorien)}
-  <script src="${r}js/track.js"></script>
-  <script src="${r}js/sprache.js"></script>
-  <script src="${r}js/page.js"></script>
+  <script src="${asset(r, "js/track.js", o.assetV)}"></script>
+  <script src="${asset(r, "js/sprache.js", o.assetV)}"></script>
+  <script src="${asset(r, "js/page.js", o.assetV)}"></script>
 </body>
 </html>
 `;
@@ -627,10 +656,10 @@ ${noscriptNav}
   </noscript>
 
   ${sprachDaten(o.namen, o.lang, t.ui, o.kategorien)}
-  <script src="${r}js/track.js"></script>
+  <script src="${asset(r, "js/track.js", o.assetV)}"></script>
   <script src="${r}js/data.js"></script>
-  <script src="${r}js/sprache.js"></script>
-  <script src="${r}js/app.js"></script>
+  <script src="${asset(r, "js/sprache.js", o.assetV)}"></script>
+  <script src="${asset(r, "js/app.js", o.assetV)}"></script>
 </body>
 </html>
 `;
@@ -726,9 +755,9 @@ ${o.seiten
   </div>
 
   ${sprachDaten(o.namen, o.lang, t.ui, o.kategorien)}
-  <script src="${r}js/track.js"></script>
-  <script src="${r}js/sprache.js"></script>
-  <script src="${r}js/page.js"></script>
+  <script src="${asset(r, "js/track.js", o.assetV)}"></script>
+  <script src="${asset(r, "js/sprache.js", o.assetV)}"></script>
+  <script src="${asset(r, "js/page.js", o.assetV)}"></script>
 </body>
 </html>
 `;
@@ -753,9 +782,9 @@ export function weiterleitungsSeite(o) {
        aber ohne diese Farbe blitzt bei langsamer Verbindung eine weiße Seite
        auf, bevor überhaupt ein Stylesheet geladen ist. -->
   <style>html, body { margin: 0; background: #01172c; }</style>
-  <link rel="stylesheet" href="${r}css/fonts.css">
-  <link rel="stylesheet" href="${r}css/base.css">
-  <link rel="stylesheet" href="${r}css/page.css">
+  <link rel="stylesheet" href="${asset(r, "css/fonts.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset(r, "css/base.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset(r, "css/page.css", o.assetV)}">
 </head>
 <body class="bg-quiet">
   <main class="pg-404">
@@ -781,9 +810,9 @@ export function nichtGefundenSeite(o) {
   <meta name="robots" content="noindex, follow">
   <meta name="theme-color" content="#01172c">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="${asset("/", "css/fonts.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset("/", "css/base.css", o.assetV)}">
+  <link rel="stylesheet" href="${asset("/", "css/page.css", o.assetV)}">
 </head>
 <body class="bg-quiet">
   <header class="pg-head">
