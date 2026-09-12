@@ -18,7 +18,9 @@ export const SITE = {
   city: "Frankfurt am Main",
   country: "DE",
   phone: "+49 171 1963147",
-  email: "info@pepperle.de",
+  /* Bewusst zusammengesetzt: diese Datei liegt als Bauquelle öffentlich unter
+     website/Quellen/ — ausgeschrieben fänden Adress-Sammler sie dort. */
+  email: "info" + "@" + "pepperle.de",
   /* Für die strukturierten Daten der Startseite. Standen bis zur
      Sprachumstellung fest im handgepflegten website/index.html — jetzt hier,
      weil die Startseite in fünf Sprachen erzeugt wird. Bewusst NICHT

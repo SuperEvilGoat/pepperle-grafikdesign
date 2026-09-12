@@ -80,19 +80,36 @@
      auch mitten im Scrollen. Jede Messung liest getBoundingClientRect() und
      erzwingt damit eine Layout-Berechnung; das war eine der Dauerlasten hinter
      dem Ruckeln. Der ResizeObserver meldet sich stattdessen genau dann, wenn
-     sich die Höhe wirklich ändert. */
+     sich die Höhe wirklich ändert.
+
+     Kein window-"resize" mehr: iOS feuert ihn jedes Mal, wenn beim Scrollen
+     die Adressleiste ein- oder ausfährt. Die Messung schrieb dann --navh neu,
+     .om-pad bekam einen neuen Abstand, und die Seite wurde mitten im Wischen
+     neu berechnet — der Moment, in dem Safari die feststehende Leiste mit dem
+     Inhalt mitwandern ließ. Aus demselben Grund wird nur geschrieben, wenn
+     sich der Wert tatsächlich ändert. */
+  var navH = "";
   function measureNav() {
     var nav = document.querySelector(".bottom");
     if (!nav) return;
-    document.documentElement.style.setProperty("--navh", Math.round(nav.getBoundingClientRect().height) + "px");
+    var h = Math.round(nav.getBoundingClientRect().height) + "px";
+    if (h === navH) return;
+    navH = h;
+    document.documentElement.style.setProperty("--navh", h);
   }
   measureNav();
-  window.addEventListener("resize", measureNav);
   if (window.ResizeObserver) {
     var navEl = document.querySelector(".bottom");
     if (navEl) new ResizeObserver(measureNav).observe(navEl);
   } else {
-    setInterval(measureNav, 800);
+    // Ohne ResizeObserver: nur echte Breitenänderungen (Drehen, Fenster),
+    // nicht die Höhenänderung durch die Safari-Leiste.
+    var lastW = window.innerWidth;
+    window.addEventListener("resize", function () {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      measureNav();
+    });
   }
 
   /* ---------- Scroll sperren, solange ein Overlay offen ist ----------

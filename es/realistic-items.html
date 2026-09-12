@@ -34,8 +34,8 @@
   <link rel="preload" href="../assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/signature-720.png" as="image">
   <link rel="stylesheet" href="../css/fonts.css?v=c7dc14fc5d">
-  <link rel="stylesheet" href="../css/base.css?v=d0885b6756">
-  <link rel="stylesheet" href="../css/style.css?v=9c2fef0623">
+  <link rel="stylesheet" href="../css/base.css?v=dcd8d67de2">
+  <link rel="stylesheet" href="../css/style.css?v=498d562368">
   <script>document.documentElement.className+=" js";</script>
   <script>(function(){var S=["de","en","es","fr","it"],D="de",F="en",K="pp_lang";
 try{var g=location.pathname.split("/"),i=g.length-2;if(i>=0&&S.indexOf(g[i])>-1)return;
@@ -53,13 +53,34 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
 <body>
   <div id="stage">
     <div class="glow"></div>
-    <div class="vignette"></div>
 
-    <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Inicio"><svg viewBox="0 0 3543 1417" role="img" aria-label="Walter Pepperle — Logo">
+    <div class="om-chrome">
+      <div class="vignette"></div>
+      <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Inicio"><svg viewBox="0 0 3543 1417" role="img" aria-label="Walter Pepperle — Logo">
         <polygon points="1606,75 2612,1307 595,1307" fill="#ea4f43"></polygon>
         <image href="../assets/signature-720.png" x="0" y="0" width="3543" height="1417"></image>
       </svg></a>
-    <p class="om-tag"><span class="vh">Walter Pepperle — </span><span id="tagline">Ilustración y diseño de envases</span></p>
+      <p class="om-tag"><span class="vh">Walter Pepperle — </span><span id="tagline">Ilustración y diseño de envases</span></p>
+      <div class="om-fade-top"></div>
+      <div class="om-fade"></div>
+      <div class="bottom">
+        <nav class="cats-nav" id="catsNav" aria-label="Categoría">
+        <a class="cat-pill" href="food-drinks.html">Alimentos &amp; Bebidas</a>
+        <a class="cat-pill" href="transportation-technology.html">Transporte &amp; Técnica</a>
+        <a class="cat-pill" href="landscape-scenery.html">Paisaje &amp; Escenario</a>
+        <a class="cat-pill" href="people-animals.html">Personas &amp; Animales</a>
+        <a class="cat-pill current" href="realistic-items.html" aria-current="page">Objetos</a>
+        <a class="cat-pill" href="poster-ads.html">Carteles &amp; Anuncios</a>
+        <a class="cat-pill" href="pharma-medical.html">Farmacia &amp; Medicina</a>
+        <a class="cat-pill" href="logos-icons.html">Logotipos &amp; Iconos</a>
+        <a class="cat-pill" href="packaging-display.html">Envase &amp; Display</a>
+        <button type="button" class="cat-pill more" id="moreCatsBtn">Más categorías</button>
+        <a class="cat-pill home" id="homeBtn" href="index.html">Inicio</a>
+        <button type="button" class="legal-link js-lang">Idioma</button>
+        <a class="legal-link" href="../en/impressum.html">Aviso legal y privacidad</a>
+        </nav>
+      </div>
+    </div>
 
     <div class="om-scroll">
       <div class="om-pad">
@@ -299,9 +320,6 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
       </div>
     </div>
 
-    <div class="om-fade-top"></div>
-    <div class="om-fade"></div>
-
     <div class="topbar">
       <button type="button" class="contact-btn" id="contactBtn">Contacto</button>
     </div>
@@ -324,7 +342,7 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
         <button type="button" class="contact-close" id="contactClose" aria-label="Cerrar"><span aria-hidden="true">×</span><span id="contactCloseLabel">Cerrar</span></button>
         <h2 id="contactTitle">Ponerse en contacto</h2>
         <p class="form-note" id="contactNote">Consulta de ilustración o gráfica de envases</p>
-        <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
+        <a class="contact-mail js-mail" data-m="ed.elreppep!ofni">info<span class="mail-at"></span>pepperle.de</a>
         <p class="thanks" id="thanks" hidden>Gracias — su mensaje está en camino.</p>
         <form id="contactForm">
           <input type="text" id="fName" name="name" placeholder="Nombre" required>
@@ -334,30 +352,12 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
         </form>
       </div>
     </div>
-
-    <div class="bottom">
-      <nav class="cats-nav" id="catsNav" aria-label="Categoría">
-        <a class="cat-pill" href="food-drinks.html">Alimentos &amp; Bebidas</a>
-        <a class="cat-pill" href="transportation-technology.html">Transporte &amp; Técnica</a>
-        <a class="cat-pill" href="landscape-scenery.html">Paisaje &amp; Escenario</a>
-        <a class="cat-pill" href="people-animals.html">Personas &amp; Animales</a>
-        <a class="cat-pill current" href="realistic-items.html" aria-current="page">Objetos</a>
-        <a class="cat-pill" href="poster-ads.html">Carteles &amp; Anuncios</a>
-        <a class="cat-pill" href="pharma-medical.html">Farmacia &amp; Medicina</a>
-        <a class="cat-pill" href="logos-icons.html">Logotipos &amp; Iconos</a>
-        <a class="cat-pill" href="packaging-display.html">Envase &amp; Display</a>
-        <button type="button" class="cat-pill more" id="moreCatsBtn">Más categorías</button>
-        <a class="cat-pill home" id="homeBtn" href="index.html">Inicio</a>
-        <button type="button" class="legal-link js-lang">Idioma</button>
-        <a class="legal-link" href="../en/impressum.html">Aviso legal y privacidad</a>
-      </nav>
-    </div>
   </div>
 
   <script>window.PAGE_CAT = "items";</script>
-  <script>window.PP_LANG="es";window.PP_BASE="../";window.PP_LANGS=[{"code":"de","name":"Deutsch"},{"code":"en","name":"English"},{"code":"es","name":"Español"},{"code":"fr","name":"Français"},{"code":"it","name":"Italiano"}];window.PP_UI={"tagline":"Ilustración y diseño de envases","contact":"Contacto","close":"Cerrar","formTitle":"Ponerse en contacto","formNote":"Consulta de ilustración o gráfica de envases","name":"Nombre","mail":"Correo electrónico","msg":"Mensaje","send":"Enviar","thanks":"Gracias — su mensaje está en camino.","hint":"Haga clic en una imagen para ampliarla","hintTouch":"Toque una imagen para ampliarla","empty":"Imágenes en camino — carpeta aún no subida","legal":"Aviso legal y privacidad","language":"Idioma","languageTitle":"Elegir idioma","allCats":"Todas las categorías","moreCats":"Más categorías","home":"Inicio","categoryWord":"Categoría","worksLabel":"trabajos en esta categoría","footerRole":"Illustration & Graphic Design, Fráncfort del Meno","notFoundTitle":"Esta página ya no existe","notFoundText":"El sitio web se ha rehecho. Quizá busque una de estas categorías:","legalOnlyHint":"El aviso legal y la política de privacidad están disponibles en alemán e inglés.","startDescription":"Ilustración fotorrealista, diseño de logotipos y diseño de envases desde Fráncfort del Meno — Walter Pepperle, diseñador gráfico e ilustrador. Portafolio: alimentación, envases, farmacia, técnica, carteles y lettering.","noscript":"La página de inicio muestra un collage de imágenes en movimiento y necesita JavaScript. El portafolio completo también es accesible sin él:","legalDescription":"Aviso legal y política de privacidad de Walter Pepperle, Illustration & Graphic Design, Fráncfort del Meno.","privacyTitle":"Política de privacidad","redirecting":"Redirigiendo …","redirectNote":"El aviso legal y la política de privacidad están ahora juntos en","city":"Fráncfort del Meno","startTitle":"Walter Pepperle — Ilustración y diseño de envases, Fráncfort","startOgDescription":"Ilustración fotorrealista y diseño de envases desde Fráncfort del Meno.","services":["Ilustración","Diseño de envases","Diseño de logotipos y lettering"],"logoAlt":"Walter Pepperle — logotipo","servicesLabel":"Servicios","startOgTitle":"Walter Pepperle — Ilustración y diseño de envases","sendError":"El mensaje no ha podido enviarse en este momento. Escriba directamente a info@pepperle.de o inténtelo de nuevo más tarde."};window.PP_CATS=[{"id":"food","slug":"food-drinks","name":"Alimentos & Bebidas"},{"id":"transport","slug":"transportation-technology","name":"Transporte & Técnica"},{"id":"landscape","slug":"landscape-scenery","name":"Paisaje & Escenario"},{"id":"people","slug":"people-animals","name":"Personas & Animales"},{"id":"items","slug":"realistic-items","name":"Objetos"},{"id":"poster","slug":"poster-ads","name":"Carteles & Anuncios"},{"id":"pharma","slug":"pharma-medical","name":"Farmacia & Medicina"},{"id":"logos","slug":"logos-icons","name":"Logotipos & Iconos"},{"id":"packaging","slug":"packaging-display","name":"Envase & Display"}];</script>
+  <script>window.PP_LANG="es";window.PP_BASE="../";window.PP_LANGS=[{"code":"de","name":"Deutsch"},{"code":"en","name":"English"},{"code":"es","name":"Español"},{"code":"fr","name":"Français"},{"code":"it","name":"Italiano"}];window.PP_UI={"tagline":"Ilustración y diseño de envases","contact":"Contacto","close":"Cerrar","formTitle":"Ponerse en contacto","formNote":"Consulta de ilustración o gráfica de envases","name":"Nombre","mail":"Correo electrónico","msg":"Mensaje","send":"Enviar","thanks":"Gracias — su mensaje está en camino.","hint":"Haga clic en una imagen para ampliarla","hintTouch":"Toque una imagen para ampliarla","empty":"Imágenes en camino — carpeta aún no subida","legal":"Aviso legal y privacidad","language":"Idioma","languageTitle":"Elegir idioma","allCats":"Todas las categorías","moreCats":"Más categorías","home":"Inicio","categoryWord":"Categoría","worksLabel":"trabajos en esta categoría","footerRole":"Illustration & Graphic Design, Fráncfort del Meno","notFoundTitle":"Esta página ya no existe","notFoundText":"El sitio web se ha rehecho. Quizá busque una de estas categorías:","legalOnlyHint":"El aviso legal y la política de privacidad están disponibles en alemán e inglés.","startDescription":"Ilustración fotorrealista, diseño de logotipos y diseño de envases desde Fráncfort del Meno — Walter Pepperle, diseñador gráfico e ilustrador. Portafolio: alimentación, envases, farmacia, técnica, carteles y lettering.","noscript":"La página de inicio muestra un collage de imágenes en movimiento y necesita JavaScript. El portafolio completo también es accesible sin él:","legalDescription":"Aviso legal y política de privacidad de Walter Pepperle, Illustration & Graphic Design, Fráncfort del Meno.","privacyTitle":"Política de privacidad","redirecting":"Redirigiendo …","redirectNote":"El aviso legal y la política de privacidad están ahora juntos en","city":"Fráncfort del Meno","startTitle":"Walter Pepperle — Ilustración y diseño de envases, Fráncfort","startOgDescription":"Ilustración fotorrealista y diseño de envases desde Fráncfort del Meno.","services":["Ilustración","Diseño de envases","Diseño de logotipos y lettering"],"logoAlt":"Walter Pepperle — logotipo","servicesLabel":"Servicios","startOgTitle":"Walter Pepperle — Ilustración y diseño de envases","sendError":"El mensaje no ha podido enviarse en este momento. Escriba directamente a {email} o inténtelo de nuevo más tarde."};window.PP_CATS=[{"id":"food","slug":"food-drinks","name":"Alimentos & Bebidas"},{"id":"transport","slug":"transportation-technology","name":"Transporte & Técnica"},{"id":"landscape","slug":"landscape-scenery","name":"Paisaje & Escenario"},{"id":"people","slug":"people-animals","name":"Personas & Animales"},{"id":"items","slug":"realistic-items","name":"Objetos"},{"id":"poster","slug":"poster-ads","name":"Carteles & Anuncios"},{"id":"pharma","slug":"pharma-medical","name":"Farmacia & Medicina"},{"id":"logos","slug":"logos-icons","name":"Logotipos & Iconos"},{"id":"packaging","slug":"packaging-display","name":"Envase & Display"}];(function(){function m(a){return a.getAttribute("data-m").split("").reverse().join("").replace("!","@")}var l=document.querySelectorAll(".js-mail");for(var i=0;i<l.length;i++){var e=m(l[i]);l[i].href="mailto:"+e;l[i].textContent=e}var k=document.querySelector(".contact-mail.js-mail"),u=window.PP_UI;if(k&&u&&u.sendError)u.sendError=u.sendError.replace("{email}",m(k))})();</script>
   <script src="../js/track.js?v=a039f57e33"></script>
   <script src="../js/sprache.js?v=c985817839"></script>
-  <script src="../js/page.js?v=4866cba11b"></script>
+  <script src="../js/page.js?v=fd8c9527c0"></script>
 </body>
 </html>

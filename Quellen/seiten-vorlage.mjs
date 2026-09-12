@@ -212,8 +212,31 @@ export function sprachDaten(namen, lang, ui, kategorien) {
   // Sprache mehr — sie lesen nur noch, was die Seite mitbringt.
   if (ui) teile.push(`window.PP_UI=${JSON.stringify(ui)}`);
   if (kategorien) teile.push(`window.PP_CATS=${JSON.stringify(kategorien)}`);
+  teile.push(MAIL_SKRIPT);
   return `<script>${teile.join(";")};</script>`;
 }
+
+/* ---------- E-Mail-Adresse gegen Adress-Sammler ----------
+   Im ausgelieferten HTML steht die Adresse nirgends am Stück: nur rückwärts
+   und mit "!" statt "@" im Attribut data-m. Sichtbar ist ohne JavaScript
+   "info", ein per CSS erzeugtes "@" (.mail-at in css/base.css) und
+   "pepperle.de" — für Menschen lesbar, im Quelltext aber keine Adresse.
+   MAIL_SKRIPT setzt beim Laden daraus den echten mailto-Link zusammen und
+   füllt den Platzhalter {email} in der Fehlermeldung des Formulars. Es steht
+   in sprachDaten(), weil das jede Seite am Ende des <body> mitbringt — alle
+   .js-mail-Elemente sind dann schon da. */
+export function mailLink(email, klasse) {
+  const [name, domain] = email.split("@");
+  const verdeckt = email.split("").reverse().join("").replace("@", "!");
+  return `<a class="${klasse ? klasse + " " : ""}js-mail" data-m="${esc(verdeckt)}">${esc(name)}<span class="mail-at"></span>${esc(domain)}</a>`;
+}
+
+const MAIL_SKRIPT =
+  '(function(){function m(a){return a.getAttribute("data-m").split("").reverse().join("").replace("!","@")}' +
+  'var l=document.querySelectorAll(".js-mail");' +
+  'for(var i=0;i<l.length;i++){var e=m(l[i]);l[i].href="mailto:"+e;l[i].textContent=e}' +
+  'var k=document.querySelector(".contact-mail.js-mail"),u=window.PP_UI;' +
+  'if(k&&u&&u.sendError)u.sendError=u.sendError.replace("{email}",m(k))})()';
 
 /* ---------- Werk-Raster ----------
 
@@ -410,10 +433,24 @@ ${kopf({
 <body>
   <div id="stage">
     <div class="glow"></div>
-    <div class="vignette"></div>
 
-    <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
-    <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+    <div class="om-chrome">
+      <div class="vignette"></div>
+      <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
+      <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+      <div class="om-fade-top"></div>
+      <div class="om-fade"></div>
+      <div class="bottom">
+        <nav class="cats-nav" id="catsNav" aria-label="${esc(t.ui.categoryWord)}">
+${fussLeiste({
+  ...o,
+  texte: t,
+  extra: `        <button type="button" class="cat-pill more" id="moreCatsBtn">${esc(t.ui.moreCats)}</button>
+        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>`
+})}
+        </nav>
+      </div>
+    </div>
 
     <div class="om-scroll">
       <div class="om-pad">
@@ -439,9 +476,6 @@ ${raster}
       </div>
     </div>
 
-    <div class="om-fade-top"></div>
-    <div class="om-fade"></div>
-
     <div class="topbar">
       <button type="button" class="contact-btn" id="contactBtn">${esc(t.ui.contact)}</button>
     </div>
@@ -459,18 +493,7 @@ ${raster}
       <div class="sheet-inner" id="sheetInner"></div>
     </div>
 
-${kontaktModal(t)}
-
-    <div class="bottom">
-      <nav class="cats-nav" id="catsNav" aria-label="${esc(t.ui.categoryWord)}">
-${fussLeiste({
-  ...o,
-  texte: t,
-  extra: `        <button type="button" class="cat-pill more" id="moreCatsBtn">${esc(t.ui.moreCats)}</button>
-        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>`
-})}
-      </nav>
-    </div>
+${kontaktModal(t, o.site.email)}
   </div>
 
   <script>window.PAGE_CAT = ${JSON.stringify(o.cat)};</script>
@@ -484,13 +507,13 @@ ${fussLeiste({
 }
 
 /* Kontaktformular — auf jeder Seite gleich, Texte aus der Sprachdatei */
-export function kontaktModal(t) {
+export function kontaktModal(t, email) {
   return `    <div id="contactModal" hidden>
       <div class="contact-card">
         <button type="button" class="contact-close" id="contactClose" aria-label="${esc(t.ui.close)}"><span aria-hidden="true">×</span><span id="contactCloseLabel">${esc(t.ui.close)}</span></button>
         <h2 id="contactTitle">${esc(t.ui.formTitle)}</h2>
         <p class="form-note" id="contactNote">${esc(t.ui.formNote)}</p>
-        <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
+        ${mailLink(email, "contact-mail")}
         <p class="thanks" id="thanks" hidden>${esc(t.ui.thanks)}</p>
         <form id="contactForm">
           <input type="text" id="fName" name="name" placeholder="${esc(t.ui.name)}" required>
@@ -529,7 +552,8 @@ export function startSeite(o) {
         name: o.site.name,
         jobTitle: o.site.jobTitle,
         url: `${o.origin}/`,
-        email: `mailto:${o.site.email}`,
+        // Keine E-Mail hier: strukturierte Daten sind für Adress-Sammler das
+        // bequemste Ziel, und Google braucht die Adresse nicht (siehe mailLink).
         telephone: o.site.phone.replace(/\s/g, "-"),
         image: `${o.origin}/assets/og-image.png`,
         address: {
@@ -623,7 +647,7 @@ ${kopf({
       <div class="sheet-inner" id="sheetInner"></div>
     </div>
 
-${kontaktModal(t)}
+${kontaktModal(t, o.site.email)}
 
     <div class="om-fade-top"></div>
     <div class="om-fade"></div>
@@ -649,7 +673,7 @@ ${fussLeiste({ ...o, texte: t, slug: null })}
       <nav>
 ${noscriptNav}
       </nav>
-      <p>${esc(t.ui.contact)}: <a href="mailto:${o.site.email}">${o.site.email}</a> · <a href="${rechtsZiel(
+      <p>${esc(t.ui.contact)}: ${mailLink(o.site.email)} · <a href="${rechtsZiel(
     o.lang
   )}">${esc(t.ui.legal)}</a></p>
     </div>
@@ -712,10 +736,25 @@ ${kopf({
 <body class="bg-quiet">
   <div id="stage">
     <div class="glow"></div>
-    <div class="vignette"></div>
 
-    <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
-    <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+    <div class="om-chrome">
+      <div class="vignette"></div>
+      <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
+      <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+      <div class="om-fade-top"></div>
+      <div class="om-fade"></div>
+      <div class="bottom">
+        <nav class="cats-nav" id="catsNav" aria-label="${esc(t.ui.categoryWord)}">
+${o.seiten
+  .map((p) => `        <a class="cat-pill" href="${o.lang === "de" ? "" : "../"}${p.slug}.html">${esc(
+    o.texteDe.seiten[p.slug].h1
+  )}</a>`)
+  .join("\n")}
+        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>
+        <button type="button" class="legal-link js-lang">${esc(t.ui.language)}</button>
+        </nav>
+      </div>
+    </div>
 
     <div class="om-scroll">
       <div class="om-pad">
@@ -728,9 +767,6 @@ ${o.rechtsHtml}
       </div>
     </div>
 
-    <div class="om-fade-top"></div>
-    <div class="om-fade"></div>
-
     <div class="topbar">
       <button type="button" class="contact-btn" id="contactBtn">${esc(t.ui.contact)}</button>
     </div>
@@ -739,19 +775,7 @@ ${o.rechtsHtml}
       <div class="sheet-inner" id="sheetInner"></div>
     </div>
 
-${kontaktModal(t)}
-
-    <div class="bottom">
-      <nav class="cats-nav" id="catsNav" aria-label="${esc(t.ui.categoryWord)}">
-${o.seiten
-  .map((p) => `        <a class="cat-pill" href="${o.lang === "de" ? "" : "../"}${p.slug}.html">${esc(
-    o.texteDe.seiten[p.slug].h1
-  )}</a>`)
-  .join("\n")}
-        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>
-        <button type="button" class="legal-link js-lang">${esc(t.ui.language)}</button>
-      </nav>
-    </div>
+${kontaktModal(t, o.site.email)}
   </div>
 
   ${sprachDaten(o.namen, o.lang, t.ui, o.kategorien)}

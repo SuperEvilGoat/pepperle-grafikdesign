@@ -34,8 +34,8 @@
   <link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/signature-720.png" as="image">
   <link rel="stylesheet" href="css/fonts.css?v=c7dc14fc5d">
-  <link rel="stylesheet" href="css/base.css?v=d0885b6756">
-  <link rel="stylesheet" href="css/style.css?v=9c2fef0623">
+  <link rel="stylesheet" href="css/base.css?v=dcd8d67de2">
+  <link rel="stylesheet" href="css/style.css?v=498d562368">
   <script>document.documentElement.className+=" js";</script>
   <script>(function(){var S=["de","en","es","fr","it"],D="de",F="en",K="pp_lang";
 try{var g=location.pathname.split("/"),i=g.length-2;if(i>=0&&S.indexOf(g[i])>-1)return;
@@ -53,13 +53,34 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
 <body>
   <div id="stage">
     <div class="glow"></div>
-    <div class="vignette"></div>
 
-    <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Startseite"><svg viewBox="0 0 3543 1417" role="img" aria-label="Walter Pepperle — Logo">
+    <div class="om-chrome">
+      <div class="vignette"></div>
+      <a class="om-logo" href="index.html" aria-label="Walter Pepperle — Startseite"><svg viewBox="0 0 3543 1417" role="img" aria-label="Walter Pepperle — Logo">
         <polygon points="1606,75 2612,1307 595,1307" fill="#ea4f43"></polygon>
         <image href="assets/signature-720.png" x="0" y="0" width="3543" height="1417"></image>
       </svg></a>
-    <p class="om-tag"><span class="vh">Walter Pepperle — </span><span id="tagline">Illustration und Packungsdesign</span></p>
+      <p class="om-tag"><span class="vh">Walter Pepperle — </span><span id="tagline">Illustration und Packungsdesign</span></p>
+      <div class="om-fade-top"></div>
+      <div class="om-fade"></div>
+      <div class="bottom">
+        <nav class="cats-nav" id="catsNav" aria-label="Kategorie">
+        <a class="cat-pill current" href="food-drinks.html" aria-current="page">Food &amp; Drinks</a>
+        <a class="cat-pill" href="transportation-technology.html">Verkehr &amp; Technik</a>
+        <a class="cat-pill" href="landscape-scenery.html">Landschaft &amp; Szenerie</a>
+        <a class="cat-pill" href="people-animals.html">Menschen &amp; Tiere</a>
+        <a class="cat-pill" href="realistic-items.html">Objekte</a>
+        <a class="cat-pill" href="poster-ads.html">Poster &amp; Anzeigen</a>
+        <a class="cat-pill" href="pharma-medical.html">Pharma &amp; Medizin</a>
+        <a class="cat-pill" href="logos-icons.html">Logos &amp; Icons</a>
+        <a class="cat-pill" href="packaging-display.html">Verpackung &amp; Display</a>
+        <button type="button" class="cat-pill more" id="moreCatsBtn">Weitere Kategorien</button>
+        <a class="cat-pill home" id="homeBtn" href="index.html">Startseite</a>
+        <button type="button" class="legal-link js-lang">Sprache</button>
+        <a class="legal-link" href="impressum.html">Impressum &amp; Datenschutz</a>
+        </nav>
+      </div>
+    </div>
 
     <div class="om-scroll">
       <div class="om-pad">
@@ -283,9 +304,6 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
       </div>
     </div>
 
-    <div class="om-fade-top"></div>
-    <div class="om-fade"></div>
-
     <div class="topbar">
       <button type="button" class="contact-btn" id="contactBtn">Kontakt</button>
     </div>
@@ -308,7 +326,7 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
         <button type="button" class="contact-close" id="contactClose" aria-label="Schließen"><span aria-hidden="true">×</span><span id="contactCloseLabel">Schließen</span></button>
         <h2 id="contactTitle">Kontakt aufnehmen</h2>
         <p class="form-note" id="contactNote">Anfrage für Illustration oder Verpackungsgrafik</p>
-        <a class="contact-mail" href="mailto:info@pepperle.de">info@pepperle.de</a>
+        <a class="contact-mail js-mail" data-m="ed.elreppep!ofni">info<span class="mail-at"></span>pepperle.de</a>
         <p class="thanks" id="thanks" hidden>Danke — die Nachricht ist unterwegs.</p>
         <form id="contactForm">
           <input type="text" id="fName" name="name" placeholder="Name" required>
@@ -318,30 +336,12 @@ location.replace(z+"/"+f+location.search+location.hash);}catch(e){}})();</script
         </form>
       </div>
     </div>
-
-    <div class="bottom">
-      <nav class="cats-nav" id="catsNav" aria-label="Kategorie">
-        <a class="cat-pill current" href="food-drinks.html" aria-current="page">Food &amp; Drinks</a>
-        <a class="cat-pill" href="transportation-technology.html">Verkehr &amp; Technik</a>
-        <a class="cat-pill" href="landscape-scenery.html">Landschaft &amp; Szenerie</a>
-        <a class="cat-pill" href="people-animals.html">Menschen &amp; Tiere</a>
-        <a class="cat-pill" href="realistic-items.html">Objekte</a>
-        <a class="cat-pill" href="poster-ads.html">Poster &amp; Anzeigen</a>
-        <a class="cat-pill" href="pharma-medical.html">Pharma &amp; Medizin</a>
-        <a class="cat-pill" href="logos-icons.html">Logos &amp; Icons</a>
-        <a class="cat-pill" href="packaging-display.html">Verpackung &amp; Display</a>
-        <button type="button" class="cat-pill more" id="moreCatsBtn">Weitere Kategorien</button>
-        <a class="cat-pill home" id="homeBtn" href="index.html">Startseite</a>
-        <button type="button" class="legal-link js-lang">Sprache</button>
-        <a class="legal-link" href="impressum.html">Impressum &amp; Datenschutz</a>
-      </nav>
-    </div>
   </div>
 
   <script>window.PAGE_CAT = "food";</script>
-  <script>window.PP_LANG="de";window.PP_BASE="";window.PP_LANGS=[{"code":"de","name":"Deutsch"},{"code":"en","name":"English"},{"code":"es","name":"Español"},{"code":"fr","name":"Français"},{"code":"it","name":"Italiano"}];window.PP_UI={"tagline":"Illustration und Packungsdesign","contact":"Kontakt","close":"Schließen","formTitle":"Kontakt aufnehmen","formNote":"Anfrage für Illustration oder Verpackungsgrafik","name":"Name","mail":"E-Mail","msg":"Nachricht","send":"Senden","thanks":"Danke — die Nachricht ist unterwegs.","hint":"Bild anklicken zum Vergrößern","hintTouch":"Bild antippen zum Vergrößern","empty":"Bilder folgen — Ordner noch nicht hochgeladen","legal":"Impressum & Datenschutz","language":"Sprache","languageTitle":"Sprache wählen","allCats":"Alle Kategorien","moreCats":"Weitere Kategorien","home":"Startseite","categoryWord":"Kategorie","worksLabel":"Arbeiten in dieser Kategorie","footerRole":"Illustration & Graphic Design, Frankfurt am Main","notFoundTitle":"Diese Seite gibt es nicht mehr","notFoundText":"Die Website wurde neu gebaut. Vielleicht suchen Sie eine dieser Kategorien:","legalOnlyHint":"","startDescription":"Fotorealistische Illustration, Logodesign und Packungsdesign aus Frankfurt am Main — Walter Pepperle, Grafikdesigner und Illustrator. Portfolio: Food, Verpackungsdesign, Pharma, Technik, Poster und Schriftzüge.","noscript":"Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript. Das vollständige Portfolio erreichen Sie auch ohne:","legalDescription":"Impressum und Datenschutzerklärung von Walter Pepperle, Illustration & Graphic Design, Frankfurt am Main — nach § 5 DDG und DSGVO.","privacyTitle":"Datenschutzerklärung","redirecting":"Weiterleitung …","redirectNote":"Impressum und Datenschutzerklärung stehen jetzt gemeinsam unter","city":"Frankfurt am Main","startTitle":"Walter Pepperle — Illustration & Packungsdesign, Frankfurt","startOgDescription":"Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.","services":["Illustration","Packungsdesign","Logo- und Schriftzugentwicklung"],"logoAlt":"Walter Pepperle — Logo","servicesLabel":"Leistungen","startOgTitle":"Walter Pepperle — Illustration & Packungsdesign","sendError":"Die Nachricht konnte gerade nicht übermittelt werden. Bitte schreiben Sie direkt an info@pepperle.de — oder versuchen Sie es später noch einmal."};window.PP_CATS=[{"id":"food","slug":"food-drinks","name":"Food & Drinks"},{"id":"transport","slug":"transportation-technology","name":"Verkehr & Technik"},{"id":"landscape","slug":"landscape-scenery","name":"Landschaft & Szenerie"},{"id":"people","slug":"people-animals","name":"Menschen & Tiere"},{"id":"items","slug":"realistic-items","name":"Objekte"},{"id":"poster","slug":"poster-ads","name":"Poster & Anzeigen"},{"id":"pharma","slug":"pharma-medical","name":"Pharma & Medizin"},{"id":"logos","slug":"logos-icons","name":"Logos & Icons"},{"id":"packaging","slug":"packaging-display","name":"Verpackung & Display"}];</script>
+  <script>window.PP_LANG="de";window.PP_BASE="";window.PP_LANGS=[{"code":"de","name":"Deutsch"},{"code":"en","name":"English"},{"code":"es","name":"Español"},{"code":"fr","name":"Français"},{"code":"it","name":"Italiano"}];window.PP_UI={"tagline":"Illustration und Packungsdesign","contact":"Kontakt","close":"Schließen","formTitle":"Kontakt aufnehmen","formNote":"Anfrage für Illustration oder Verpackungsgrafik","name":"Name","mail":"E-Mail","msg":"Nachricht","send":"Senden","thanks":"Danke — die Nachricht ist unterwegs.","hint":"Bild anklicken zum Vergrößern","hintTouch":"Bild antippen zum Vergrößern","empty":"Bilder folgen — Ordner noch nicht hochgeladen","legal":"Impressum & Datenschutz","language":"Sprache","languageTitle":"Sprache wählen","allCats":"Alle Kategorien","moreCats":"Weitere Kategorien","home":"Startseite","categoryWord":"Kategorie","worksLabel":"Arbeiten in dieser Kategorie","footerRole":"Illustration & Graphic Design, Frankfurt am Main","notFoundTitle":"Diese Seite gibt es nicht mehr","notFoundText":"Die Website wurde neu gebaut. Vielleicht suchen Sie eine dieser Kategorien:","legalOnlyHint":"","startDescription":"Fotorealistische Illustration, Logodesign und Packungsdesign aus Frankfurt am Main — Walter Pepperle, Grafikdesigner und Illustrator. Portfolio: Food, Verpackungsdesign, Pharma, Technik, Poster und Schriftzüge.","noscript":"Die Startseite zeigt eine bewegte Bildcollage und benötigt dafür JavaScript. Das vollständige Portfolio erreichen Sie auch ohne:","legalDescription":"Impressum und Datenschutzerklärung von Walter Pepperle, Illustration & Graphic Design, Frankfurt am Main — nach § 5 DDG und DSGVO.","privacyTitle":"Datenschutzerklärung","redirecting":"Weiterleitung …","redirectNote":"Impressum und Datenschutzerklärung stehen jetzt gemeinsam unter","city":"Frankfurt am Main","startTitle":"Walter Pepperle — Illustration & Packungsdesign, Frankfurt","startOgDescription":"Fotorealistische Illustration und Packungsdesign aus Frankfurt am Main.","services":["Illustration","Packungsdesign","Logo- und Schriftzugentwicklung"],"logoAlt":"Walter Pepperle — Logo","servicesLabel":"Leistungen","startOgTitle":"Walter Pepperle — Illustration & Packungsdesign","sendError":"Die Nachricht konnte gerade nicht übermittelt werden. Bitte schreiben Sie direkt an {email} — oder versuchen Sie es später noch einmal."};window.PP_CATS=[{"id":"food","slug":"food-drinks","name":"Food & Drinks"},{"id":"transport","slug":"transportation-technology","name":"Verkehr & Technik"},{"id":"landscape","slug":"landscape-scenery","name":"Landschaft & Szenerie"},{"id":"people","slug":"people-animals","name":"Menschen & Tiere"},{"id":"items","slug":"realistic-items","name":"Objekte"},{"id":"poster","slug":"poster-ads","name":"Poster & Anzeigen"},{"id":"pharma","slug":"pharma-medical","name":"Pharma & Medizin"},{"id":"logos","slug":"logos-icons","name":"Logos & Icons"},{"id":"packaging","slug":"packaging-display","name":"Verpackung & Display"}];(function(){function m(a){return a.getAttribute("data-m").split("").reverse().join("").replace("!","@")}var l=document.querySelectorAll(".js-mail");for(var i=0;i<l.length;i++){var e=m(l[i]);l[i].href="mailto:"+e;l[i].textContent=e}var k=document.querySelector(".contact-mail.js-mail"),u=window.PP_UI;if(k&&u&&u.sendError)u.sendError=u.sendError.replace("{email}",m(k))})();</script>
   <script src="js/track.js?v=a039f57e33"></script>
   <script src="js/sprache.js?v=c985817839"></script>
-  <script src="js/page.js?v=4866cba11b"></script>
+  <script src="js/page.js?v=fd8c9527c0"></script>
 </body>
 </html>

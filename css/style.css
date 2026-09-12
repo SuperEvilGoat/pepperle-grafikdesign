@@ -50,11 +50,13 @@ html.seite-scroll #stage {
   position: relative;
   min-height: 100vh;
   overflow: visible;
-  /* Der Verlauf ist radial und würde sich sonst über die gesamte
-     Dokumenthöhe strecken — "fixed" hält ihn auf Bildschirmgröße, also
-     exakt so, wie er auf der Startseite aussieht. */
-  background-attachment: fixed;
+  /* Kein eigener Hintergrund: Verlauf und Licht liegen zusammen auf der
+     feststehenden .glow (siehe unten) und bleiben damit auf Bildschirmgröße.
+     Vorher stand hier background-attachment: fixed — das rechnet iOS beim
+     Scrollen auf dem Hauptthread neu und ruckelt (vgl. css/page.css). */
+  background: none;
 }
+html.seite-scroll .glow { background: var(--bg-glow), var(--bg-grad); }
 /* relative, nicht static: z-index wirkt nur auf positionierte Elemente. Mit
    static verlöre .om-scroll seine Ebene 2 und läge damit unter .vignette
    (Ebene 3) und den Blur-Fades (Ebene 5) — der Inhalt verschwände hinter
@@ -65,14 +67,42 @@ html.seite-scroll .om-scroll {
   overflow: visible;
   overscroll-behavior: auto;
 }
+/* Alles, was über dem Raster steht (Vignette, Logo, Tagline, Blur-Fades,
+   untere Leiste), sitzt in EINEM feststehenden Behälter .om-chrome statt als
+   sieben einzeln fixierte Elemente. iOS-Safari verlor beim schnellen Scrollen
+   — vor allem, wenn gerade die Adressleiste ein- oder ausfuhr — zeitweise den
+   Halt an diesen Ebenen: Leiste und Verläufe wanderten dann mit dem Inhalt
+   von unten nach oben durchs Bild. Eine Ebene kann nicht auseinanderlaufen
+   und ist für Safari billiger festzuhalten. Die Kinder behalten ihr
+   position: absolute aus den Grundregeln und stehen damit relativ zum
+   Behälter, also zum Bildschirm.
+
+   z-index 5: über dem Raster (.om-scroll, 2), unter Lightbox (9), Kontakt (10)
+   und Sprachauswahl (12). Die Kontakt-Schaltfläche (.topbar) bleibt deshalb
+   bewusst draußen — sie liegt mit 10 über der Lightbox, im Behälter käme sie
+   darunter.
+
+   Die "#stage > …"-Zeilen gelten nur für HTML ohne .om-chrome, etwa wenn der
+   Worker bei einer Dashboard-Veröffentlichung noch mit der alten Vorlage
+   baut: dort bleibt es beim bisherigen Verhalten statt verrutschter Teile. */
+html.seite-scroll .om-chrome {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.om-chrome .om-logo,
+.om-chrome .om-tag,
+.om-chrome .bottom { pointer-events: auto; }
+
 html.seite-scroll .glow,
-html.seite-scroll .vignette,
-html.seite-scroll .om-logo,
-html.seite-scroll .om-tag,
 html.seite-scroll .topbar,
-html.seite-scroll .bottom,
-html.seite-scroll .om-fade-top,
-html.seite-scroll .om-fade,
+html.seite-scroll #stage > .vignette,
+html.seite-scroll #stage > .om-logo,
+html.seite-scroll #stage > .om-tag,
+html.seite-scroll #stage > .bottom,
+html.seite-scroll #stage > .om-fade-top,
+html.seite-scroll #stage > .om-fade,
 html.seite-scroll #lightbox,
 html.seite-scroll #contactModal,
 html.seite-scroll #sheetModal {
