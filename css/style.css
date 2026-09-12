@@ -93,6 +93,7 @@ html.seite-scroll .om-chrome {
 }
 .om-chrome .om-logo,
 .om-chrome .om-tag,
+.om-chrome .back-btn,
 .om-chrome .bottom { pointer-events: auto; }
 
 html.seite-scroll .glow,
@@ -226,14 +227,18 @@ a.om-logo { display: block; text-decoration: none; cursor: pointer; }
 .intro-ready .om-tag { animation: sigFade 0.8s ease 0.3s forwards; }
 
 /* Mobil: Logo fix vom oberen Rand positionieren (nicht via -50vh — iOS-Toolbar
-   verschiebt sonst das Logo aus dem Bild) und unter dem Kontakt-Button halten */
+   verschiebt sonst das Logo aus dem Bild). Seit 2026-09-12 direkt am oberen
+   Rand: der Kontakt-Button, der hier früher Platz brauchte, steht auf dem
+   Handy unten neben "Alle/Weitere Kategorien". min(86vw, 1120px) * 0.252 ist
+   die Höhe des skalierten Logos — dieselbe Größe steuert darunter Tagline,
+   Zurück-Knopf, oberen Fade und den Abstand des Inhalts. */
 @media (max-width: 760px) {
   .om-logo {
-    top: 78px;
+    top: 18px;
     transform: translateX(-45.26%) scale(0.63);
   }
   .om-tag {
-    top: calc(78px + min(86vw, 1120px) * 0.252 + 18px);
+    top: calc(18px + min(86vw, 1120px) * 0.252 + 18px);
     transform: none;
   }
 }
@@ -744,17 +749,81 @@ a.cat-pill { display: inline-block; line-height: normal; }
 }
 .cat-pill.current:hover { border-color: rgba(234,79,67,0.9); }
 
-/* "Weitere Kategorien" — nur auf schmalen Displays sichtbar, siehe
-   Media-Query weiter unten. */
-.cat-pill.more { display: none; }
-/* "Startseite" — auf den Kategorieseiten ebenfalls nur auf schmalen Displays:
-   dort ersetzt sie den unteren Kategorien-Streifen weitgehend durch .current +
-   .more, das Logo oben bleibt zwar klickbar, ist als "zurück"-Weg auf Mobile
-   aber leicht zu übersehen. */
+/* Mobile Leiste (seit 2026-09-12): nur noch zwei Knöpfe — "Alle/Weitere
+   Kategorien" (.more) und Kontakt (.contact-pill) —, darunter "Sprache" und
+   "Impressum & Datenschutz" in einer Zeile (.legal-row). Die aktuelle
+   Kategorie (.current) zeigt die Leiste nicht mehr; der Weg zur Startseite
+   ist der runde Zurück-Knopf oben links (.back-btn) statt der früheren
+   "Startseite"-Pille (.home, nur noch in altem HTML vorhanden). Am Desktop
+   bleibt alles, wie es war. */
+.cat-pill.more,
+.cat-pill.contact-pill,
 .cat-pill.home { display: none; }
+.cat-pill.contact-pill {
+  border-color: #ea4f43;
+  background: #ea4f43;
+  color: #ffffff;
+}
+.cat-pill.contact-pill:hover { background: #f5645a; }
+.legal-row { display: contents; }
 @media (max-width: 760px) {
-  .cats-nav .cat-pill:not(.current):not(.more):not(.home) { display: none; }
-  .cat-pill.more, .cat-pill.home { display: inline-block; }
+  .cats-nav .cat-pill:not(.more):not(.contact-pill) { display: none; }
+  .cat-pill.more, .cat-pill.contact-pill { display: inline-block; }
+  .topbar { display: none; }
+  .legal-row {
+    display: flex;
+    flex-basis: 100%;
+    justify-content: center;
+    gap: 0 18px;
+  }
+}
+/* Sehr schmale Handys (320–380 px): Damit beide Knöpfe auch mit langen
+   Beschriftungen ("Toutes les catégories", "Weitere Kategorien") in eine
+   Zeile passen, rückt die Leiste näher an den Rand und die Pillen werden
+   etwas enger gesetzt. Gemessen bei 320 px: vorher rutschte Kontakt in
+   Deutsch (Kategorieseite) sowie Französisch, Spanisch und Italienisch
+   (Startseite) in eine zweite Zeile. */
+@media (max-width: 380px) {
+  .bottom { padding-left: 12px; padding-right: 12px; }
+  .cat-pill.more,
+  .cat-pill.contact-pill {
+    letter-spacing: 0.1em;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Zurück zur Startseite — nur auf dem Handy, auf Kategorie- und Rechtsseiten,
+   links neben dem Logo und auf dessen halber Höhe. Bewusst ohne
+   backdrop-filter: er sitzt in der festen Ebene .om-chrome, und genau diese
+   Kombination war am iPhone der teuerste Teil (siehe html.seite-scroll oben). */
+.back-btn { display: none; }
+@media (max-width: 760px) {
+  .back-btn {
+    position: absolute;
+    z-index: 8;
+    top: calc(18px + min(86vw, 1120px) * 0.126 - 20px);
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 1px solid rgba(238,243,248,0.28);
+    background: rgba(1,17,33,0.6);
+    color: #eef3f8;
+    opacity: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .back-btn svg { display: block; width: 20px; height: 20px; }
+  .back-btn:hover { background: #ea4f43; border-color: #ea4f43; color: #ffffff; }
+  .intro-ready .back-btn { animation: sigFade 0.7s ease 0.3s forwards; }
+  .stage-instant .back-btn { opacity: 1; animation: none !important; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .back-btn { opacity: 1; animation: none !important; }
 }
 
 .legal-link { text-decoration: none; }
@@ -1007,8 +1076,10 @@ html.js .om-grid.alle-sichtbar img { opacity: 1; }
   }
   .om-grid > figure { margin: 0; }
 }
+/* Oberer Abstand am Handy an der Logohöhe ausgerichtet (Logo sitzt seit
+   2026-09-12 direkt am oberen Rand): Unterkante der Tagline plus rund 18 px. */
 @media (max-width: 760px) {
-  .om-pad { padding: clamp(170px, 26vh, 220px) 16px calc(var(--navh, 150px) + 70px); }
+  .om-pad { padding: calc(min(86vw, 1120px) * 0.252 + 70px) 16px calc(var(--navh, 150px) + 70px); }
 }
 
 /* Progressive Blur-Fades oben/unten: der Inhalt hinter der Leiste wird zum
@@ -1037,6 +1108,10 @@ html.js .om-grid.alle-sichtbar img { opacity: 1; }
   backdrop-filter: blur(7px);
   -webkit-mask-image: linear-gradient(to top, #000 0%, #000 24%, rgba(0,0,0,0.72) 46%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0.08) 86%, transparent 100%);
   mask-image: linear-gradient(to top, #000 0%, #000 24%, rgba(0,0,0,0.72) 46%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0.08) 86%, transparent 100%);
+}
+/* Handy: der obere Fade deckt nur noch Logo, Tagline und Zurück-Knopf ab. */
+@media (max-width: 760px) {
+  .om-fade-top { height: calc(min(86vw, 1120px) * 0.252 + 90px); }
 }
 
 /* Rechtstext (Impressum & Datenschutz auf einer Seite) innerhalb der Bühne */

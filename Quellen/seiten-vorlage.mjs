@@ -179,10 +179,14 @@ export function fussLeiste(o) {
   // Reihenfolge wie bisher: Kategorien, dann die Zusatzknöpfe der Seite
   // (Weitere Kategorien / Startseite), zuletzt die beiden kleinen Textlinks.
   // "Sprache" steht bewusst direkt neben "Impressum & Datenschutz" und in
-  // derselben Größe — kein auffälliger Knopf.
+  // derselben Größe — kein auffälliger Knopf. Die Hülle .legal-row ist am
+  // Desktop per display: contents unsichtbar; auf dem Handy stellt sie beide
+  // Links gemeinsam in eine eigene Zeile (css/style.css).
   return `${pillen}${o.extra ? "\n" + o.extra : ""}
-        <button type="button" class="legal-link js-lang">${esc(o.texte.ui.language)}</button>
-        <a class="legal-link" href="${rechtsZiel(o.lang)}">${esc(o.texte.ui.legal)}</a>`;
+        <span class="legal-row">
+          <button type="button" class="legal-link js-lang">${esc(o.texte.ui.language)}</button>
+          <a class="legal-link" href="${rechtsZiel(o.lang)}">${esc(o.texte.ui.legal)}</a>
+        </span>`;
 }
 
 /* Impressum und Datenschutzerklärung gibt es nur auf Deutsch und Englisch
@@ -438,6 +442,7 @@ ${kopf({
       <div class="vignette"></div>
       <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
       <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+      <a class="back-btn" href="index.html" aria-label="${esc(t.ui.home)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <div class="om-fade-top"></div>
       <div class="om-fade"></div>
       <div class="bottom">
@@ -446,7 +451,7 @@ ${fussLeiste({
   ...o,
   texte: t,
   extra: `        <button type="button" class="cat-pill more" id="moreCatsBtn">${esc(t.ui.moreCats)}</button>
-        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>`
+        <button type="button" class="cat-pill contact-pill js-contact">${esc(t.ui.contact)}</button>`
 })}
         </nav>
       </div>
@@ -741,6 +746,7 @@ ${kopf({
       <div class="vignette"></div>
       <a class="om-logo" href="index.html" aria-label="${esc(o.site.name)} — ${esc(t.ui.home)}">${o.logoSvg}</a>
       <p class="om-tag"><span class="vh">${esc(o.site.name)} — </span><span id="tagline">${esc(t.ui.tagline)}</span></p>
+      <a class="back-btn" href="index.html" aria-label="${esc(t.ui.home)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <div class="om-fade-top"></div>
       <div class="om-fade"></div>
       <div class="bottom">
@@ -750,8 +756,11 @@ ${o.seiten
     o.texteDe.seiten[p.slug].h1
   )}</a>`)
   .join("\n")}
-        <a class="cat-pill home" id="homeBtn" href="index.html">${esc(t.ui.home)}</a>
-        <button type="button" class="legal-link js-lang">${esc(t.ui.language)}</button>
+        <button type="button" class="cat-pill more" id="moreCatsBtn">${esc(t.ui.allCats)}</button>
+        <button type="button" class="cat-pill contact-pill js-contact">${esc(t.ui.contact)}</button>
+        <span class="legal-row">
+          <button type="button" class="legal-link js-lang">${esc(t.ui.language)}</button>
+        </span>
         </nav>
       </div>
     </div>

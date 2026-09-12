@@ -321,17 +321,30 @@
     more.style.color = "rgba(238,243,248,0.78)";
     more.addEventListener("click", openSheet);
     nav.appendChild(more);
+    // Kontakt steht auf dem Handy hier unten neben "Alle Kategorien" statt oben
+    // rechts — oben gehört der Platz Logo und Schriftzug (css/style.css).
+    // Kein pillStyle(): die rote Füllung kommt aus .contact-pill im CSS.
+    var contactM = document.createElement("button");
+    contactM.type = "button";
+    contactM.className = "cat-pill mobile contact-pill";
+    contactM.textContent = C.contact || el.contactBtn.textContent;
+    contactM.addEventListener("click", openContact);
+    nav.appendChild(contactM);
     el.mobileNav.appendChild(nav);
+    // "Sprache" und "Impressum & Datenschutz" gemeinsam in einer Zeile
+    var legalRow = document.createElement("div");
+    legalRow.className = "legal-row";
     var langM = document.createElement("button");
     langM.type = "button";
     langM.className = "legal-link mobile js-lang";
     langM.textContent = C.language;
-    el.mobileNav.appendChild(langM);
+    legalRow.appendChild(langM);
     var legalM = document.createElement("a");
     legalM.className = "legal-link mobile";
     legalM.href = rechtsZiel();
     legalM.textContent = C.legal;
-    el.mobileNav.appendChild(legalM);
+    legalRow.appendChild(legalM);
+    el.mobileNav.appendChild(legalRow);
 
     var mob = isMobileView();
     el.catsNav.hidden = mob;

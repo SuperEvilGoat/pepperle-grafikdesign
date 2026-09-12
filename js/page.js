@@ -57,7 +57,7 @@
      Kontakt oder Navigation — die bleiben ja stehen), bevor die nächste
      Seite geladen wird. Dort blenden die Bilder einzeln wieder auf, sobald
      sie dekodiert sind (siehe "Bilder einblenden" unten). */
-  document.querySelectorAll(".cats-nav a.cat-pill").forEach(function (a) {
+  document.querySelectorAll(".cats-nav a.cat-pill, a.back-btn").forEach(function (a) {
     a.addEventListener("click", function (e) {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       var href = a.getAttribute("href");
@@ -343,6 +343,11 @@
   }
 
   if (contactBtn) contactBtn.addEventListener("click", openContact);
+  // Auf dem Handy steht Kontakt unten in der Leiste (.js-contact) statt oben
+  // rechts — gleiche Funktion, der obere Knopf ist dort ausgeblendet.
+  document.querySelectorAll(".js-contact").forEach(function (b) {
+    b.addEventListener("click", openContact);
+  });
   var contactClose = document.getElementById("contactClose");
   if (contactClose) contactClose.addEventListener("click", closeContact);
   if (contactForm) contactForm.addEventListener("submit", submitContact);
@@ -366,8 +371,8 @@
     // Hintergrund) — übrig blieb nur die globale rote Link-Farbe. Das ließ
     // dieses Blatt anders aussehen als das Pendant auf der Startseite
     // (js/app.js), das seinen Einträgen dieselbe Optik per pillStyle() gibt.
-    // ".home" (Startseite-Button) wird nicht mitgeklont — der steht in der
-    // Leiste ohnehin schon direkt daneben.
+    // ".home" (frühere Startseite-Pille, nur noch in altem HTML) wird nicht
+    // mitgeklont — zur Startseite führt der Zurück-Knopf oben links.
     document.querySelectorAll(".cats-nav a.cat-pill:not(.home)").forEach(function (a) {
       var clone = document.createElement("a");
       clone.href = a.getAttribute("href");
