@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Weiterleitung — Walter Pepperle</title>
+  <title>Dateiaustausch — Pepperle Grafikdesign</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#01172c">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
@@ -14,7 +14,7 @@
     // Reiner Weiterleitungs-Link für den Dateiaustausch: hält die für Empfänger
     // sichtbare/geklickte Domain bei pepperle.de (bessere Zustellbarkeit als ein
     // roher *.workers.dev-Link in der Mail), leitet dann zur eigentlichen,
-    // dynamischen Freigabeseite im Worker weiter. Siehe DNS-Umzug.md Phase 1 —
+    // dynamischen Dateiaustausch-Seite im Worker weiter. Siehe DNS-Umzug.md Phase 1 —
     // ein echter Custom Domain für den Worker geht ohne vollen Nameserver-
     // Wechsel nicht, das hier ist der kostenlose Ersatz dafür.
     var WORKER_ORIGIN = "https://pepperle-analytics.a347157.workers.dev";
@@ -33,16 +33,17 @@
       </svg></a>
   </header>
   <main id="inhalt" class="pg-404">
-    <h1>Weiterleitung …</h1>
-    <p id="msg">Sie werden zur Freigabeseite weitergeleitet.</p>
+    <h1 id="head">Weiterleitung …</h1>
+    <p id="msg">Sie werden zum Dateiaustausch weitergeleitet.</p>
     <p id="fallback" style="display:none">
       Falls die Weiterleitung nicht automatisch startet:
-      <a id="fallback-link" class="pg-back" href="#">Zur Freigabeseite</a>
+      <a id="fallback-link" class="pg-back" href="#">Zum Dateiaustausch</a>
     </p>
   </main>
   <script>
     if (!token) {
-      document.getElementById("msg").textContent = "Dieser Link ist unvollständig.";
+      document.getElementById("head").textContent = "Link unvollständig";
+      document.getElementById("msg").textContent = "Bitte den vollständigen Link aus der E-Mail verwenden oder bei Pepperle Grafikdesign nachfragen: info@pepperle.de";
     } else {
       var target = WORKER_ORIGIN + "/share/" + encodeURIComponent(token);
       var link = document.getElementById("fallback-link");
